@@ -1,5 +1,9 @@
-const { registerUser, getAllUsers } = require("./user.controller");
-const { userValidation } = require("./user.validator");
+const { registerUser, getAllUsers, login } = require("./user.controller");
+const {
+  userValidation,
+  loginVlaidation,
+  loginValidation,
+} = require("./user.validator");
 
 const userRouter = require("express").Router();
 
@@ -43,9 +47,9 @@ userRouter.post(
   }
 );
 
-userRouter.post("/login", userValidation, async (req, res, next) => {
+userRouter.post("/login", loginValidation, async (req, res, next) => {
   try {
-    const result = await registerUser(req.body);
+    const result = await login(req.body);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);

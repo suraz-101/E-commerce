@@ -1,6 +1,7 @@
 const { decrypt } = require("dotenv");
 const { mailer } = require("../../services/mailer");
 const { hashPassword, dcrypt } = require("../../utils/bcrypt");
+const { generateJwtToken } = require("../../utils/token");
 const UserModel = require("./user.model");
 
 const registerUser = async (payload) => {
@@ -39,7 +40,7 @@ const getAllUsers = async (page = 1, limit = 10) => {
         ],
         data: [
           {
-            $skip: (+page - 1) *+limit,
+            $skip: (+page - 1) * +limit,
           },
           {
             $limit: +limit,
@@ -79,6 +80,8 @@ const login = async (payload) => {
     email: response.email,
     role: response.role,
   };
+  const token = await generateJwtToken(jwtPayload);
+  return token;
 };
 
-module.exports = { registerUser, getAllUsers };
+module.exports = { registerUser, getAllUsers, login };
