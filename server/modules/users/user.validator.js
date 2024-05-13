@@ -13,6 +13,7 @@ const userSchema = joi.object({
   phoneNumber: joi.number().required(),
   profilePic: joi.string(),
   role: joi.array().items(joi.string().valid("user", "admin")),
+  otp: joi.number(),
 });
 
 const loginSchema = joi.object({

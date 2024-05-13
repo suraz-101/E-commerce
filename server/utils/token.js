@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const generateJwtToken = (payload) => {
   return jwt.sign({ data: payload }, process.env.SECRETKEY, {
@@ -6,4 +7,8 @@ const generateJwtToken = (payload) => {
   });
 };
 
-module.exports = { generateJwtToken };
+const generateOtpCode = () => {
+  return crypto.randomInt(100000, 999999);
+};
+
+module.exports = { generateJwtToken, generateOtpCode };

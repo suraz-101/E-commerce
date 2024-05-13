@@ -1,4 +1,10 @@
-const { registerUser, getAllUsers, login } = require("./user.controller");
+const {
+  registerUser,
+  getAllUsers,
+  login,
+  forgetPassword,
+  verifyOtpCode,
+} = require("./user.controller");
 const {
   userValidation,
   loginVlaidation,
@@ -50,6 +56,24 @@ userRouter.post(
 userRouter.post("/login", loginValidation, async (req, res, next) => {
   try {
     const result = await login(req.body);
+    res.status(200).json({ message: result });
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.post("/generateOtp", async (req, res, next) => {
+  try {
+    const result = await forgetPassword(req.body);
+    res.status(200).json({ message: result });
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.post("/verifyOtp", async (req, res, next) => {
+  try {
+    const result = await verifyOtpCode(req.body);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);

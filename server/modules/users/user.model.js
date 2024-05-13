@@ -17,6 +17,7 @@ const schema = new mongoose.Schema(
       default: "user",
       required: true,
     },
+    otp: { type: Number },
   },
   {
     timestamps: true,
