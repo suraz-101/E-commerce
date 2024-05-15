@@ -1,7 +1,11 @@
 const { decrypt } = require("dotenv");
 const { mailer } = require("../../services/mailer");
 const { hashPassword, dcrypt } = require("../../utils/bcrypt");
-const { generateJwtToken, generateOtpCode } = require("../../utils/token");
+const {
+  generateJwtToken,
+  generateOtpCode,
+  createRandomString,
+} = require("../../utils/token");
 const UserModel = require("./user.model");
 
 const registerUser = async (payload) => {
@@ -131,7 +135,23 @@ const changePassword = async (payload) => {
   return "Password Changed Successfully";
 };
 
-const resetPassword = () => {};
+const resetPassword = async (_id) => {
+  if (!_id) throw new Error("id is required");
+  const user = await UserModel.findOne({ _id });
+  const newPassword = await createRandomString(10);
+  if (!user) throw new Error("user does not exist");
+  const email = user.email;
+  const hashPass = await hashPassword(newPassword);
+  const updateUser = await UserModel.updateOne({ _id }, { password: hashPass });
+  if (!updateUser) throw new Error("password reset failed");
+  const mail = await mailer(
+    email,
+    "Reset Password",
+    `The new Password is  ${newPassword}`
+  );
+  if (!mail) throw new Error("failed to send mail");
+  return "password has been reset successfully!!";
+};
 
 module.exports = {
   registerUser,
@@ -139,5 +159,6 @@ module.exports = {
   login,
   forgetPassword,
   verifyOtpCode,
-  changePassword
+  changePassword,
+  resetPassword
 };

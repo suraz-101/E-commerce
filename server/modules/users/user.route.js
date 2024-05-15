@@ -5,6 +5,7 @@ const {
   forgetPassword,
   verifyOtpCode,
   changePassword,
+  resetPassword,
 } = require("./user.controller");
 const {
   userValidation,
@@ -84,6 +85,16 @@ userRouter.post("/verifyOtp", async (req, res, next) => {
 userRouter.post("/changePass", async (req, res, next) => {
   try {
     const result = await changePassword(req.body);
+    res.status(200).json({ message: result });
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.post("/resetPass", async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const result = await resetPassword(id);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);
