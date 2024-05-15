@@ -16,6 +16,7 @@ const {
 const userRouter = require("express").Router();
 
 const multer = require("multer");
+const { checkRole } = require("../../utils/sessionManager");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -91,7 +92,7 @@ userRouter.post("/changePass", async (req, res, next) => {
   }
 });
 
-userRouter.post("/resetPass", async (req, res, next) => {
+userRouter.post("/resetPass", checkRole(["user"]), async (req, res, next) => {
   try {
     const { id } = req.query;
     const result = await resetPassword(id);

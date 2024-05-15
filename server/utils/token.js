@@ -7,6 +7,10 @@ const generateJwtToken = (payload) => {
   });
 };
 
+const verifyToken = (token) => {
+  return jwt.verify(token, process.env.SECRETKEY);
+};
+
 const generateOtpCode = () => {
   return crypto.randomInt(100000, 999999);
 };
@@ -21,4 +25,9 @@ function createRandomString(length) {
   return result;
 }
 
-module.exports = { generateJwtToken, generateOtpCode, createRandomString };
+module.exports = {
+  generateJwtToken,
+  generateOtpCode,
+  createRandomString,
+  verifyToken,
+};
