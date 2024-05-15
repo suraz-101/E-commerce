@@ -113,10 +113,31 @@ const verifyOtpCode = async (payload) => {
   return "password changed successfully!!";
 };
 
+const changePassword = async (payload) => {
+  const { email, oldPassword, newPassword } = payload;
+  if (!email || !oldPassword || !newPassword)
+    throw new Error("something is missing!!");
+  const user = await UserModel.findOne({ email });
+  if (!user) throw new Error("email does not matched");
+  const password = user.password;
+  const isValid = await decrypt(password, oldPassword);
+  if (!isValid) throw new Error("old password does not matched!");
+  const hashedPass = await hashPassword(newPassword);
+  const updatedUser = await UserModel.updateOne(
+    { email },
+    { password: hashedPass }
+  );
+  if (!updatedUser) throw new Error("Password change failed!!");
+  return "Password Changed Successfully";
+};
+
+const resetPassword = () => {};
+
 module.exports = {
   registerUser,
   getAllUsers,
   login,
   forgetPassword,
   verifyOtpCode,
+  changePassword
 };
