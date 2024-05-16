@@ -153,8 +153,17 @@ const resetPassword = async (_id) => {
   return "password has been reset successfully!!";
 };
 
+const updateUsersDetails =(id, payload)=>{
+   const user = await UserModel.findOne({_id:id})
+   if(!user) throw new Error("user not found")
+   const updated = await UserModel.updateOne({_id:id},payload)
+   if(!updated) throw new Error("cannot update user details");
+   return "user updated successfully"
+}
+
 module.exports = {
   registerUser,
+  updateUsersDetails
   getAllUsers,
   login,
   forgetPassword,

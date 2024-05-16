@@ -6,6 +6,7 @@ const {
   verifyOtpCode,
   changePassword,
   resetPassword,
+  updateUsersDetails,
 } = require("./user.controller");
 const {
   userValidation,
@@ -112,12 +113,14 @@ userRouter.patch("/:id", (req, res, next) => {
     next(error);
   }
 });
-userRouter.put("/:id", (req, res, next) => {
+userRouter.put("/updateProfile", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    res
-      .status(200)
-      .json({ message: "You are inside put method of users applicaiton" });
+    if (req.file) {
+      req.body.profilePic = req.file.path.replace("public", "");
+    }
+    const { _id, rest } = req.body;
+    const result = await updateUsersDetails(_id, rest);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }
