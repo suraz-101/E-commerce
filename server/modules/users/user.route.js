@@ -131,7 +131,6 @@ userRouter.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await deleteUser(id);
-
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);
@@ -139,3 +138,26 @@ userRouter.delete("/:id", async (req, res, next) => {
 });
 
 module.exports = userRouter;
+
+// Feaures of e-commerce application
+
+// register user
+// login
+// forget pass
+// change pass
+// reset pass - admin
+// view users list
+// update profile
+
+// add products - admin
+// view all the added products  - admin
+// add category
+// update product
+// delete product
+// delete category
+
+// view products - client
+// add to cart - client
+// add to favourite - client
+// increase quantity
+// Do payment

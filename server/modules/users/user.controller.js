@@ -153,19 +153,19 @@ const resetPassword = async (_id) => {
   return "password has been reset successfully!!";
 };
 
-const updateUsersDetails =(id, payload)=>{
-   const user = await UserModel.findOne({_id:id})
-   if(!user) throw new Error("user not found")
-   const updated = await UserModel.updateOne({_id:id},payload)
-   if(!updated) throw new Error("cannot update user details");
-   return "user updated successfully"
-}
+const updateUsersDetails = async (id, payload) => {
+  const user = await UserModel.findOne({ _id: id });
+  if (!user) throw new Error("user not found");
+  const updated = await UserModel.updateOne({ _id: id }, payload);
+  if (!updated) throw new Error("cannot update user details");
+  return "user updated successfully";
+};
 
-const deleteUser = async(_id)=>{
-  const deleteUser = await UserModel.deleteOne({_id})
-  if(!deleteUser) throw new Error("Cannot delete the user");
-  return "user deleted successfully"
-}
+const deleteUser = async (_id) => {
+  const deleteUser = await UserModel.deleteOne({ _id });
+  if (!deleteUser) throw new Error("Cannot delete the user");
+  return "user deleted successfully";
+};
 module.exports = {
   registerUser,
   updateUsersDetails,
@@ -175,5 +175,5 @@ module.exports = {
   forgetPassword,
   verifyOtpCode,
   changePassword,
-  resetPassword
+  resetPassword,
 };
