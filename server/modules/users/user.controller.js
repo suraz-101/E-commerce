@@ -161,10 +161,16 @@ const updateUsersDetails =(id, payload)=>{
    return "user updated successfully"
 }
 
+const deleteUser = async(_id)=>{
+  const deleteUser = await UserModel.deleteOne({_id})
+  if(!deleteUser) throw new Error("Cannot delete the user");
+  return "user deleted successfully"
+}
 module.exports = {
   registerUser,
-  updateUsersDetails
+  updateUsersDetails,
   getAllUsers,
+  deleteUser,
   login,
   forgetPassword,
   verifyOtpCode,

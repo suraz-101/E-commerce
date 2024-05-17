@@ -7,6 +7,7 @@ const {
   changePassword,
   resetPassword,
   updateUsersDetails,
+  deleteUser,
 } = require("./user.controller");
 const {
   userValidation,
@@ -126,12 +127,12 @@ userRouter.put("/updateProfile", async (req, res, next) => {
   }
 });
 
-userRouter.delete("/:id", (req, res, next) => {
+userRouter.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    res
-      .status(200)
-      .json({ message: "You are inside delete method of users applicaiton" });
+    const result = await deleteUser(id);
+
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }
