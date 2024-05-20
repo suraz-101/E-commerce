@@ -16,8 +16,10 @@ const updateCategory = async (_id, payload) => {
   return "category updated Successfully";
 };
 
-const deleteCategory = ()=>{
-    
-}
+const getAllCategoryDetails = async () => {
+  return await CategoryModel.find();
+};
 
-module.exports = { createCategory, updateCategory };
+const deleteCategory = () => {};
+
+module.exports = { createCategory, updateCategory, getAllCategoryDetails };

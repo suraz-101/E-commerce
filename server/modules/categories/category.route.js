@@ -1,10 +1,15 @@
-const { createCategory, updateCategory } = require("./category.controller");
+const {
+  createCategory,
+  updateCategory,
+  getAllCategoryDetails,
+} = require("./category.controller");
 
 const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    res.status(200).json({ message: "you are inside get method of category" });
+    const result = await getAllCategoryDetails();
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }
