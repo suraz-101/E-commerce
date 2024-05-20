@@ -17,6 +17,66 @@ const getAllProducts = async (search, page = 1, limit = 10) => {
       },
     });
   }
+
+  query.push(
+    {
+      $lookup: {
+        from: "cateogories",
+        localField: "category",
+        foreignField: "_id",
+        as: "productCategory",
+      },
+    },
+    {
+      $unwind: {
+        path: "$productCategory",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $addFields: {
+        categoryName: "$productCategory.name",
+        categoyDescription: "$productCategory.description",
+      },
+    },
+    {
+      $project: {
+        category: 0,
+      },
+    },
+    {
+      $facet: {
+        metadata: [
+          {
+            $count: "total",
+          },
+        ],
+        data: [
+          {
+            $skip: (+page - 1) * +limit,
+          },
+          {
+            $limit: +limit,
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        total: {
+          $arrayElemAt: ["$metadata.total", 0],
+        },
+      },
+    }
+  );
+
+  const result = await ProductModel.aggregate(query);
+  return {
+    data: result[0].data,
+    total: result[0].total,
+    page: +page,
+    limit: +limit,
+  };
 };
 
 const getProductById = (_id) => {};
