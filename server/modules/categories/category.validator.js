@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const joi = require("joi");
 
 const schema = joi.object({
