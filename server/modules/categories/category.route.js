@@ -1,3 +1,5 @@
+const { createCategory, updateCategory } = require("./category.controller");
+
 const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
@@ -10,7 +12,8 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    res.status(200).json({ message: "you are inside get method of category" });
+    const result = await createCategory(req.body);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }
@@ -18,7 +21,8 @@ router.post("/", async (req, res, next) => {
 
 router.put("/:id", async (req, res, next) => {
   try {
-    res.status(200).json({ message: "you are inside get method of category" });
+    const result = await updateCategory(id, req.body);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }

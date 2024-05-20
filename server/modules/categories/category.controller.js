@@ -16,4 +16,8 @@ const updateCategory = async (_id, payload) => {
   return "category updated Successfully";
 };
 
+const deleteCategory = ()=>{
+    
+}
+
 module.exports = { createCategory, updateCategory };
