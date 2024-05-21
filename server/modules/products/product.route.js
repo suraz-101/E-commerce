@@ -6,6 +6,8 @@ const {
   createProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
+  updateProductDetails,
 } = require("./product.controller");
 const { validation } = require("./product.validator");
 
@@ -62,7 +64,9 @@ Router.post(
 
 Router.put("/:id", async (req, res, next) => {
   try {
-    res.status(200).json({ message: "you are inside put method of product" });
+    const { id } = req.params;
+    const result = await updateProductDetails(id, req.body);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }

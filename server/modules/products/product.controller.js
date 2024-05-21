@@ -84,7 +84,11 @@ const getProductById = async (_id) => {
   return  await ProductModel.findOne({ _id });
 };
 
-const updateProductDetails = (_id, payload) => {};
+const updateProductDetails = async(_id, payload) => {
+ const update =  await ProductModel.updateOne({_id}, payload)
+  if(!update) throw new Error("product update failed. Please Try Again!!");
+  return "product updated successfully";
+};
 
 const updateProduct = (_id, payload) => {};
 
