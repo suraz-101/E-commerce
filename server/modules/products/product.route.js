@@ -62,8 +62,11 @@ Router.post(
   }
 );
 
-Router.put("/:id", async (req, res, next) => {
+Router.put("/:id", upload.single("image"), async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = req.file.path.replace("public", "");
+    }
     const { id } = req.params;
     const result = await updateProductDetails(id, req.body);
     res.status(200).json({ message: result });
