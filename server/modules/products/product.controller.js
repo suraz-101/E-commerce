@@ -79,7 +79,10 @@ const getAllProducts = async (search, page = 1, limit = 10) => {
   };
 };
 
-const getProductById = (_id) => {};
+const getProductById = async (_id) => {
+  if (!_id) throw new Error("id is required");
+  return  await ProductModel.findOne({ _id });
+};
 
 const updateProductDetails = (_id, payload) => {};
 

@@ -2,7 +2,11 @@ const Router = require("express").Router();
 
 const multer = require("multer");
 const { checkRole } = require("../../utils/sessionManager");
-const { createProduct, getAllProducts } = require("./product.controller");
+const {
+  createProduct,
+  getAllProducts,
+  getProductById,
+} = require("./product.controller");
 const { validation } = require("./product.validator");
 
 const storage = multer.diskStorage({
@@ -30,9 +34,9 @@ Router.get("/", async (req, res, next) => {
 
 Router.get("/:id", async (req, res, next) => {
   try {
-    res
-      .status(200)
-      .json({ message: "you are inside get method of product by id" });
+    const { id } = req.params;
+    const result = await getProductById(id);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }
@@ -48,7 +52,6 @@ Router.post(
       if (req?.file) {
         req.body.image = req.file.path.replace("public", "");
       }
-
       const result = await createProduct(req.body);
       res.status(200).json({ message: result });
     } catch (error) {
