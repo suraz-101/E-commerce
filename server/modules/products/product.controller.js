@@ -81,18 +81,22 @@ const getAllProducts = async (search, page = 1, limit = 10) => {
 
 const getProductById = async (_id) => {
   if (!_id) throw new Error("id is required");
-  return  await ProductModel.findOne({ _id });
+  return await ProductModel.findOne({ _id });
 };
 
-const updateProductDetails = async(_id, payload) => {
- const update =  await ProductModel.updateOne({_id}, payload)
-  if(!update) throw new Error("product update failed. Please Try Again!!");
+const updateProductDetails = async (_id, payload) => {
+  const update = await ProductModel.updateOne({ _id }, payload);
+  if (!update) throw new Error("product update failed. Please Try Again!!");
   return "product updated successfully";
 };
 
 const updateProduct = (_id, payload) => {};
 
-const deleteProduct = (_id) => {};
+const deleteProduct = async(_id) => {
+  const res = await ProductModel.deleteOne({_id})
+  if(!res) throw new Error("cannot delete product")
+  return "Product Deleted Successfully"
+};
 
 module.exports = {
   createProduct,
