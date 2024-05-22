@@ -8,6 +8,7 @@ const {
   getProductById,
   updateProduct,
   updateProductDetails,
+  deleteProduct,
 } = require("./product.controller");
 const { validation } = require("./product.validator");
 
@@ -85,9 +86,9 @@ Router.patch("/:id", async (req, res, next) => {
 
 Router.delete("/:id", async (req, res, next) => {
   try {
-    res
-      .status(200)
-      .json({ message: "you are inside delete method of product" });
+    const { id } = req.params;
+    const result = await deleteProduct(id);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }
