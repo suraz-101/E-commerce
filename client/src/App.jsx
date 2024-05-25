@@ -5,7 +5,9 @@ import { AppLayout } from "./layout/AppLayout";
 import { Home } from "./pages/admin/Home";
 import { HomePage } from "./pages/HomePage";
 import { Login } from "./pages/Login";
+import { Products } from "./pages/Products";
 import { Profile } from "./pages/Profile";
+
 function App() {
   return (
     <>
@@ -18,6 +20,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="products" element={<Products />} />
         </Route>
 
         {/* admin route */}

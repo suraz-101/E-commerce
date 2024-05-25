@@ -71,12 +71,13 @@ export const AppNavbar = () => {
               >
                 Home
               </Link>
-              <a
+              <Link
+                to="products"
                 className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 Shop
-              </a>
+              </Link>
               <a
                 className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
                 href="#"
