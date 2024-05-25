@@ -4,8 +4,8 @@ import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
 import { Home } from "./pages/admin/Home";
 import { HomePage } from "./pages/HomePage";
-import { Login } from "./pages/login";
-import { Profile } from "./pages/profile";
+import { Login } from "./pages/Login";
+import { Profile } from "./pages/Profile";
 function App() {
   return (
     <>
