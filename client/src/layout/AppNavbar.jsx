@@ -32,13 +32,13 @@ export const AppNavbar = () => {
               Brand
             </div>
             <div className="flex items-center justify-end w-full">
+              <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-gray-700 text-white">
+                Login
+              </button>
               <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0">
                 <svg
                   className="h-5 w-5"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
@@ -53,10 +53,7 @@ export const AppNavbar = () => {
                   aria-label="toggle menu"
                 >
                   <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
-                    <path
-                      fill-rule="evenodd"
-                      d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
-                    ></path>
+                    <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
                   </svg>
                 </button>
               </div>
@@ -101,7 +98,7 @@ export const AppNavbar = () => {
           <div className="relative mt-6 max-w-lg mx-auto">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
               <svg
-                className="h-5 w-5 text-gray-500"
+                className="h-5 w-5 text-gray-700  "
                 viewBox="0 0 24 24"
                 fill="none"
               >
@@ -113,7 +110,7 @@ export const AppNavbar = () => {
             </span>
             <input
               type="text"
-              className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 border"
+              className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 border py-1.5"
               placeholder="Search"
             />
           </div>

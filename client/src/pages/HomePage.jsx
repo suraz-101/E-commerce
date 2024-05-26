@@ -1,7 +1,7 @@
 export const HomePage = () => {
   return (
     <div>
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto p-6">
         <div
           className="h-64 rounded-md overflow-hidden bg-cover bg-center"
           style={{
