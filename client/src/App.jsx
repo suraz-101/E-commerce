@@ -3,6 +3,7 @@ import { PrivateRoute } from "./components/Route";
 import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
 import { Home } from "./pages/admin/Home";
+import { CheckOut } from "./pages/CheckOut";
 import { HomePage } from "./pages/HomePage";
 import { Login } from "./pages/Login";
 import { ProductDetail } from "./pages/ProductDetail";
@@ -23,6 +24,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="products" element={<Products />} />
           <Route path="productsDetail" element={<ProductDetail />} />
+          <Route path="checkOut" element={<CheckOut />} />
         </Route>
 
         {/* admin route */}
