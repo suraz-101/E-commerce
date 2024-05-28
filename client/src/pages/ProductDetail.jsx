@@ -2,7 +2,7 @@ import React from "react";
 
 export const ProductDetail = () => {
   return (
-    <div className="container mx-auto px-6">
+    <div className="container mx-auto py-6">
       <div className="md:flex md:items-center">
         <div className="w-full h-64 md:w-1/2 lg:h-96">
           <img
