@@ -33,12 +33,11 @@ export const AppNavbar = () => {
             </div>
             <div className="flex items-center justify-end w-full">
               <Link to="/login">
-                <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-sky-500 text-white">
+                <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white">
                   Login
                 </button>
               </Link>
               <Link to="/checkOut">
-                {" "}
                 <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0">
                   <svg
                     className="h-5 w-5"

@@ -1,81 +1,44 @@
 export const ProductDetail = () => {
   return (
     <div className="container mx-auto py-6">
-      <div className="md:flex md:items-center">
-        <div className="w-full h-64 md:w-1/2 lg:h-96">
-          <img
-            className="h-full w-full rounded-md object-cover max-w-lg mx-auto"
-            src="https://images.unsplash.com/photo-1578262825743-a4e402caab76?ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80"
-            alt="Nike Air"
-          />
-        </div>
-        <div className="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
-          <h3 className="text-gray-700 uppercase text-lg">Nike Air</h3>
-          <span className="text-gray-500 mt-3">$125</span>
-          <hr className="my-3" />
-
-          <div className="mt-2">
-            <label className="text-gray-700 text-sm">Count:</label>
-            <div className="flex items-center mt-1">
-              <button className="text-gray-500 focus:outline-none focus:text-gray-600">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+      <main className="dark:bg-gray-800 bg-white relative overflow-hidden h-screen">
+        <div className="bg-white dark:bg-gray-800 flex relative z-20 items-center overflow-hidden">
+          <div className="container mx-auto px-6 flex relative py-16">
+            <div className="sm:w-2/3 lg:w-2/5 flex flex-col relative z-20">
+              <span className="w-20 h-2 bg-gray-800 dark:bg-white mb-12"></span>
+              <h1 className="font-bebas-neue uppercase text-6xl sm:text-8xl font-black flex flex-col leading-none dark:text-white text-gray-800">
+                Be on
+                <span className="text-5xl sm:text-7xl">Time</span>
+              </h1>
+              <p className="text-sm sm:text-base text-gray-700 dark:text-white">
+                Dimension of reality that makes change possible and
+                understandable. An indefinite and homogeneous environment in
+                which natural events and human existence take place.
+              </p>
+              <div className="flex mt-8">
+                <a
+                  href="#"
+                  className="uppercase py-2 px-4 rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 border-2 border-transparent text-white text-md mr-4 hover:bg-pink-400"
                 >
-                  <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              </button>
-              <span className="text-gray-700 text-lg mx-2">20</span>
-              <button className="text-gray-500 focus:outline-none focus:text-gray-600">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  Get started
+                </a>
+                <a
+                  href="#"
+                  className="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-sky-500 text-pink-500 dark:text-white hover:bg-gradient-to-r from-cyan-400 to-sky-500  hover:text-white text-md"
                 >
-                  <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              </button>
+                  Read more
+                </a>
+              </div>
+            </div>
+            <div className="hidden sm:block sm:w-1/3 lg:w-3/5 relative">
+              <img
+                src="https://www.tailwind-kit.com/images/object/10.png"
+                className="max-w-xs md:max-w-sm m-auto"
+              />
             </div>
           </div>
-          <div className="mt-3">
-            <label className="text-gray-700 text-sm" for="count">
-              Color:
-            </label>
-            <div className="flex items-center mt-1">
-              <button className="h-5 w-5 rounded-full bg-blue-600 border-2 border-blue-200 mr-2 focus:outline-none"></button>
-              <button className="h-5 w-5 rounded-full bg-teal-600 mr-2 focus:outline-none"></button>
-              <button className="h-5 w-5 rounded-full bg-pink-600 mr-2 focus:outline-none"></button>
-            </div>
-          </div>
-          <div className="flex items-center mt-6">
-            <button className="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
-              Order Now
-            </button>
-            <button className="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-              </svg>
-            </button>
-          </div>
         </div>
-      </div>
+      </main>
       <div className="mt-16">
         <h3 className="text-gray-600 text-2xl font-medium">More Products</h3>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">

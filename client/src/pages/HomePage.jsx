@@ -18,7 +18,7 @@ export const HomePage = () => {
                 Tempore facere provident molestias ipsam sint voluptatum
                 pariatur.
               </p>
-              <button className="flex items-center mt-4 px-3 py-2 bg-sky-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+              <button className="flex items-center mt-4 px-3 py-2 bg-gradient-to-r from-cyan-400 to-sky-500 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                 <span>Shop Now</span>
                 <svg
                   className="h-5 w-5 mx-2"
