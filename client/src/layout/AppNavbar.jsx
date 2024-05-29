@@ -32,24 +32,29 @@ export const AppNavbar = () => {
               Brand
             </div>
             <div className="flex items-center justify-end w-full">
-              <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-gray-700 text-white">
-                Login
-              </button>
-              <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                </svg>
-              </button>
+              <Link to="/login">
+                <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-sky-500 text-white">
+                  Login
+                </button>
+              </Link>
+              <Link to="/checkOut">
+                {" "}
+                <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0">
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                </button>
+              </Link>
 
-              <div className="flex sm:hidden">
+              <div className="flex sm:hidden ">
                 <button
                   type="button"
-                  className="text-gray-600 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                  className="text-gray-600 hover:text-gray-500 focus:outline-none focus:text-gray-900 "
                   aria-label="toggle menu"
                 >
                   <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
@@ -96,9 +101,9 @@ export const AppNavbar = () => {
             </div>
           </nav>
           <div className="relative mt-6 max-w-lg mx-auto">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center border ">
               <svg
-                className="h-5 w-5 text-gray-700  "
+                className="h-5 w-5 text-gray-900  "
                 viewBox="0 0 24 24"
                 fill="none"
               >
