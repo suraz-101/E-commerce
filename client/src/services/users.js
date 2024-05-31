@@ -8,8 +8,7 @@ import instance from "../utils/api";
 // };
 
 const login = (payload) => {
-  // console.log(limit, page);[]
-  return instance.get(URLS.LOGIN, payload, {
+  return instance.post(URLS.LOGIN, payload, {
     // headers: { access_token: localStorage.getItem("access_token") },
   });
 };

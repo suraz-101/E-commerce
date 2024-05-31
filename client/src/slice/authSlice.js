@@ -11,7 +11,6 @@ export const userLogin = createAsyncThunk(
   "users/userLogin",
   async (payload) => {
     try {
-      // console.log(email);
       const response = await login(payload);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
@@ -39,7 +38,7 @@ const authSlice = createSlice({
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.message.data;
+        state.token = action.payload.message;
         state.error = "";
         state.message = "";
       })
