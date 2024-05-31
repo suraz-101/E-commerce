@@ -40,7 +40,7 @@ export const Products = () => {
                   className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden"
                   key={p?._id}
                 >
-                  <div className=" relative flex items-end justify-end h-56 w-full bg-cover border border-black">
+                  <div className=" relative flex items-end justify-end h-56 w-full  ">
                     <img
                       src={BASE_URL.concat(p?.image[0])}
                       alt=""
@@ -53,7 +53,7 @@ export const Products = () => {
                       </svg>
                     </button>
                   </div>
-                  <Link to="/productsDetail" key={p?._id}>
+                  <Link to={`/productsDetail/${p?._id}`} key={p?._id}>
                     <div className="px-5 py-3">
                       <h3 className="text-gray-700 uppercase">{p?.name}</h3>
                       <span className="text-gray-500 mt-2">${p?.price}</span>

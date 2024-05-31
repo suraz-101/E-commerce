@@ -1,4 +1,10 @@
+import { useLocation } from "react-router-dom";
+
 export const ProductDetail = () => {
+  const { pathname } = useLocation();
+
+  const id = pathname.split("/")[2];
+
   return (
     <div className="container mx-auto py-6">
       <main className="dark:bg-gray-800 bg-white relative overflow-hidden h-screen">
