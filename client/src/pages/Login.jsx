@@ -1,6 +1,22 @@
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { userLogin } from "../slice/authSlice";
 
 export const Login = () => {
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+
+  const [payload, setPayload] = useState({
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    dispatch(userLogin(payload));
+  }, [payload, dispatch]);
+
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
