@@ -1,6 +1,17 @@
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { isLoggedIn } from "../utils/login";
+import { removeToken } from "../utils/sessionManager";
 
 export const AppNavbar = () => {
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    removeToken("token");
+    removeToken("currentUser");
+    navigate("/");
+  };
   return (
     <>
       <header className="bg-white">
@@ -32,11 +43,22 @@ export const AppNavbar = () => {
               Brand
             </div>
             <div className="flex items-center justify-end w-full">
-              <Link to="/login">
-                <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white">
-                  Login
+              {isLoggedIn() ? (
+                <button
+                  className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                  onClick={(e) => {
+                    handleSubmit(e);
+                  }}
+                >
+                  Logout
                 </button>
-              </Link>
+              ) : (
+                <Link to="/login">
+                  <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white">
+                    Login
+                  </button>
+                </Link>
+              )}
               <Link to="/checkOut">
                 <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0">
                   <svg

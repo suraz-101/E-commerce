@@ -8,6 +8,10 @@ export const getToken = (key) => {
   return localStorage.getItem(key);
 };
 
+export const removeToken = (key) => {
+  return localStorage.removeItem(key);
+};
+
 export const currentUser = () => {
   const token = getToken("token");
   const { data } = jwtDecode(token);
