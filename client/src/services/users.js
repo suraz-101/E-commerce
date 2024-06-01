@@ -8,9 +8,11 @@ import instance from "../utils/api";
 // };
 
 const login = (payload) => {
-  return instance.post(URLS.LOGIN, payload, {
+  const res = instance.post(URLS.LOGIN, payload, {
     // headers: { access_token: localStorage.getItem("access_token") },
   });
+  console.log(res);
+  return res;
 };
 
 // const updateUserDetails = (payload) => {
