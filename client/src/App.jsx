@@ -33,12 +33,19 @@ function App() {
         <Route
           path="/admin"
           element={
-            <PrivateRoute>
+            <PrivateRoute role="admin">
               <AdminLayout />
             </PrivateRoute>
           }
         >
-          <Route index element={<Home />} />
+          <Route
+            index
+            element={
+              <PrivateRoute role="admin">
+                <Home />
+              </PrivateRoute>
+            }
+          />
         </Route>
       </Routes>
     </>

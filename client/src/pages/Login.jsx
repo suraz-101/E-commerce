@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { userLogin } from "../slice/authSlice";
-import { setToken } from "../utils/sessionManager";
+import { currentUser, setToken } from "../utils/sessionManager";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
 
@@ -17,6 +19,8 @@ export const Login = () => {
     e.preventDefault();
     dispatch(userLogin(payload));
     setToken(token);
+    currentUser();
+    navigate("/admin");
   };
 
   return (
