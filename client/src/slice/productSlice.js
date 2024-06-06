@@ -32,6 +32,7 @@ export const getSingleProduct = createAsyncThunk(
     try {
       console.log("we are inside slices");
       const response = await getById(id);
+      // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -73,7 +74,7 @@ const productSlice = createSlice({
       .addCase(getSingleProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.total = action.payload.message.total;
-        state.product = action.payload.message;
+        state.product = action.payload.message.data;
         state.error = "";
         state.message = "";
       })

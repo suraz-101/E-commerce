@@ -1,4 +1,5 @@
 const ProductModel = require("./product.model");
+const { ObjectId } = require("mongodb");
 
 const createProduct = async (payload) => {
   console.log("controller product", payload);
@@ -79,9 +80,74 @@ const getAllProducts = async (search, page = 1, limit = 10) => {
   };
 };
 
-const getProductById = async (_id) => {
+const getProductById = async (_id, page = 1, limit = 20) => {
   if (!_id) throw new Error("id is required");
-  return await ProductModel.findOne({ _id });
+  const query = [];
+
+  query.push(
+    {
+      $lookup: {
+        from: "cateogories",
+        localField: "category",
+        foreignField: "_id",
+        as: "productCategory",
+      },
+    },
+    {
+      $unwind: {
+        path: "$productCategory",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $addFields: {
+        categoryName: "$productCategory.name",
+        categoyDescription: "$productCategory.description",
+      },
+    },
+    {
+      $project: {
+        category: 0,
+      },
+    },
+    {
+      $match: {
+        _id: new ObjectId(`${_id}`),
+      },
+    },
+    {
+      $facet: {
+        metadata: [
+          {
+            $count: "total",
+          },
+        ],
+        data: [
+          {
+            $skip: (+page - 1) * +limit,
+          },
+          {
+            $limit: +limit,
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        total: {
+          $arrayElemAt: ["$metadata.total", 0],
+        },
+      },
+    }
+  );
+
+  const result = await ProductModel.aggregate(query);
+  return {
+    data: result[0].data,
+    total: result[0].total,
+    page: +page,
+    limit: +limit,
+  };
 };
 
 const updateProductDetails = async (_id, payload) => {
@@ -92,10 +158,10 @@ const updateProductDetails = async (_id, payload) => {
 
 const updateProduct = (_id, payload) => {};
 
-const deleteProduct = async(_id) => {
-  const res = await ProductModel.deleteOne({_id})
-  if(!res) throw new Error("cannot delete product")
-  return "Product Deleted Successfully"
+const deleteProduct = async (_id) => {
+  const res = await ProductModel.deleteOne({ _id });
+  if (!res) throw new Error("cannot delete product");
+  return "Product Deleted Successfully";
 };
 
 module.exports = {

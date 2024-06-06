@@ -38,7 +38,9 @@ Router.get("/", async (req, res, next) => {
 Router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await getProductById(id);
+    console.log("id", id);
+    const { page, limit } = req.query;
+    const result = await getProductById(id, page, limit);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);
@@ -56,7 +58,6 @@ Router.post(
         req.body.image = req.file.path.replace("public", "");
       }
 
-      
       const result = await createProduct(req.body);
       res.status(200).json({ message: result });
     } catch (error) {
