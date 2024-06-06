@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllProducts } from "../services/products";
+import { getAllProducts, getById } from "../services/products";
 
 const initialState = {
   products: [],
@@ -19,6 +19,19 @@ export const listProducts = createAsyncThunk(
       console.log("we are inside slices");
       const response = await getAllProducts();
 
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
+export const getSingleProduct = createAsyncThunk(
+  "products/getSingleProduct",
+  async (id) => {
+    try {
+      console.log("we are inside slices");
+      const response = await getById(id);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -51,6 +64,20 @@ const productSlice = createSlice({
         state.message = "";
       })
       .addCase(listProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getSingleProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.total = action.payload.message.total;
+        state.product = action.payload.message;
+        state.error = "";
+        state.message = "";
+      })
+      .addCase(getSingleProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

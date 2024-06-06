@@ -20,13 +20,6 @@ export const Products = () => {
     initFetch();
   }, [initFetch]);
 
-  console.log(
-    "P",
-    products?.data?.map((p) => {
-      return p?.image[0];
-    })
-  );
-
   return (
     <div>
       <div className="container mx-auto px-6">

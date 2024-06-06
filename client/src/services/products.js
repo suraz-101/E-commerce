@@ -6,4 +6,8 @@ const getAllProducts = async () => {
   return await instance.get(URLS.PRODUCTS);
 };
 
-export { getAllProducts };
+const getById = async (id) => {
+  return await instance.get(URLS.PRODUCTS + `/${id}`);
+};
+
+export { getAllProducts, getById };

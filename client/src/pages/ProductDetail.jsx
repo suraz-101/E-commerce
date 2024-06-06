@@ -1,10 +1,25 @@
 import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleProduct } from "../slice/productSlice";
+import { useCallback } from "react";
+import { useEffect } from "react";
 
 export const ProductDetail = () => {
+  const dispatch = useDispatch();
+  const { product } = useSelector((state) => state.products);
   const { pathname } = useLocation();
 
   const id = pathname.split("/")[2];
 
+  const initFetch = useCallback(() => {
+    dispatch(getSingleProduct(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    initFetch();
+  }, [initFetch]);
+
+  console.log("product is :", product);
   return (
     <div className="container mx-auto py-6">
       <main className="dark:bg-gray-800 bg-white relative overflow-hidden h-screen">
