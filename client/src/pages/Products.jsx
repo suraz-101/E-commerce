@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../contants";
+import { addToCart } from "../slice/cartSlice";
 import { listProducts } from "../slice/productSlice";
 
 export const Products = () => {
@@ -19,6 +20,8 @@ export const Products = () => {
   useEffect(() => {
     initFetch();
   }, [initFetch]);
+
+  // console.log("product", product[0]);
 
   return (
     <div>
@@ -40,7 +43,12 @@ export const Products = () => {
                       style={{ height: "100%", width: "100%" }}
                       className="absolute w-full h-full z-0"
                     />
-                    <button className="p-2 rounded-full bg-sky-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500 z-10 ">
+                    <button
+                      className="p-2 rounded-full bg-sky-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500 z-10 "
+                      onClick={() => {
+                        dispatch(addToCart(p));
+                      }}
+                    >
                       <svg className="h-5 w-5" fill="white">
                         <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                       </svg>
