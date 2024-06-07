@@ -2,16 +2,20 @@ import React from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../contants";
 import { addToCart } from "../slice/cartSlice";
 import { listProducts } from "../slice/productSlice";
+import { isLoggedIn } from "../utils/login";
 
 export const Products = () => {
   const dispatch = useDispatch();
   const { products, page, limit, total, product } = useSelector(
     (state) => state.products
   );
+
+  const navigate = useNavigate();
 
   const initFetch = useCallback(() => {
     dispatch(listProducts());
@@ -46,7 +50,9 @@ export const Products = () => {
                     <button
                       className="p-2 rounded-full bg-sky-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500 z-10 "
                       onClick={() => {
-                        dispatch(addToCart(p));
+                        isLoggedIn()
+                          ? dispatch(addToCart(p))
+                          : navigate("/login");
                       }}
                     >
                       <svg className="h-5 w-5" fill="white">

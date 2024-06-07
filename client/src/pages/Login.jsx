@@ -157,6 +157,11 @@ export const Login = () => {
             </button>
           </div>
           <div className="w-full flex justify-center mt-2">
+            <span className="text-blue-500 mx-2">
+              <Link to="/"> Forget Password ?</Link>
+            </span>
+          </div>
+          <div className="w-full flex justify-center mt-2">
             Don't have an Account ?
             <span className="text-blue-500 mx-2">
               <Link to="/register">Sign up</Link>
