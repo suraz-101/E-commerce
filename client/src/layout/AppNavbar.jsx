@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -12,6 +13,8 @@ export const AppNavbar = () => {
     removeToken("currentUser");
     navigate("/");
   };
+
+  const { quantity } = useSelector((state) => state.cart);
   return (
     <>
       <header className="bg-white">
@@ -60,7 +63,7 @@ export const AppNavbar = () => {
                 </Link>
               )}
               <Link to="/checkOut">
-                <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0">
+                <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0 ">
                   <svg
                     className="h-5 w-5"
                     fill="none"
@@ -69,6 +72,22 @@ export const AppNavbar = () => {
                   >
                     <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                   </svg>
+                  <div className="absolute top-10 left-0">{quantity}</div>
+                </button>
+              </Link>
+              <Link to="/checkOut">
+                <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0 relative">
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                  <div className="absolute top-0 right-0 bg-red-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                    {quantity}
+                  </div>
                 </button>
               </Link>
 
@@ -78,7 +97,7 @@ export const AppNavbar = () => {
                   className="text-gray-600 hover:text-gray-500 focus:outline-none focus:text-gray-900 "
                   aria-label="toggle menu"
                 >
-                  <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
+                  <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current ">
                     <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
                   </svg>
                 </button>

@@ -1,4 +1,13 @@
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { BASE_URL } from "../contants";
+import { removeCart } from "../slice/cartSlice";
+
 export const CheckOut = () => {
+  const dispatch = useDispatch();
+  const { carts, quantity } = useSelector((state) => state.cart);
+
+  console.log("carts", carts);
   return (
     <div className="container mx-auto py-6">
       <h3 className="text-gray-700 text-2xl font-medium">Checkout</h3>
@@ -123,43 +132,82 @@ export const CheckOut = () => {
           </form>
         </div>
         <div className="w-full mb-8 flex-shrink-0 order-1 lg:w-1/2 lg:mb-0 lg:order-2">
-          <div className="flex justify-center lg:justify-end">
-            <div className="border rounded-md max-w-md w-full px-4 py-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-gray-700 font-medium">Order total (2)</h3>
+          <div className="flex justify-center lg:justify-end ">
+            <div className="border rounded-md max-w-md w-full px-4 py-3 ">
+              <div className="flex items-center justify-between ">
+                <h3 className="text-gray-700 font-medium">
+                  Order total ({quantity})
+                </h3>
                 <span className="text-gray-600 text-sm">Edit</span>
               </div>
-              <div className="flex justify-between mt-6">
-                <div className="flex">
-                  <img
-                    className="h-20 w-20 object-cover rounded"
-                    src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80"
-                    alt=""
-                  />
-                  <div className="mx-3">
-                    <h3 className="text-sm text-gray-600">Mac Book Pro</h3>
-                    <div className="flex items-center mt-2">
-                      <button className="text-gray-500 focus:outline-none focus:text-gray-600">
+              {carts?.length > 0 ? (
+                carts.map((product) => {
+                  return (
+                    <div
+                      className="flex justify-between mt-6 "
+                      key={product?._id}
+                    >
+                      <div className="flex">
+                        <img
+                          className="h-20 w-20 object-cover rounded"
+                          src={BASE_URL.concat(product?.image)}
+                          alt=""
+                        />
+                        <div className="mx-3">
+                          <h3 className="text-sm text-gray-600">
+                            {product?.name}
+                          </h3>
+                          <div className="flex items-center mt-2">
+                            <button className="text-gray-500 focus:outline-none focus:text-gray-600">
+                              <svg
+                                className="h-5 w-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                              </svg>
+                            </button>
+                            <span className="text-gray-700 mx-2">2</span>
+                            <button className="text-gray-500 focus:outline-none focus:text-gray-600">
+                              <svg className="h-5 w-5" fill="none">
+                                <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <span className="text-gray-600 ">
+                        Rs. {product?.price}
+                      </span>
+                      <button
+                        className="text-gray-500 focus:outline-none focus:text-gray-600 "
+                        onClick={() => {
+                          dispatch(removeCart(product?._id));
+                        }}
+                      >
                         <svg
-                          className="h-5 w-5"
+                          className="h-10 w-10 p-2  border rounded border-red-800 "
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
                         >
-                          <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                      </button>
-                      <span className="text-gray-700 mx-2">2</span>
-                      <button className="text-gray-500 focus:outline-none focus:text-gray-600">
-                        <svg className="h-5 w-5" fill="none">
-                          <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
                         </svg>
                       </button>
                     </div>
-                  </div>
-                </div>
-                <span className="text-gray-600">20$</span>
-              </div>
+                  );
+                })
+              ) : (
+                <>
+                  No product found. <Link to="/products">Add Products</Link>{" "}
+                </>
+              )}
             </div>
           </div>
         </div>
