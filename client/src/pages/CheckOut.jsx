@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../contants";
-import { removeCart } from "../slice/cartSlice";
+import { increaseQuantity, removeCart } from "../slice/cartSlice";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
@@ -158,7 +158,13 @@ export const CheckOut = () => {
                             {product?.name}
                           </h3>
                           <div className="flex items-center mt-2">
-                            <button className="text-gray-500 focus:outline-none focus:text-gray-600">
+                            <button
+                              className="text-gray-500 focus:outline-none focus:text-gray-600"
+                              onClick={() => {
+                                // console.log("clicked");
+                                dispatch(increaseQuantity(product));
+                              }}
+                            >
                               <svg
                                 className="h-5 w-5"
                                 fill="none"
@@ -168,9 +174,11 @@ export const CheckOut = () => {
                                 <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                               </svg>
                             </button>
-                            <span className="text-gray-700 mx-2">2</span>
+                            <span className="text-gray-700 mx-2">
+                              {product?.quantity}
+                            </span>
                             <button className="text-gray-500 focus:outline-none focus:text-gray-600">
-                              <svg className="h-5 w-5" fill="none">
+                              <svg className="h-5 w-5 " fill="none">
                                 <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                               </svg>
                             </button>

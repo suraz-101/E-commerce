@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { getToken } from "./sessionManager";
+import { getToken, removeToken } from "./sessionManager";
 import moment from "moment";
 
 export const isLoggedIn = () => {
@@ -8,7 +8,12 @@ export const isLoggedIn = () => {
   const { exp } = jwtDecode(token);
   const now = moment(new Date().valueOf());
   const expDate = moment.unix(exp);
-  if (now > expDate) return false;
+  if (now > expDate) {
+    removeToken("token");
+    removeToken("currentUser");
+    alert("session expired");
+    return false;
+  }
   return true;
 };
 
