@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = { carts: [], quantity: 0, currentItem: {} };
 
@@ -7,7 +7,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      console.log(action);
       const existingItem = state.carts.find(
         (item) => item._id === action.payload._id
       );
@@ -17,14 +16,14 @@ const cartSlice = createSlice({
       }
     },
     removeCart: (state, action) => {
-      console.log("action", action);
       const remainingItems = state.carts.filter(
         (item) => item._id !== action.payload
       );
-      console.log("remaining", remainingItems);
       state.carts = remainingItems;
-      const item = state.carts.find((item) => item._id !== action.payload);
-      !item ? (state.quantity = 0) : (state.quantity = item.quantity);
+      state.quantity = remainingItems.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      );
     },
     removeAll: (state) => {
       state.carts = [];
@@ -32,18 +31,27 @@ const cartSlice = createSlice({
     },
     increaseQuantity: (state, action) => {
       const item = state.carts.find((item) => item._id === action.payload._id);
-      if (item) {
-        if (item.quantity < action.payload.stockQuantity) {
-          item.quantity++;
-          state.quantity++;
-        }
+      if (item && item.quantity < action.payload.stockQuantity) {
+        item.quantity++;
+        state.quantity++;
       }
     },
     decreaseQuantity: (state, action) => {
       const item = state.carts.find((item) => item._id === action.payload._id);
-      if (item) {
+      if (item && item.quantity > 0) {
         item.quantity--;
         state.quantity--;
+
+        // Remove item from cart if quantity is 0
+        if (item.quantity === 0) {
+          state.carts = state.carts.filter(
+            (cartItem) => cartItem._id !== action.payload._id
+          );
+        }
+      }
+      // Ensure total quantity does not go negative
+      if (state.quantity < 0) {
+        state.quantity = 0;
       }
     },
   },
