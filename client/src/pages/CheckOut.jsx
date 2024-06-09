@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../contants";
-import { increaseQuantity, removeCart } from "../slice/cartSlice";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeCart,
+} from "../slice/cartSlice";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
@@ -177,9 +181,25 @@ export const CheckOut = () => {
                             <span className="text-gray-700 mx-2">
                               {product?.quantity}
                             </span>
-                            <button className="text-gray-500 focus:outline-none focus:text-gray-600">
-                              <svg className="h-5 w-5 " fill="none">
-                                <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <button
+                              className="text-gray-500 focus:outline-none focus:text-gray-600"
+                              onClick={() => {
+                                // console.log("clicked");
+                                dispatch(decreaseQuantity(product)); // Assuming you have a decreaseQuantity action
+                              }}
+                            >
+                              <svg
+                                className="h-5 w-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                ></path>
                               </svg>
                             </button>
                           </div>
