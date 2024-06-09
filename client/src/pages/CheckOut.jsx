@@ -135,20 +135,21 @@ export const CheckOut = () => {
             </div>
           </form>
         </div>
-        <div className="w-full mb-8 flex-shrink-0 order-1 lg:w-1/2 lg:mb-0 lg:order-2">
+        <div className="w-full mb-8 flex-shrink-0 order-1 lg:w-1/2 lg:mb-0 lg:order-2 ">
           <div className="flex justify-center lg:justify-end ">
             <div className="border rounded-md max-w-md w-full px-4 py-3 ">
               <div className="flex items-center justify-between ">
                 <h3 className="text-gray-700 font-medium">
-                  Order total ({quantity})
+                  TOTAL ITEMS ({quantity})
                 </h3>
-                <span className="text-gray-600 text-sm">Edit</span>
+                {/* <span className="text-gray-600 text-sm">Edit</span> */}
               </div>
+
               {carts?.length > 0 ? (
                 carts.map((product) => {
                   return (
                     <div
-                      className="flex justify-between mt-6 "
+                      className="flex justify-between mt-6  "
                       key={product?._id}
                     >
                       <div className="flex">
@@ -232,9 +233,12 @@ export const CheckOut = () => {
                   );
                 })
               ) : (
-                <>
-                  No product found. <Link to="/products">Add Products</Link>{" "}
-                </>
+                <div className="py-4 border  text-center mt-2">
+                  No product found.{" "}
+                  <Link to="/products" className="text-red-500">
+                    Add Products
+                  </Link>{" "}
+                </div>
               )}
             </div>
           </div>
