@@ -18,7 +18,7 @@ export const Registration = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(userRegistration(payload));
-    console.log("registration", payload);
+    console.log("registration", error);
   };
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -31,7 +31,7 @@ export const Registration = () => {
             </div>
             <form
               action=""
-              onClick={(e) => {
+              onSubmit={(e) => {
                 handleSubmit(e);
               }}
             >
@@ -111,11 +111,12 @@ export const Registration = () => {
                       Phone Number
                     </label>
                   </div>
-                  <div>
-                    {error & message && error ? (
-                      <Notify variant="danger" msg={error}></Notify>
-                    ) : (
-                      <Notify vairant="success" msg={message}></Notify>
+                  <div className="text-center">
+                    {(error || message) && (
+                      <Notify
+                        variant={error ? "danger" : "success"}
+                        msg={error || message}
+                      ></Notify>
                     )}
                   </div>
                   <div className="relative">
