@@ -1,17 +1,17 @@
 import { URLS } from "../contants";
 import instance from "../utils/api";
 
-// const createUser = (payload) => {
-//   return instance.post(URLS.USERS, payload, {
-//     headers: { access_token: localStorage.getItem("access_token") },
-//   });
-// };
+const createUser = (payload) => {
+  return instance.post(URLS.REGISTER, payload, {
+    // headers: { access_token: localStorage.getItem("access_token") },
+  });
+};
 
 const login = (payload) => {
   const res = instance.post(URLS.LOGIN, payload, {
     // headers: { access_token: localStorage.getItem("access_token") },
   });
-  console.log(res);
+
   return res;
 };
 
@@ -44,4 +44,4 @@ const login = (payload) => {
 //   });
 // };
 
-export { login };
+export { login, createUser };
