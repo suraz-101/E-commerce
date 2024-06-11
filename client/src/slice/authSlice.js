@@ -94,6 +94,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.message;
         state.error = "";
+        state.message = "";
         state.message = action.payload.message;
       })
       .addCase(sendOtp.rejected, (state, action) => {

@@ -20,10 +20,11 @@ const cartSlice = createSlice({
         (item) => item._id !== action.payload
       );
       state.carts = remainingItems;
-      state.quantity = remainingItems.reduce(
-        (acc, item) => acc + item.quantity,
-        0
-      );
+      // state.quantity = remainingItems.reduce(
+      //   (acc, item) => acc + item.quantity,
+      //   0
+      // );
+      state.quantity = remainingItems.length;
     },
     removeAll: (state) => {
       state.carts = [];
