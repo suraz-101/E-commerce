@@ -33,20 +33,21 @@ const cartSlice = createSlice({
       const item = state.carts.find((item) => item._id === action.payload._id);
       if (item && item.quantity < action.payload.stockQuantity) {
         item.quantity++;
-        state.quantity++;
+        // state.quantity++;
       }
     },
     decreaseQuantity: (state, action) => {
       const item = state.carts.find((item) => item._id === action.payload._id);
       if (item && item.quantity > 0) {
         item.quantity--;
-        state.quantity--;
+        // state.quantity--;
 
         // Remove item from cart if quantity is 0
         if (item.quantity === 0) {
           state.carts = state.carts.filter(
             (cartItem) => cartItem._id !== action.payload._id
           );
+          state.quantity--;
         }
       }
       // Ensure total quantity does not go negative
