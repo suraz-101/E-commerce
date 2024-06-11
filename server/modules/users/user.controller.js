@@ -88,9 +88,10 @@ const login = async (payload) => {
   return token;
 };
 
-const forgetPassword = async (email) => {
+const forgetPassword = async ({ email }) => {
   if (!email) throw new Error("Please enter email ");
   const user = await UserModel.findOne({ email });
+  console.log("controller", user);
   if (!user) throw new Error("user not found");
   const otpCode = await generateOtpCode();
   await UserModel.updateOne({ email }, { otp: otpCode });

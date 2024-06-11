@@ -15,6 +15,12 @@ const login = (payload) => {
   return res;
 };
 
+const forgetPassword = (email) => {
+  const res = instance.post(URLS.FORGET_PASSWORD, { email });
+  console.log(res);
+  return res;
+};
+
 // const updateUserDetails = (payload) => {
 //   return instance.put(URLS.USERS + `/updateProfile`, payload, {
 //     headers: {
@@ -44,4 +50,4 @@ const login = (payload) => {
 //   });
 // };
 
-export { login, createUser };
+export { login, createUser, forgetPassword };

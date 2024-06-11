@@ -1,28 +1,10 @@
+import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { userLogin } from "../slice/authSlice";
-import { currentUser, setToken } from "../utils/sessionManager";
+import { Link, useLocation } from "react-router-dom";
 
-export const Login = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
-
-  const [payload, setPayload] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(userLogin(payload));
-    setToken(token);
-    currentUser();
-    navigate("/admin");
-  };
-
+export const VerifyOtp = () => {
+  const { state } = useLocation();
+  const [email, setEmail] = useState(state.email);
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -35,14 +17,9 @@ export const Login = () => {
           </Link>
           <div className="max-w-md mx-auto">
             <div>
-              <h1 className="text-2xl font-semibold">Login</h1>
+              <h1 className="text-2xl font-semibold">Verify Otp Code</h1>
             </div>
-            <form
-              action=""
-              onSubmit={(e) => {
-                handleSubmit(e);
-              }}
-            >
+            <form action="">
               <div className="divide-y divide-gray-200">
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                   <div className="relative">
@@ -52,11 +29,7 @@ export const Login = () => {
                       type="text"
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Email address"
-                      onChange={(e) => {
-                        setPayload((prevVal) => {
-                          return { ...prevVal, email: e.target.value };
-                        });
-                      }}
+                      value={email}
                     />
                     <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                       Email Address
@@ -64,19 +37,14 @@ export const Login = () => {
                   </div>
                   <div className="relative">
                     <input
-                      id="password"
-                      name="password"
-                      type="password"
+                      id="newPassword"
+                      name="newPassword"
+                      type="newPassword"
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
-                      placeholder="Password"
-                      onChange={(e) => {
-                        setPayload((prevVal) => {
-                          return { ...prevVal, password: e.target.value };
-                        });
-                      }}
+                      placeholder="newPassword"
                     />
                     <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                      Password
+                      New Password
                     </label>
                   </div>
                   <div className="relative">

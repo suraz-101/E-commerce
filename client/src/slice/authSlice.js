@@ -1,7 +1,7 @@
 // userSlice.js
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createUser, login } from "../services/users";
+import { createUser, forgetPassword, login } from "../services/users";
 
 const initialState = {
   token: "",
@@ -34,6 +34,18 @@ export const userRegistration = createAsyncThunk(
     }
   }
 );
+
+export const sendOtp = createAsyncThunk("users/sendOtp", async (email) => {
+  try {
+    console.log("email slice", email);
+    const response = await forgetPassword(email);
+    console.log(" slice response", response);
+    return response.data; // Assuming the response structure is { data: { total, data } }
+  } catch (error) {
+    console.log(error);
+    throw Error(error.message);
+  }
+});
 
 const authSlice = createSlice({
   name: "auth",
@@ -72,6 +84,19 @@ const authSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(userRegistration.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(sendOtp.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(sendOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.message;
+        state.error = "";
+        state.message = action.payload.message;
+      })
+      .addCase(sendOtp.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

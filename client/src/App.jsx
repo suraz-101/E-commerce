@@ -4,12 +4,14 @@ import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
 import { Home } from "./pages/admin/Home";
 import { CheckOut } from "./pages/CheckOut";
+import { ForgerPassword } from "./pages/ForgerPassword";
 import { HomePage } from "./pages/HomePage";
 import { Login } from "./pages/Login";
 import { ProductDetail } from "./pages/ProductDetail";
 import { Products } from "./pages/Products";
 import { Profile } from "./pages/Profile";
 import { Registration } from "./pages/Registration";
+import { VerifyOtp } from "./pages/VerifyOtp";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
+          <Route path="/forgetPassword" element={<ForgerPassword />} />
+          <Route path="/verifyOtp" element={<VerifyOtp />} />
         </Route>
 
         {/* users route */}
