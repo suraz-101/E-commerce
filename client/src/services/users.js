@@ -21,6 +21,12 @@ const forgetPassword = (email) => {
   return res;
 };
 
+const verifyOtp = (payload) => {
+  const res = instance.post(URLS.VERIFY_OTP, payload);
+  console.log(res);
+  return res;
+};
+
 // const updateUserDetails = (payload) => {
 //   return instance.put(URLS.USERS + `/updateProfile`, payload, {
 //     headers: {
@@ -50,4 +56,4 @@ const forgetPassword = (email) => {
 //   });
 // };
 
-export { login, createUser, forgetPassword };
+export { login, createUser, forgetPassword, verifyOtp };

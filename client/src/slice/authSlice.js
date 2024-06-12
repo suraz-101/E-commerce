@@ -1,7 +1,12 @@
 // userSlice.js
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createUser, forgetPassword, login } from "../services/users";
+import {
+  createUser,
+  forgetPassword,
+  login,
+  verifyOtp,
+} from "../services/users";
 
 const initialState = {
   token: "",
@@ -47,6 +52,21 @@ export const sendOtp = createAsyncThunk("users/sendOtp", async (email) => {
   }
 });
 
+export const verifyOTP = createAsyncThunk(
+  "users/verifyOTP",
+  async (payload) => {
+    try {
+      // console.log("email slice", email);
+      const response = await verifyOtp(payload);
+      console.log(" slice response", response);
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      console.log(error);
+      throw Error(error.message);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -79,7 +99,6 @@ const authSlice = createSlice({
       })
       .addCase(userRegistration.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.message;
         state.error = "";
         state.message = action.payload.message;
       })
@@ -92,13 +111,26 @@ const authSlice = createSlice({
       })
       .addCase(sendOtp.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.message;
         state.error = "";
         state.message = "";
         state.message = action.payload.message;
       })
       .addCase(sendOtp.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(verifyOTP.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyOTP.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.message = "";
+        state.message = action.payload.message;
+      })
+      .addCase(verifyOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.message = "";
         state.error = action.error.message;
       });
   },
