@@ -97,12 +97,12 @@ export const VerifyOtp = () => {
                     </label>
                   </div>
                   <div>
-                    {(error || message) && (
-                      <Notify
-                        variant={error ? "danger" : "success"}
-                        msg={error ? error : message}
-                      ></Notify>
-                    )}
+                    {(error || message) &&
+                      (error ? (
+                        <Notify variant="danger" msg={error} />
+                      ) : (
+                        <Notify variant="success" msg={message} />
+                      ))}
                   </div>
                   <div className="relative">
                     <button className="bg-cyan-500 text-white rounded-md px-2 py-1">
@@ -117,6 +117,8 @@ export const VerifyOtp = () => {
           <div className="w-full flex justify-center mt-2">
             <span className="text-blue-500 mx-2">
               <Link to="/forgetPassword"> Resent Code?</Link>
+              OR
+              <Link to="/forgetPassword"> sign in</Link>
             </span>
           </div>
         </div>

@@ -121,7 +121,7 @@ export const Registration = () => {
                       <Notify
                         variant={error ? "danger" : "success"}
                         msg={error || message}
-                      ></Notify>
+                      />
                     )}
                   </div>
                   <div className="relative">
