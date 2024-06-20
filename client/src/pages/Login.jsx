@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Notify } from "../components/Notify";
+import { URLS } from "../contants";
 import { userLogin } from "../slice/authSlice";
+import instance from "../utils/api";
 import { currentUser, setToken } from "../utils/sessionManager";
 
 export const Login = () => {
@@ -15,12 +18,24 @@ export const Login = () => {
     password: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(userLogin(payload));
-    setToken(token);
-    currentUser();
-    navigate("/admin");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await instance.post(URLS.LOGIN, payload); // sends reques to http://localhost:8000/api/v1/users/login and store the response in response variable
+      setToken(response?.data.message);
+      currentUser(); // This line of code will call the setToken function of utils/session.js file and helps to setItem into the localStorage
+      navigate("/admin");
+    } catch (e) {
+      console.log("error is : ", e.response.data.message);
+      setError(e.response.data.message);
+    } finally {
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+      // setCredentials({ email: "", password: "" });
+    }
   };
 
   return (
@@ -79,6 +94,7 @@ export const Login = () => {
                       Password
                     </label>
                   </div>
+                  <div>{error && <Notify variant="danger" msg={error} />}</div>
                   <div className="relative">
                     <button className="bg-cyan-500 text-white rounded-md px-2 py-1">
                       Submit
