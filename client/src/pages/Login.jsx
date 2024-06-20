@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -10,8 +11,8 @@ import { currentUser, setToken } from "../utils/sessionManager";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch();
+  // const { token } = useSelector((state) => state.auth);
 
   const [payload, setPayload] = useState({
     email: "",
@@ -22,6 +23,7 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     try {
+      // const { token } = useSelector((state) => state.auth);
       e.preventDefault();
       const response = await instance.post(URLS.LOGIN, payload); // sends reques to http://localhost:8000/api/v1/users/login and store the response in response variable
       setToken(response?.data.message);

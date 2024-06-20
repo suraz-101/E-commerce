@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./components/Route";
 import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
+import { AddPorudct } from "./pages/admin/AddPorudct";
 import { Home } from "./pages/admin/Home";
 import { CheckOut } from "./pages/CheckOut";
 import { ForgerPassword } from "./pages/ForgerPassword";
@@ -47,6 +48,14 @@ function App() {
             element={
               <PrivateRoute role="admin">
                 <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="addProduct"
+            element={
+              <PrivateRoute role="admin">
+                <AddPorudct />
               </PrivateRoute>
             }
           />
