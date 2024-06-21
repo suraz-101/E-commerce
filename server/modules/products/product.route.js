@@ -51,7 +51,7 @@ Router.post(
   "/",
   upload.single("image"),
   validation,
-  checkRole(["user"]),
+  checkRole(["admin"]),
   async (req, res, next) => {
     try {
       if (req?.file) {

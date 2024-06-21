@@ -5,6 +5,7 @@ import { AppLayout } from "./layout/AppLayout";
 import { AddPorudct } from "./pages/admin/AddPorudct";
 import { Home } from "./pages/admin/Home";
 import { ProductManagement } from "./pages/admin/ProductManagement";
+import { UpdateProduct } from "./pages/admin/UpdateProduct";
 import { UsersList } from "./pages/admin/UsersList";
 import { CheckOut } from "./pages/CheckOut";
 import { ForgerPassword } from "./pages/ForgerPassword";
@@ -74,6 +75,14 @@ function App() {
             element={
               <PrivateRoute role="admin">
                 <ProductManagement />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="updateProduct"
+            element={
+              <PrivateRoute role="admin">
+                <UpdateProduct />
               </PrivateRoute>
             }
           />
