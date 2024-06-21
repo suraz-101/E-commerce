@@ -27,6 +27,15 @@ const verifyOtp = (payload) => {
   return res;
 };
 
+const getAllUsers = async () => {
+  console.log("we are in services");
+  return await instance.get(URLS.GETALLUSERS);
+};
+
+// const getById = async (id) => {
+//   return await instance.get(URLS.PRODUCTS + `/${id}`);
+// };
+
 // const updateUserDetails = (payload) => {
 //   return instance.put(URLS.USERS + `/updateProfile`, payload, {
 //     headers: {
@@ -56,4 +65,4 @@ const verifyOtp = (payload) => {
 //   });
 // };
 
-export { login, createUser, forgetPassword, verifyOtp };
+export { login, createUser, forgetPassword, verifyOtp, getAllUsers };

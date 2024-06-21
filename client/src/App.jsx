@@ -4,6 +4,8 @@ import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
 import { AddPorudct } from "./pages/admin/AddPorudct";
 import { Home } from "./pages/admin/Home";
+import { ProductManagement } from "./pages/admin/ProductManagement";
+import { UsersList } from "./pages/admin/UsersList";
 import { CheckOut } from "./pages/CheckOut";
 import { ForgerPassword } from "./pages/ForgerPassword";
 import { HomePage } from "./pages/HomePage";
@@ -56,6 +58,22 @@ function App() {
             element={
               <PrivateRoute role="admin">
                 <AddPorudct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="usersLists"
+            element={
+              <PrivateRoute role="admin">
+                <UsersList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="products"
+            element={
+              <PrivateRoute role="admin">
+                <ProductManagement />
               </PrivateRoute>
             }
           />
