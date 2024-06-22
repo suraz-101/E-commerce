@@ -4,6 +4,9 @@ import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { isLoggedIn } from "../utils/login";
 import { removeToken } from "../utils/sessionManager";
+import ReactSwitch from "react-switch";
+import { useContext } from "react";
+import { toggleContext } from "../context/ToggleContext";
 
 export const AppNavbar = () => {
   const navigate = useNavigate();
@@ -14,13 +17,22 @@ export const AppNavbar = () => {
     navigate("/");
   };
 
+  const { theme, setTheme } = useContext(toggleContext);
+
+  const handleClick = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   const { quantity } = useSelector((state) => state.cart);
   return (
     <>
-      <header className="bg-white">
+      <header
+        className="bg-backgroundColor transition-all"
+        style={{ borderButtom: "1px solid gray" }}
+      >
         <div className="container mx-auto px-6 py-3">
           <div className="flex items-center justify-between">
-            <div className="hidden w-full text-gray-600 md:flex md:items-center">
+            <div className="hidden w-full text-secondaryColor md:flex md:items-center">
               <svg
                 className="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -40,15 +52,25 @@ export const AppNavbar = () => {
                   fill="currentColor"
                 />
               </svg>
-              <span className="mx-1 text-sm">NY</span>
+              <span className="mx-1 text-sm text-secondaryColor">NY</span>
             </div>
-            <div className="w-full text-gray-700 md:text-center text-2xl font-semibold">
+            <div className="w-full text-primaryColor md:text-center text-2xl font-semibold">
               Brand
+            </div>
+            <div className="toggleButtonWrapper flex ">
+              <ReactSwitch
+                className="text-black bg-sky-900 dark:bg-gray-700 dark:text-white border border-gray"
+                onChange={handleClick}
+                checked={theme === "dark"}
+                width={36} // This makes the switch smaller
+                height={20} // This makes the switch smaller
+              />
+              <span className="ml-2 text-secondaryColor">{theme}Mode </span>
             </div>
             <div className="flex items-center justify-end w-full">
               {isLoggedIn() ? (
                 <button
-                  className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                  className=" border  border-collapse rounded mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
                   onClick={(e) => {
                     handleSubmit(e);
                   }}
@@ -63,7 +85,7 @@ export const AppNavbar = () => {
                 </Link>
               )}
               <Link to="/checkOut">
-                <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0 ">
+                <button className="text-secondaryColor focus:outline-none mx-4 sm:mx-0 ">
                   <svg
                     className="h-5 w-5"
                     fill="none"
@@ -75,7 +97,7 @@ export const AppNavbar = () => {
                 </button>
               </Link>
               <Link to="/checkOut">
-                <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0 relative">
+                <button className="text-secondaryColor focus:outline-none mx-4 sm:mx-0 relative">
                   <svg
                     className="h-5 w-5"
                     fill="none"
@@ -107,32 +129,32 @@ export const AppNavbar = () => {
             <div className="flex flex-col sm:flex-row">
               <Link
                 to="/"
-                className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
+                className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 Home
               </Link>
               <Link
                 to="products"
-                className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
+                className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 Shop
               </Link>
               <a
-                className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
+                className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 Categories
               </a>
               <a
-                className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
+                className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 Contact
               </a>
               <a
-                className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
+                className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 About
@@ -140,9 +162,9 @@ export const AppNavbar = () => {
             </div>
           </nav>
           <div className="relative mt-6 max-w-lg mx-auto">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center border ">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center  ">
               <svg
-                className="h-5 w-5 text-gray-900  "
+                className="h-5 w-5 text-secondaryColor  "
                 viewBox="0 0 24 24"
                 fill="none"
               >
@@ -154,7 +176,7 @@ export const AppNavbar = () => {
             </span>
             <input
               type="text"
-              className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 border py-1.5"
+              className="transition-all text-secondaryColor bg-secondaryBacgroundColor pl-10 block w-full rounded-md border-secondaryColor shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 border py-1.5"
               placeholder="Search"
             />
           </div>

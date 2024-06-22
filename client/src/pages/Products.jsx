@@ -28,16 +28,16 @@ export const Products = () => {
   // console.log("product", product[0]);
 
   return (
-    <div>
+    <div className="bg-backgroundColor transition-all">
       <div className="container mx-auto px-6">
-        <h3 className="text-gray-700 text-2xl font-medium">Wrist Watch</h3>
-        <span className="mt-3 text-sm text-gray-500">200+ Products</span>
+        <h3 className="text-primaryColor text-2xl font-medium">Wrist Watch</h3>
+        <span className="mt-3 text-sm text-secondaryColor">200+ Products</span>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
           {products?.data?.length > 0 ? (
             products?.data?.map((p) => {
               return (
                 <div
-                  className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden"
+                  className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden border"
                   key={p?._id}
                 >
                   <div className=" relative flex items-end justify-end h-56 w-full  ">
@@ -61,9 +61,11 @@ export const Products = () => {
                     </button>
                   </div>
                   <Link to={`/productsDetail/${p?._id}`} key={p?._id}>
-                    <div className="px-5 py-3">
-                      <h3 className="text-gray-700 uppercase">{p?.name}</h3>
-                      <span className="text-gray-500 mt-2">${p?.price}</span>
+                    <div className="px-5 py-3 bg-secondaryBacgroundColor">
+                      <h3 className="text-primaryColor uppercase">{p?.name}</h3>
+                      <span className="text-secondaryColor mt-2">
+                        ${p?.price}
+                      </span>
                     </div>
                   </Link>
                 </div>

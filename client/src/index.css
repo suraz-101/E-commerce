@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.dark {
+  --backgroundColor: #212121;
+  --secondaryBgColor: #3d3d3d;
+  --primaryColor: White;
+  --secondaryColor: rgb(238, 238, 238);
+}
+
+.light {
+  --backgroundColor: white;
+  --secondaryBgColor: white;
+  --primaryColor: rgb(77, 77, 77);
+  --secondaryColor: gray;
+}
