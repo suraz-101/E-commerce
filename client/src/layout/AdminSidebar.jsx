@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const AdminSidebar = () => {
   return (
     <>
-      <aside className="relative bg-gray-800 h-screen w-64 hidden sm:block shadow-xl">
+      <aside className="relative bg-gray-800 w-64 hidden sm:block shadow-xl min-h-screen h-auto">
         <div className="p-6">
           <a
             href="index.html"

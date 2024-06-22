@@ -17,10 +17,15 @@ export const ProductManagement = () => {
     dispatch(listProducts());
   }, [dispatch]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteSingleProduct(id));
-    initFetch();
-  };
+  const handleDelete = useCallback(
+    (id) => {
+      dispatch(deleteSingleProduct(id)).then(() => {
+        initFetch();
+      });
+    },
+    [dispatch, initFetch]
+  );
+
   useEffect(() => {
     initFetch();
   }, [initFetch]);
@@ -32,7 +37,7 @@ export const ProductManagement = () => {
           <h1 className="text-3xl text-black pb-6">Product Management</h1>
 
           <div className="w-full mt-12 ">
-            <div className=" flex justify-between  align-middle p-2">
+            <div className="flex justify-between align-middle p-2">
               <div>
                 <p className="text-xl pb-3 flex items-center ">
                   <i className="fa fa-list mr-3 text-sky-500"></i> Product lists
@@ -68,8 +73,11 @@ export const ProductManagement = () => {
               </form>
 
               <div>
-                <Link className="border  py-2 px-3 bg-sky-500 text-white rounded">
-                  <i className="fa fa-plus  text-white mr-3"></i> Add Product
+                <Link
+                  to="/admin/addProduct"
+                  className="border py-2 px-3 bg-sky-500 text-white rounded"
+                >
+                  <i className="fa fa-plus text-white mr-3"></i> Add Product
                 </Link>
               </div>
             </div>
@@ -106,7 +114,6 @@ export const ProductManagement = () => {
                               height="200px"
                               width="200px"
                             />
-                            {/* {product?.name} */}
                           </td>
                           <td className="w-1/3 text-left py-3 px-4">
                             {product?.name}
@@ -128,21 +135,15 @@ export const ProductManagement = () => {
                             </a>
                           </td>
                           <td className="text-left py-3 px-4">
-                            <a
-                              className="hover:text-blue-500"
-                              href="mailto:jonsmith@mail.com"
+                            <Link to={`/product/${product?._id}`}>
+                              <i className="fa fa-eye border p-2 bg-green-600 text-white rounded"></i>
+                            </Link>
+                            <button
+                              onClick={() => handleDelete(product?._id)}
+                              className="ml-2"
                             >
-                              <Link>
-                                <i className="fa fa-eye border p-2 bg-green-600 text-white rounded"></i>{" "}
-                              </Link>
-                              <button
-                                onClick={() => {
-                                  handleDelete(product?._id);
-                                }}
-                              >
-                                <i className="fa fa-trash ml-2 border p-2 bg-red-700 text-white rounded"></i>{" "}
-                              </button>
-                            </a>
+                              <i className="fa fa-trash border p-2 bg-red-700 text-white rounded"></i>
+                            </button>
                           </td>
                         </tr>
                       );
