@@ -2,7 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./components/Route";
 import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
+import { AddCategory } from "./pages/admin/addCategory";
 import { AddProduct } from "./pages/admin/AddPorudct";
+import { CategoryManagement } from "./pages/admin/CategoryManagement";
+import { CategoryUpdate } from "./pages/admin/CategoryUpdate";
 import { Home } from "./pages/admin/Home";
 import { ProductManagement } from "./pages/admin/ProductManagement";
 import { UpdateProduct } from "./pages/admin/UpdateProduct";
@@ -83,6 +86,30 @@ function App() {
             element={
               <PrivateRoute role="admin">
                 <UpdateProduct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="categories"
+            element={
+              <PrivateRoute role="admin">
+                <CategoryManagement />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="addCategory"
+            element={
+              <PrivateRoute role="admin">
+                <AddCategory />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="categories/:id"
+            element={
+              <PrivateRoute role="admin">
+                <CategoryUpdate />
               </PrivateRoute>
             }
           />

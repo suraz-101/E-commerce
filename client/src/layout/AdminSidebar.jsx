@@ -38,13 +38,14 @@ export const AdminSidebar = () => {
             <i className="fa fa-table mr-3 text-sky-500"></i>
             Products
           </Link>
-          <a
-            href="forms.html"
+          <Link
+            to="/admin/categories"
             className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
           >
             <i className="fa fa-align-left mr-3 text-sky-500"></i>
-            Forms
-          </a>
+            Category
+          </Link>
+
           <a
             href="tabs.html"
             className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
