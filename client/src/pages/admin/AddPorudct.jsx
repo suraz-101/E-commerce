@@ -1,11 +1,37 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { listCategories } from "../../slice/categorySlice";
 
 export const AddProduct = () => {
+  const dispatch = useDispatch();
+
+  const { categories, page, limit, total } = useSelector(
+    (state) => state.categories
+  );
+
+  const initFetch = useCallback(() => {
+    dispatch(listCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    initFetch();
+  }, [initFetch]);
+  console.log(
+    "categories",
+    categories?.map((category) => {
+      return category?.name;
+    })
+  );
+
   const [preview, setPreview] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
+
+  const [payload, setPayload] = useState({});
 
   const handleFile = (e) => {
     const file = e.target.files[0];
@@ -18,13 +44,13 @@ export const AddProduct = () => {
     }
   };
 
-  const categories = [
-    "Electronics",
-    "Apparel",
-    "Books",
-    "Home & Kitchen",
-    "Other",
-  ];
+  // const categories = [
+  //   "Electronics",
+  //   "Apparel",
+  //   "Books",
+  //   "Home & Kitchen",
+  //   "Other",
+  // ];
 
   return (
     <div className="container">
@@ -162,9 +188,9 @@ export const AddProduct = () => {
                         <option value="" disabled>
                           Select Category
                         </option>
-                        {categories.map((cat) => (
+                        {categories?.map((cat) => (
                           <option key={cat} value={cat}>
-                            {cat}
+                            {cat.name}
                           </option>
                         ))}
                       </select>
