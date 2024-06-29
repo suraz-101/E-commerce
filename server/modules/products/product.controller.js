@@ -1,7 +1,9 @@
 const ProductModel = require("./product.model");
 const { ObjectId } = require("mongodb");
+const { generateSlug } = require("../../utils/slug");
 
 const createProduct = async (payload) => {
+  payload.slug = generateSlug(payload.name) + "-" + Date.now();
   console.log("controller product", payload);
   const product = await ProductModel.create(payload);
   if (!product) throw new Error("cannot create product. Please try again!!");
@@ -80,8 +82,8 @@ const getAllProducts = async (search, page = 1, limit = 10) => {
   };
 };
 
-const getProductById = async (_id, page = 1, limit = 20) => {
-  if (!_id) throw new Error("id is required");
+const getProductById = async (slug, page = 1, limit = 20) => {
+  if (!slug) throw new Error("slug is required");
   const query = [];
 
   query.push(
@@ -112,9 +114,14 @@ const getProductById = async (_id, page = 1, limit = 20) => {
     },
     {
       $match: {
-        _id: new ObjectId(`${_id}`),
+        slug: new RegExp(`${slug}`, "gi"),
       },
     },
+    // {
+    //   $match: {
+    //     _id: new ObjectId(`${_id}`),
+    //   },
+    // },
     {
       $facet: {
         metadata: [

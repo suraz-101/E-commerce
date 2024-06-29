@@ -28,10 +28,10 @@ export const listProducts = createAsyncThunk(
 
 export const getSingleProduct = createAsyncThunk(
   "products/getSingleProduct",
-  async (id) => {
+  async (slug) => {
     try {
       console.log("we are inside slices");
-      const response = await getById(id);
+      const response = await getById(slug);
       // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {

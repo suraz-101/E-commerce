@@ -14,12 +14,12 @@ export const ProductDetail = () => {
   const { product, products } = useSelector((state) => state.products);
   const { pathname } = useLocation();
 
-  const id = pathname.split("/")[2];
+  const slug = pathname.split("/")[2];
 
   const initFetch = useCallback(() => {
-    dispatch(getSingleProduct(id));
+    dispatch(getSingleProduct(slug));
     dispatch(listProducts());
-  }, [dispatch, id]);
+  }, [dispatch, slug]);
 
   useEffect(() => {
     initFetch();
@@ -78,7 +78,7 @@ export const ProductDetail = () => {
           </div>
         </main>
         <div className=" continer border mt-4 p-6 ">
-          <Comment url={window.location.href} id={id} title={id} />
+          <Comment url={window.location.href} id={slug} title={slug} />
         </div>
         <div className="mt-16">
           <h3 className="text-gray-600 text-2xl font-medium">More Products</h3>

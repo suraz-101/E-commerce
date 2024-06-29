@@ -35,12 +35,12 @@ Router.get("/", async (req, res, next) => {
   }
 });
 
-Router.get("/:id", async (req, res, next) => {
+Router.get("/:slug", async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { slug } = req.params;
 
     const { page, limit } = req.query;
-    const result = await getProductById(id, page, limit);
+    const result = await getProductById(slug, page, limit);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);

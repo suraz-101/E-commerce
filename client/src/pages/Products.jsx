@@ -60,7 +60,7 @@ export const Products = () => {
                       </svg>
                     </button>
                   </div>
-                  <Link to={`/productsDetail/${p?._id}`} key={p?._id}>
+                  <Link to={`/productsDetail/${p?.slug}`} key={p?._id}>
                     <div className="px-5 py-3 bg-secondaryBacgroundColor">
                       <h3 className="text-primaryColor uppercase">{p?.name}</h3>
                       <span className="text-secondaryColor mt-2">

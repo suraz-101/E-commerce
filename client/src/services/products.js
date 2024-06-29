@@ -8,8 +8,8 @@ const getAllProducts = async () => {
   return data;
 };
 
-const getById = async (id) => {
-  return await instance.get(URLS.PRODUCTS + `/${id}`);
+const getById = async (slug) => {
+  return await instance.get(URLS.PRODUCTS + `/${slug}`);
 };
 const removeProduct = async (id) => {
   return await instance.delete(URLS.PRODUCTS + `/${id}`);
