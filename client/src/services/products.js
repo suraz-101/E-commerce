@@ -1,6 +1,17 @@
 import { URLS } from "../contants";
 import instance from "../utils/api";
 
+const createProduct = async (payload) => {
+  console.log("services", payload);
+  const data = await instance.post(URLS.PRODUCTS, payload, {
+    headers: {
+      token: localStorage.getItem("token"),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
+};
+
 const getAllProducts = async () => {
   console.log("we are in services");
   const data = await instance.get(URLS.PRODUCTS);
@@ -15,4 +26,4 @@ const removeProduct = async (id) => {
   return await instance.delete(URLS.PRODUCTS + `/${id}`);
 };
 
-export { getAllProducts, getById, removeProduct };
+export { getAllProducts, getById, removeProduct, createProduct };

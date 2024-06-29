@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addCategory, getAllCategories } from "../services/category";
+import { addCategory, getAllCategories, getById } from "../services/category";
 // import { getAllProducts, getById, removeProduct } from "../services/products";
 
 const initialState = {
@@ -18,6 +18,20 @@ export const listCategories = createAsyncThunk(
   async () => {
     try {
       const response = await getAllCategories();
+      console.log(response);
+
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
+export const getSingleCategory = createAsyncThunk(
+  "categories/getSingleCategory",
+  async (name) => {
+    try {
+      const response = await getById(name);
       console.log(response);
 
       return response.data; // Assuming the response structure is { data: { total, data } }
@@ -94,6 +108,20 @@ const categorySlice = createSlice({
         state.message = "";
       })
       .addCase(listCategories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getSingleCategory.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getSingleCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        // state.total = action.payload.message.total;
+        state.category = action.payload.message;
+        state.error = "";
+        state.message = "";
+      })
+      .addCase(getSingleCategory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

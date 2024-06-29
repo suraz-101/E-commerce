@@ -30,6 +30,8 @@ export const ProductManagement = () => {
     initFetch();
   }, [initFetch]);
 
+  console.log(products);
+
   return (
     <div className="container">
       <div className="w-full overflow-x-hidden border-t flex flex-col ">
@@ -98,6 +100,9 @@ export const ProductManagement = () => {
                       Price
                     </th>
                     <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+                      Category
+                    </th>
+                    <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                       Action
                     </th>
                   </tr>
@@ -132,6 +137,14 @@ export const ProductManagement = () => {
                               href="mailto:jonsmith@mail.com"
                             >
                               {product?.price}
+                            </a>
+                          </td>
+                          <td className="text-left py-3 px-4">
+                            <a
+                              className="hover:text-blue-500"
+                              href="mailto:jonsmith@mail.com"
+                            >
+                              {product?.categoryName}
                             </a>
                           </td>
                           <td className="text-left py-3 px-4">

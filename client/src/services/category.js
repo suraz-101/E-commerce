@@ -20,11 +20,12 @@ const getAllCategories = async () => {
   return data;
 };
 
-// const getById = async (id) => {
-//   return await instance.get(URLS.PRODUCTS + `/${id}`);
-// };
-// const removeProduct = async (id) => {
-//   return await instance.delete(URLS.PRODUCTS + `/${id}`);
-// };
+const getById = async (name) => {
+  console.log("services", name);
+  return await instance.get(URLS.CATEGORIES + `/${name}`);
+};
+const removeProduct = async (id) => {
+  return await instance.delete(URLS.PRODUCTS + `/${id}`);
+};
 
-export { getAllCategories, addCategory };
+export { getAllCategories, addCategory, getById };

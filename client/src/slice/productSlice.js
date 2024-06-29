@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllProducts, getById, removeProduct } from "../services/products";
+import {
+  createProduct,
+  getAllProducts,
+  getById,
+  removeProduct,
+} from "../services/products";
 
 const initialState = {
   products: [],
@@ -11,6 +16,20 @@ const initialState = {
   error: "",
   message: "",
 };
+
+export const createNewProduct = createAsyncThunk(
+  "products/createNewProduct",
+  async (payload) => {
+    try {
+      const response = await createProduct(payload);
+      console.log(response);
+
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
 
 export const listProducts = createAsyncThunk(
   "products/listProducts",
@@ -68,6 +87,18 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createNewProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createNewProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.message = action.payload.message;
+      })
+      .addCase(createNewProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
       .addCase(listProducts.pending, (state) => {
         state.loading = true;
       })

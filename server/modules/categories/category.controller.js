@@ -19,7 +19,16 @@ const updateCategory = async (_id, payload) => {
 const getAllCategoryDetails = async () => {
   return await CategoryModel.find();
 };
+const getCategoryById = async (categoryName) => {
+  const res = await CategoryModel.findOne(categoryName);
+  return res;
+};
 
 const deleteCategory = () => {};
 
-module.exports = { createCategory, updateCategory, getAllCategoryDetails };
+module.exports = {
+  createCategory,
+  updateCategory,
+  getAllCategoryDetails,
+  getCategoryById,
+};

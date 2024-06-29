@@ -80,14 +80,16 @@ export const AddCategory = () => {
                         Category Description
                       </label>
                     </div>
-                    <div className="message">
-                      {(error || message) && (
-                        <Notify
-                          variant={error ? "danger" : "success"}
-                          msg={error || message}
-                        />
-                      )}
-                    </div>
+                    {(error || message) && (
+                      <div className="message border p-2">
+                        {
+                          <Notify
+                            variant={error ? "danger" : "success"}
+                            msg={error || message}
+                          />
+                        }
+                      </div>
+                    )}
                     <div className="relative">
                       <button className="bg-cyan-500 text-white rounded-md px-2 py-1">
                         Submit

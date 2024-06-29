@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { listCategories } from "../../slice/categorySlice";
+import { getSingleCategory, listCategories } from "../../slice/categorySlice";
+import { createNewProduct } from "../../slice/productSlice";
 
 export const AddProduct = () => {
   const dispatch = useDispatch();
 
-  const { categories, page, limit, total } = useSelector(
-    (state) => state.categories
-  );
+  const { categories, category } = useSelector((state) => state.categories);
 
+  //code to list all category to display on drop down menu of form
   const initFetch = useCallback(() => {
     dispatch(listCategories());
   }, [dispatch]);
@@ -19,19 +17,19 @@ export const AddProduct = () => {
   useEffect(() => {
     initFetch();
   }, [initFetch]);
-  console.log(
-    "categories",
-    categories?.map((category) => {
-      return category?.name;
-    })
-  );
 
+  // code for the preview of the image after selecting from the computer before upload
   const [preview, setPreview] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [category, setCategory] = useState("");
 
-  const [payload, setPayload] = useState({});
+  // payload that need to be send to the backend
+  const [payload, setPayload] = useState({
+    name: "",
+    description: "",
+    price: 0,
+    category: null,
+    stockQuantity: 0,
+    image: null,
+  });
 
   const handleFile = (e) => {
     const file = e.target.files[0];
@@ -42,15 +40,29 @@ export const AddProduct = () => {
       };
       reader.readAsDataURL(file);
     }
+    setPayload((prevVal) => ({
+      ...prevVal,
+      image: file,
+    }));
   };
 
-  // const categories = [
-  //   "Electronics",
-  //   "Apparel",
-  //   "Books",
-  //   "Home & Kitchen",
-  //   "Other",
-  // ];
+  const getCategory = async (name) => {
+    await dispatch(getSingleCategory(name));
+  };
+
+  useEffect(() => {
+    if (category?._id) {
+      setPayload((prev) => ({
+        ...prev,
+        category: category._id,
+      }));
+    }
+  }, [category]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createNewProduct(payload));
+  };
 
   return (
     <div className="container">
@@ -67,14 +79,14 @@ export const AddProduct = () => {
               <div>
                 <h1 className="text-2xl font-semibold">Add Product</h1>
               </div>
-              <div className="flex justify-center ">
+              <div className="flex justify-center">
                 {preview ? (
                   <img src={preview} alt="" height="150px" width="150px" />
                 ) : (
                   <></>
                 )}
               </div>
-              <form action="">
+              <form onSubmit={handleSubmit}>
                 <div className="divide-y divide-gray-200">
                   <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                     <div className="relative">
@@ -99,6 +111,13 @@ export const AddProduct = () => {
                         type="text"
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Product Name"
+                        value={payload?.name}
+                        onChange={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
                       />
                       <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                         Product Name
@@ -112,6 +131,13 @@ export const AddProduct = () => {
                         rows="10"
                         className="peer placeholder-transparent w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Product Description"
+                        value={payload?.description}
+                        onChange={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            description: e.target.value,
+                          }))
+                        }
                       ></textarea>
                       <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                         Product Description
@@ -120,8 +146,11 @@ export const AddProduct = () => {
                     <div className="relative flex items-center">
                       <button
                         type="button"
-                        onClick={() =>
-                          setQuantity((prev) => Math.max(0, prev - 1))
+                        onClick={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            stockQuantity: prev.stockQuantity - 1,
+                          }))
                         }
                         className="bg-gray-200 text-gray-700 rounded-l px-2 py-1"
                       >
@@ -131,14 +160,24 @@ export const AddProduct = () => {
                         id="quantity"
                         name="quantity"
                         type="number"
-                        value={quantity}
-                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        value={payload?.stockQuantity}
+                        onChange={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            stockQuantity: Number(e.target.value),
+                          }))
+                        }
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-center focus:outline-none focus:borer-rose-600"
                         placeholder="Stock Quantity"
                       />
                       <button
                         type="button"
-                        onClick={() => setQuantity((prev) => prev + 1)}
+                        onClick={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            stockQuantity: prev.stockQuantity + 1,
+                          }))
+                        }
                         className="bg-gray-200 text-gray-700 rounded-r px-2 py-1"
                       >
                         +
@@ -150,8 +189,11 @@ export const AddProduct = () => {
                     <div className="relative flex items-center">
                       <button
                         type="button"
-                        onClick={() =>
-                          setPrice((prev) => Math.max(0, prev - 1))
+                        onClick={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            price: prev.price - 1,
+                          }))
                         }
                         className="bg-gray-200 text-gray-700 rounded-l px-2 py-1"
                       >
@@ -161,14 +203,24 @@ export const AddProduct = () => {
                         id="price"
                         name="price"
                         type="number"
-                        value={price}
-                        onChange={(e) => setPrice(Number(e.target.value))}
+                        value={payload?.price}
+                        onChange={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            price: Number(e.target.value),
+                          }))
+                        }
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-center focus:outline-none focus:borer-rose-600"
                         placeholder="Price"
                       />
                       <button
                         type="button"
-                        onClick={() => setPrice((prev) => prev + 1)}
+                        onClick={(e) =>
+                          setPayload((prev) => ({
+                            ...prev,
+                            price: prev.price + 1,
+                          }))
+                        }
                         className="bg-gray-200 text-gray-700 rounded-r px-2 py-1"
                       >
                         +
@@ -181,15 +233,21 @@ export const AddProduct = () => {
                       <select
                         id="category"
                         name="category"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
+                        value={payload?.category || ""}
+                        onChange={(e) => {
+                          setPayload((prev) => ({
+                            ...prev,
+                            category: e.target.value,
+                          }));
+                          getCategory(e.target.value);
+                        }}
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                       >
                         <option value="" disabled>
                           Select Category
                         </option>
                         {categories?.map((cat) => (
-                          <option key={cat} value={cat}>
+                          <option key={cat._id} value={cat.name}>
                             {cat.name}
                           </option>
                         ))}
@@ -209,7 +267,7 @@ export const AddProduct = () => {
             </div>
 
             <div className="w-full flex justify-center">
-              Already have an Account ?
+              Already have an Account ?{" "}
               <span className="text-blue-500 mx-2">
                 <Link to="/login">Sign in</Link>
               </span>

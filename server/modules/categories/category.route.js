@@ -7,6 +7,7 @@ const {
   createCategory,
   updateCategory,
   getAllCategoryDetails,
+  getCategoryById,
 } = require("./category.controller");
 
 const router = require("express").Router();
@@ -14,6 +15,17 @@ const router = require("express").Router();
 router.get("/", async (req, res, next) => {
   try {
     const result = await getAllCategoryDetails();
+    res.status(200).json({ message: result });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:name", async (req, res, next) => {
+  try {
+    const name = req.params;
+    const result = await getCategoryById(name);
+
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);
