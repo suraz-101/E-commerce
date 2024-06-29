@@ -1,3 +1,8 @@
+const { checkRole } = require("../../utils/sessionManager");
+const multer = require("multer");
+const upload = multer();
+const toPropperUpperCase = require("proper-upper-case");
+
 const {
   createCategory,
   updateCategory,
@@ -15,8 +20,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", upload.any(), checkRole(["admin"]), async (req, res, next) => {
   try {
+    req.body.name = toPropperUpperCase(req.body.name);
     const result = await createCategory(req.body);
     res.status(200).json({ message: result });
   } catch (error) {

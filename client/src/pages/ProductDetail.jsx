@@ -102,7 +102,7 @@ export const ProductDetail = () => {
                       </svg>
                     </button>
                   </div>
-                  <Link to={`/productsDetail/${p?._id}`} key={p?._id}>
+                  <Link to={`/productsDetail/${p?.slug}`} key={p?._id}>
                     <div className="px-5 py-3">
                       <h3 className="text-gray-700 uppercase">{p?.name}</h3>
                       <span className="text-gray-500 mt-2">${p?.price}</span>

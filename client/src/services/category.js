@@ -1,9 +1,16 @@
 import { URLS } from "../contants";
 import instance from "../utils/api";
 
-const addCategory = async () => {
-  const data = await instance.post(URLS.CATEGORIES);
-  console.loc(data);
+const addCategory = async (payload) => {
+  // console.log("services :", payload);
+  const data = await instance.post(URLS.CATEGORIES, payload, {
+    headers: {
+      token: localStorage.getItem("token"),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  // console.loc(data);
+  return data;
 };
 
 const getAllCategories = async () => {
@@ -20,4 +27,4 @@ const getAllCategories = async () => {
 //   return await instance.delete(URLS.PRODUCTS + `/${id}`);
 // };
 
-export { getAllCategories };
+export { getAllCategories, addCategory };

@@ -1,7 +1,23 @@
 import React from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { createCategory } from "../../slice/categorySlice";
+import { Notify } from "../../components/Notify";
 
 export const AddCategory = () => {
+  const dispatch = useDispatch();
+  const [payload, setPayload] = useState({
+    name: "",
+    description: "",
+  });
+  const { error, message } = useSelector((state) => state.categories);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createCategory(payload));
+    // console.log(payload);
+  };
   return (
     <div className="container">
       <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -18,7 +34,12 @@ export const AddCategory = () => {
                 <h1 className="text-2xl font-semibold">Add Category</h1>
               </div>
 
-              <form action="">
+              <form
+                action=""
+                onSubmit={(e) => {
+                  handleSubmit(e);
+                }}
+              >
                 <div className="divide-y divide-gray-200">
                   <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                     <div className="relative">
@@ -29,6 +50,12 @@ export const AddCategory = () => {
                         type="text"
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="category Name"
+                        value={payload?.name}
+                        onChange={(e) => {
+                          setPayload((prevV) => {
+                            return { ...prevV, name: e.target.value };
+                          });
+                        }}
                       />
                       <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                         Category Name
@@ -42,12 +69,25 @@ export const AddCategory = () => {
                         rows="10"
                         className="peer placeholder-transparent w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Category Description"
+                        value={payload?.description}
+                        onChange={(e) => {
+                          setPayload((prevV) => {
+                            return { ...prevV, description: e.target.value };
+                          });
+                        }}
                       ></textarea>
                       <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                         Category Description
                       </label>
                     </div>
-
+                    <div className="message">
+                      {(error || message) && (
+                        <Notify
+                          variant={error ? "danger" : "success"}
+                          msg={error || message}
+                        />
+                      )}
+                    </div>
                     <div className="relative">
                       <button className="bg-cyan-500 text-white rounded-md px-2 py-1">
                         Submit
