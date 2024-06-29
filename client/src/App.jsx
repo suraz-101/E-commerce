@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./components/Route";
 import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
-import { AddCategory } from "./pages/admin/addCategory";
 import { AddProduct } from "./pages/admin/AddPorudct";
 import { CategoryManagement } from "./pages/admin/CategoryManagement";
 import { CategoryUpdate } from "./pages/admin/CategoryUpdate";
@@ -19,6 +18,7 @@ import { Products } from "./pages/Products";
 import { Profile } from "./pages/Profile";
 import { Registration } from "./pages/Registration";
 import { VerifyOtp } from "./pages/VerifyOtp";
+import { AddCategory } from "./pages/admin/AddCategory";
 
 function App() {
   return (
