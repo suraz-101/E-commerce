@@ -4,6 +4,7 @@ import { DiscussionEmbed } from "disqus-react";
 export const Comment = ({ url, id, title }) => {
   return (
     <DiscussionEmbed
+    
       shortname="example"
       config={{
         url: url,

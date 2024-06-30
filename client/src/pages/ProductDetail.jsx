@@ -78,15 +78,22 @@ export const ProductDetail = () => {
           </div>
         </main>
         <div className=" continer border mt-4 p-6 ">
-          <Comment url={window.location.href} id={slug} title={slug} />
+          <Comment
+            url={window.location.href}
+            id={slug}
+            title={slug}
+            className="text-primaryColor"
+          />
         </div>
         <div className="mt-16">
-          <h3 className="text-gray-600 text-2xl font-medium">More Products</h3>
+          <h3 className="text-primaryColor text-2xl font-medium">
+            More Products
+          </h3>
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
             {relatedData()?.map((p) => {
               return (
                 <div
-                  className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden"
+                  className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden border"
                   key={p?._id}
                 >
                   <div className=" relative flex items-end justify-end h-56 w-full  ">
@@ -104,8 +111,10 @@ export const ProductDetail = () => {
                   </div>
                   <Link to={`/productsDetail/${p?.slug}`} key={p?._id}>
                     <div className="px-5 py-3">
-                      <h3 className="text-gray-700 uppercase">{p?.name}</h3>
-                      <span className="text-gray-500 mt-2">${p?.price}</span>
+                      <h3 className="text-primaryColor uppercase">{p?.name}</h3>
+                      <span className="text-primaryColor mt-2">
+                        ${p?.price}
+                      </span>
                     </div>
                   </Link>
                 </div>

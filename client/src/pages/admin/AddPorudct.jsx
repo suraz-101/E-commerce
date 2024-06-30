@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getSingleCategory, listCategories } from "../../slice/categorySlice";
 import { createNewProduct } from "../../slice/productSlice";
+import { Notify } from "../../components/Notify";
 
 export const AddProduct = () => {
   const dispatch = useDispatch();
 
   const { categories, category } = useSelector((state) => state.categories);
+  const { error, message } = useSelector((state) => state.products);
 
   //code to list all category to display on drop down menu of form
   const initFetch = useCallback(() => {
@@ -31,6 +33,7 @@ export const AddProduct = () => {
     image: null,
   });
 
+  //code to handle the preview
   const handleFile = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -40,16 +43,19 @@ export const AddProduct = () => {
       };
       reader.readAsDataURL(file);
     }
+    //code to set the value of image filed of payload
     setPayload((prevVal) => ({
       ...prevVal,
       image: file,
     }));
   };
 
+  //code to get Single Category detail of selected category name from dropdown menu
   const getCategory = async (name) => {
     await dispatch(getSingleCategory(name));
   };
 
+  // after the category is updated afte dispatch setting the calue of category
   useEffect(() => {
     if (category?._id) {
       setPayload((prev) => ({
@@ -59,6 +65,7 @@ export const AddProduct = () => {
     }
   }, [category]);
 
+  // handling form submit which will help to create product
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createNewProduct(payload));
@@ -256,6 +263,18 @@ export const AddProduct = () => {
                         Category
                       </label>
                     </div>
+                    <div className="message">
+                      {(error || message) && (
+                        <div>
+                          {
+                            <Notify
+                              variant={error ? "danger" : "success"}
+                              msg={error || message}
+                            />
+                          }
+                        </div>
+                      )}
+                    </div>
                     <div className="relative">
                       <button className="bg-cyan-500 text-white rounded-md px-2 py-1">
                         Submit
@@ -266,12 +285,12 @@ export const AddProduct = () => {
               </form>
             </div>
 
-            <div className="w-full flex justify-center">
+            {/* <div className="w-full flex justify-center">
               Already have an Account ?{" "}
               <span className="text-blue-500 mx-2">
                 <Link to="/login">Sign in</Link>
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
