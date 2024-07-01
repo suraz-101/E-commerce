@@ -31,6 +31,7 @@ export const AddProduct = () => {
     category: null,
     stockQuantity: 0,
     image: null,
+    colors: [""],
   });
 
   //code to handle the preview
@@ -69,6 +70,16 @@ export const AddProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createNewProduct(payload));
+  };
+
+  const handleColorChange = (index, e) => {
+    const newColors = [...payload.colors]; // Create a copy of the colors array
+    newColors[index] = e.target.value; // Modify the copied array
+    setPayload({ ...payload, colors: newColors }); // Update the state with the new colors array
+  };
+
+  const addColorField = () => {
+    setPayload({ ...payload, colors: [...payload.colors, ""] }); // Add an empty string to the colors array
   };
 
   return (
@@ -263,6 +274,25 @@ export const AddProduct = () => {
                         Category
                       </label>
                     </div>
+                    <div className="relative flex items-center">
+                      <div>
+                        <label>Colors:</label>
+                        {payload.colors.map((color, index) => (
+                          <div key={index}>
+                            <input
+                              type="text"
+                              value={color}
+                              onChange={(e) => handleColorChange(index, e)}
+                              placeholder={`Color ${index + 1}`}
+                            />
+                          </div>
+                        ))}
+                        <button type="button" onClick={addColorField}>
+                          Add Another Color
+                        </button>
+                      </div>
+                    </div>
+
                     <div className="message">
                       {(error || message) && (
                         <div>

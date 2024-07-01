@@ -7,6 +7,7 @@ const productSchema = joi.object({
   price: joi.number().required(),
   category: joi.objectId().required(),
   stockQuantity: joi.number().required(),
+  colors: joi.array().items(joi.string()),
   //   image: joi.string().required(),
 });
 const validation = (req, res, next) => {

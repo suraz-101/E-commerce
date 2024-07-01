@@ -37,8 +37,8 @@ export const ProductDetail = () => {
     return _.sample(filterRelatedData, number);
   };
   const colors = ["red", "green", "yellow", "white", "blue"];
-  console.log("product is :", product[0]);
-  console.log("products are :", products);
+  console.log("product is :", product[0]?.colors);
+  // console.log("products are :", products);
   return (
     <div className="bg-backgroundColor transition-all">
       <div className="container mx-auto py-6 ">
@@ -67,27 +67,30 @@ export const ProductDetail = () => {
                   </div>
                 </div>
                 <div className="flex mt-10">
-                  {[...Array(5)].map((star) => {
-                    return <FaStar className="text-orange-600" size={50} />;
+                  {[...Array(5)].map((star, index) => {
+                    return (
+                      <FaStar
+                        className="text-orange-600"
+                        size={50}
+                        key={index}
+                      />
+                    );
                   })}
                 </div>
                 <div className="flex mt-10 text-secondaryColor">
                   Available Colors:{" "}
-                  {colors.length > 0 &&
-                    colors.map((color, index) => {
+                  {product[0]?.colors.length > 0 &&
+                    product[0]?.colors.map((color, index) => {
                       return (
                         <div
-                          className={`bg-${color}-500 h-5 w-5 mx-2 rounded-full  border`}
+                          style={{ backgroundColor: color }}
+                          className={` h-5 w-5 mx-2 rounded-full border `}
                           key={index}
                         ></div>
                       );
                     })}
-                  {/* <div className="bg-red-500 h-5 w-5 mx-2 rounded-full  border"></div>
-                  <div className="bg-green-500 h-5 w-5 mx-2 rounded-full  border"></div>
-                  <div className="bg-yellow-500 h-5 w-5 mx-2 rounded-full border "></div>
-                  <div className="bg-black-500 h-5 w-5 mx-2 rounded-full border "></div>
-                  <div className="bg-white h-5 w-5 mx-2 rounded-full border "></div>{" "} */}
                 </div>
+
                 {/* <p className="text-sm sm:text-base text-gray-700 dark:text-white">
                   {product[0]?.description.slice(0, 100).concat("...")}
                 </p> */}
