@@ -51,7 +51,9 @@ export const Products = () => {
                       className="p-2 rounded-full bg-sky-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500 z-10 "
                       onClick={() => {
                         isLoggedIn()
-                          ? dispatch(addToCart(p))
+                          ? p?.stockQuantity > 0
+                            ? dispatch(addToCart(p))
+                            : alert("product is out of stock")
                           : navigate("/login");
                       }}
                     >

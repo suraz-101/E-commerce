@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct, listProducts } from "../slice/productSlice";
 import { useCallback } from "react";
@@ -9,11 +9,15 @@ import _ from "underscore";
 import { current } from "@reduxjs/toolkit";
 import { Comment } from "../components/Comment";
 import { FaStar } from "react-icons/fa";
+import { addToCart } from "../slice/cartSlice";
+import { isLoggedIn } from "../utils/login";
+import { useNavigate } from "react-router-dom";
 // var Rating = require("rating");
 // import { Rating } from "rating";
 
 export const ProductDetail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { product, products } = useSelector((state) => state.products);
   const { pathname } = useLocation();
 
@@ -49,8 +53,8 @@ export const ProductDetail = () => {
                 <span className="w-20 h-2 bg-gray-800 dark:bg-white mb-12"></span>
                 <h1 className="font-bebas-neue uppercase text-6xl sm:text-8xl font-black flex flex-col leading-none dark:text-white text-gray-800">
                   {product[0]?.name}
-                  <span className="text-5xl sm:text-7xl">
-                    Rs. {product[0]?.price}
+                  <span className="text-2xl sm:text-4xl text-red-700 mt-4">
+                    $ {product[0]?.price}
                   </span>
                 </h1>
                 <div className="flex  ">
@@ -58,11 +62,13 @@ export const ProductDetail = () => {
 
                   <div>
                     {product[0]?.stockQuantity > 0 ? (
-                      <h1 className="text-green-500 mt-10 fw-bolder ">
+                      <h1 className="text-green-500 mt-10 fw-bolder text-3xl">
                         In Stock
                       </h1>
                     ) : (
-                      <h1 className="text-red-500 mt-10">Out of Stock</h1>
+                      <h1 className="text-red-500 mt-10 text-3xl">
+                        Out of Stock
+                      </h1>
                     )}
                   </div>
                 </div>
@@ -94,21 +100,22 @@ export const ProductDetail = () => {
                 {/* <p className="text-sm sm:text-base text-gray-700 dark:text-white">
                   {product[0]?.description.slice(0, 100).concat("...")}
                 </p> */}
-                <div className="flex mt-8">
-                  <a
-                    href="#"
-                    className="uppercase py-2 px-4 rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 border-2 border-transparent text-white text-md mr-4 hover:bg-pink-400 flex "
+                <div className=" mt-8">
+                  <button
+                    className="p-2 bg-sky-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500 z-10 flex"
+                    onClick={() => {
+                      isLoggedIn()
+                        ? product[0]?.stockQuantity > 0
+                          ? dispatch(addToCart(product[0]))
+                          : alert("Product is out of stock")
+                        : navigate("/login");
+                    }}
                   >
-                    <svg
-                      className="h-5 w-5 mr-2"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="black"
-                    >
+                    <svg className="h-5 w-5 mr-2" fill="white">
                       <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>{" "}
-                    Add to Cart
-                  </a>
+                    Add To Cart
+                  </button>
 
                   {/* <a
                     onClick={() => {}}
