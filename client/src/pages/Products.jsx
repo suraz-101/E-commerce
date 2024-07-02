@@ -90,7 +90,7 @@ export const Products = () => {
             <div className="border border-black">Product Not Found</div>
           )}
         </div>
-        <div className="flex justify-center  my-5">
+        <div className="flex justify-center  py-5">
           {" "}
           <Paginate
             setPage={handleSetPage}

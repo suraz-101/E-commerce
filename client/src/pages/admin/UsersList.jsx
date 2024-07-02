@@ -3,21 +3,32 @@ import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { listUsers } from "../../slice/userSlice";
+import { Paginate } from "../../components/Pagination";
+import { listUsers, setLimit, setPage } from "../../slice/userSlice";
 
 export const UsersList = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.users);
+  const { users, page, total, limit } = useSelector((state) => state.users);
 
   const initFetch = useCallback(() => {
-    dispatch(listUsers());
-  }, [dispatch]);
+    dispatch(listUsers({ limit, page }));
+  }, [dispatch, limit, page]);
 
   useEffect(() => {
     initFetch();
   }, [initFetch]);
 
-  console.log("users", users.data);
+  const handleSetPage = (newPage) => {
+    dispatch(setPage(newPage));
+    dispatch(listUsers({ page: newPage, limit }));
+  };
+
+  const handleSetLimit = (newLimit) => {
+    dispatch(setLimit(newLimit));
+    dispatch(listUsers({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
+  };
+
+  console.log("users", limit);
 
   return (
     <div className="container">
@@ -123,6 +134,15 @@ export const UsersList = () => {
             </div>
           </div>
         </main>
+      </div>
+      <div className="container py-4 flex justify-center">
+        <Paginate
+          page={page}
+          total={total}
+          limit={limit}
+          setPage={handleSetPage}
+          setLimit={handleSetLimit}
+        />
       </div>
     </div>
   );

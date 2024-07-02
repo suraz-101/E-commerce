@@ -27,9 +27,10 @@ const verifyOtp = (payload) => {
   return res;
 };
 
-const getAllUsers = async () => {
+const getAllUsers = async (limit, page) => {
+  console.log("we are inside services", limit);
   console.log("we are in services");
-  return await instance.get(URLS.GETALLUSERS);
+  return await instance.get(URLS.GETALLUSERS + `?page=${page}&limit=${limit}`);
 };
 
 // const getById = async (id) => {

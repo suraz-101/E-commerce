@@ -6,22 +6,24 @@ const initialState = {
   user: {},
   page: 1,
   total: 0,
-  limit: 20,
+  limit: 5,
   loading: false,
   error: "",
   message: "",
 };
 
-export const listUsers = createAsyncThunk("users/listUsers", async () => {
-  try {
-    console.log("we are inside slices");
-    const response = await getAllUsers();
+export const listUsers = createAsyncThunk(
+  "users/listUsers",
+  async ({ limit, page }) => {
+    try {
+      const response = await getAllUsers(limit, page);
 
-    return response.data; // Assuming the response structure is { data: { total, data } }
-  } catch (error) {
-    throw Error(error.message);
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
   }
-});
+);
 
 // export const getSingleUser = createAsyncThunk(
 //   "users/getSingleUser",

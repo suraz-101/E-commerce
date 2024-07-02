@@ -34,7 +34,9 @@ const upload = multer({ storage: storage });
 
 userRouter.get("/", async (req, res, next) => {
   try {
-    const result = await getAllUsers();
+    const { page, limit, email } = req.query;
+    const search = { email };
+    const result = await getAllUsers(page, limit, search);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);

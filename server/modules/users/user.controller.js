@@ -25,8 +25,16 @@ const registerUser = async (payload) => {
   return "registration Successfull";
 };
 
-const getAllUsers = async (page = 1, limit = 10) => {
+const getAllUsers = async (page = 1, limit = 10, search) => {
   const query = [];
+  console.log("controller", limit);
+  if (search?.email) {
+    query.push({
+      $match: {
+        email: new RegExp(search.email, "gi"),
+      },
+    });
+  }
 
   query.push([
     {
@@ -88,7 +96,7 @@ const login = async (payload) => {
   return token;
 };
 
-const forgetPassword = async ({email}) => {
+const forgetPassword = async ({ email }) => {
   if (!email) throw new Error("Please enter email ");
   const user = await UserModel.findOne({ email });
   // console.log("controller", user)
