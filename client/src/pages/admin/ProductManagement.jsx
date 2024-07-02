@@ -2,8 +2,14 @@ import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Paginate } from "../../components/Pagination";
 import { BASE_URL } from "../../contants";
-import { deleteSingleProduct, listProducts } from "../../slice/productSlice";
+import {
+  deleteSingleProduct,
+  listProducts,
+  setPage,
+  setLimit,
+} from "../../slice/productSlice";
 
 export const ProductManagement = () => {
   const dispatch = useDispatch();
@@ -14,8 +20,8 @@ export const ProductManagement = () => {
   const navigate = useNavigate();
 
   const initFetch = useCallback(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts({ page, limit }));
+  }, [dispatch, limit, page]);
 
   const handleDelete = useCallback(
     (id) => {
@@ -30,7 +36,17 @@ export const ProductManagement = () => {
     initFetch();
   }, [initFetch]);
 
-  console.log(products);
+  const handleSetPage = (newPage) => {
+    dispatch(setPage(newPage));
+    dispatch(listProducts({ page: newPage, limit }));
+  };
+
+  const handleSetLimit = (newLimit) => {
+    dispatch(setLimit(newLimit));
+    dispatch(listProducts({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
+  };
+
+  console.log("products", products);
 
   return (
     <div className="container">
@@ -169,6 +185,16 @@ export const ProductManagement = () => {
             </div>
           </div>
         </main>
+      </div>
+      <div className="flex justify-center  py-5">
+        {" "}
+        <Paginate
+          setPage={handleSetPage}
+          setLimit={handleSetLimit}
+          limit={limit}
+          page={page}
+          total={total}
+        />
       </div>
     </div>
   );
