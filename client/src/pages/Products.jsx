@@ -4,9 +4,10 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Paginate } from "../components/Pagination";
 import { BASE_URL } from "../contants";
 import { addToCart } from "../slice/cartSlice";
-import { listProducts } from "../slice/productSlice";
+import { listProducts, setLimit, setPage } from "../slice/productSlice";
 import { isLoggedIn } from "../utils/login";
 
 export const Products = () => {
@@ -18,12 +19,24 @@ export const Products = () => {
   const navigate = useNavigate();
 
   const initFetch = useCallback(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts({ page, limit }));
+  }, [dispatch, limit, page]);
 
   useEffect(() => {
     initFetch();
   }, [initFetch]);
+
+  const handleSetPage = (newPage) => {
+    dispatch(setPage(newPage));
+    dispatch(listProducts({ page: newPage, limit }));
+  };
+
+  const handleSetLimit = (newLimit) => {
+    dispatch(setLimit(newLimit));
+    dispatch(listProducts({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
+  };
+
+  console.log("products list ", page);
 
   // console.log("product", product[0]);
 
@@ -77,39 +90,15 @@ export const Products = () => {
             <div className="border border-black">Product Not Found</div>
           )}
         </div>
-        <div className="flex justify-center">
-          <div className="flex rounded-md mt-8">
-            <a
-              href="#"
-              className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 ml-0 rounded-l hover:bg-blue-500 hover:text-white"
-            >
-              <span>Previous</span>
-            </a>
-            <a
-              href="#"
-              className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"
-            >
-              <span>1</span>
-            </a>
-            <a
-              href="#"
-              className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"
-            >
-              <span>2</span>
-            </a>
-            <a
-              href="#"
-              className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"
-            >
-              <span>3</span>
-            </a>
-            <a
-              href="#"
-              className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 rounded-r hover:bg-blue-500 hover:text-white"
-            >
-              <span>Next</span>
-            </a>
-          </div>
+        <div className="flex justify-center  my-5">
+          {" "}
+          <Paginate
+            setPage={handleSetPage}
+            setLimit={handleSetLimit}
+            limit={limit}
+            page={page}
+            total={total}
+          />
         </div>
       </div>
     </div>

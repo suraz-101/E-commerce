@@ -9,9 +9,10 @@ import {
 const initialState = {
   products: [],
   product: {},
+
   page: 1,
   total: 0,
-  limit: 20,
+  limit: 2,
   loading: false,
   error: "",
   message: "",
@@ -33,9 +34,9 @@ export const createNewProduct = createAsyncThunk(
 
 export const listProducts = createAsyncThunk(
   "products/listProducts",
-  async () => {
+  async ({ limit, page }) => {
     try {
-      const response = await getAllProducts();
+      const response = await getAllProducts(limit, page);
       console.log(response);
 
       return response.data; // Assuming the response structure is { data: { total, data } }
