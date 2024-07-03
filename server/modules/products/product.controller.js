@@ -10,13 +10,21 @@ const createProduct = async (payload) => {
   return "product created successfully";
 };
 
-const getAllProducts = async (search, page = 1, limit = 10) => {
+const getAllProducts = async (sort = 1, search, page = 1, limit = 10) => {
   const query = [];
 
   if (search?.name) {
     query.push({
       $match: {
         name: new RegExp(`${search?.name}`, "gi"),
+      },
+    });
+  }
+
+  if (sort) {
+    query.push({
+      $sort: {
+        createdAt: Number(sort),
       },
     });
   }
@@ -74,6 +82,7 @@ const getAllProducts = async (search, page = 1, limit = 10) => {
   );
 
   const result = await ProductModel.aggregate(query);
+  console.log(result);
   return {
     data: result[0].data,
     total: result[0].total,

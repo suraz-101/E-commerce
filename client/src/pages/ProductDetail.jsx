@@ -85,7 +85,7 @@ export const ProductDetail = () => {
                 </div>
                 <div className="flex mt-10 text-secondaryColor">
                   Available Colors:{" "}
-                  {product[0]?.colors.length > 0 &&
+                  {product[0]?.colors?.length > 0 &&
                     product[0]?.colors.map((color, index) => {
                       return (
                         <div

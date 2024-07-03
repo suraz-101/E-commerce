@@ -12,10 +12,9 @@ const createProduct = async (payload) => {
   return data;
 };
 
-const getAllProducts = async (limit, page) => {
-  console.log("we are in services");
+const getAllProducts = async (sort, limit, page) => {
   const data = await instance.get(
-    URLS.PRODUCTS + `?page=${page}&limit=${limit}`
+    URLS.PRODUCTS + `?page=${page}&limit=${limit}&sort=${sort}`
   );
   console.log("data", data);
   return data;

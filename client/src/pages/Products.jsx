@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { useState } from "react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,12 +16,13 @@ export const Products = () => {
   const { products, page, limit, total, product } = useSelector(
     (state) => state.products
   );
+  const [sort] = useState(1);
 
   const navigate = useNavigate();
 
   const initFetch = useCallback(() => {
-    dispatch(listProducts({ page, limit }));
-  }, [dispatch, limit, page]);
+    dispatch(listProducts({ page, sort, limit }));
+  }, [dispatch, sort, limit, page]);
 
   useEffect(() => {
     initFetch();
@@ -36,15 +38,17 @@ export const Products = () => {
     dispatch(listProducts({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
   };
 
-  console.log("products list ", page);
+  console.log("products list ", products);
 
   // console.log("product", product[0]);
 
   return (
     <div className="bg-backgroundColor transition-all">
       <div className="container mx-auto px-6">
-        <h3 className="text-primaryColor text-2xl font-medium">Wrist Watch</h3>
-        <span className="mt-3 text-sm text-secondaryColor">200+ Products</span>
+        <h3 className="text-primaryColor text-2xl font-medium">Fashion</h3>
+        <span className="mt-3 text-sm text-secondaryColor">
+          {products?.total - 1}+ Products
+        </span>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
           {products?.data?.length > 0 ? (
             products?.data?.map((p) => {

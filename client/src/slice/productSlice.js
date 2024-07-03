@@ -9,7 +9,7 @@ import {
 const initialState = {
   products: [],
   product: {},
-
+  newArrival: [],
   page: 1,
   total: 0,
   limit: 10,
@@ -34,9 +34,24 @@ export const createNewProduct = createAsyncThunk(
 
 export const listProducts = createAsyncThunk(
   "products/listProducts",
-  async ({ limit, page }) => {
+  async ({ sort, limit, page }) => {
     try {
-      const response = await getAllProducts(limit, page);
+      const response = await getAllProducts(sort, limit, page);
+      console.log("slice", response);
+
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
+export const newArrivals = createAsyncThunk(
+  "products/newArrivals",
+  async ({ sort, limit, page }) => {
+    try {
+      console.log("slice sort", sort);
+      const response = await getAllProducts(sort, limit, page);
       console.log(response);
 
       return response.data; // Assuming the response structure is { data: { total, data } }
@@ -111,6 +126,20 @@ const productSlice = createSlice({
         state.message = "";
       })
       .addCase(listProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(newArrivals.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(newArrivals.fulfilled, (state, action) => {
+        state.loading = false;
+        state.total = action.payload.message.total;
+        state.newArrival = action.payload.message;
+        state.error = "";
+        state.message = "";
+      })
+      .addCase(newArrivals.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

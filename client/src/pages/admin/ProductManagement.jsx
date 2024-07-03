@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,10 +19,11 @@ export const ProductManagement = () => {
   );
 
   const navigate = useNavigate();
+  const [sort] = useState(-1);
 
   const initFetch = useCallback(() => {
-    dispatch(listProducts({ page, limit }));
-  }, [dispatch, limit, page]);
+    dispatch(listProducts({ page, sort, limit }));
+  }, [dispatch, sort, limit, page]);
 
   const handleDelete = useCallback(
     (id) => {
