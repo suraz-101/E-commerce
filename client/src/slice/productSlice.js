@@ -12,7 +12,7 @@ const initialState = {
 
   page: 1,
   total: 0,
-  limit: 2,
+  limit: 10,
   loading: false,
   error: "",
   message: "",

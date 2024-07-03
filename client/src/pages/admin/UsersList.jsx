@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -9,10 +9,11 @@ import { listUsers, setLimit, setPage } from "../../slice/userSlice";
 export const UsersList = () => {
   const dispatch = useDispatch();
   const { users, page, total, limit } = useSelector((state) => state.users);
+  const [email, setEmail] = useState();
 
   const initFetch = useCallback(() => {
-    dispatch(listUsers({ limit, page }));
-  }, [dispatch, limit, page]);
+    dispatch(listUsers({ email, limit, page }));
+  }, [dispatch, email, limit, page]);
 
   useEffect(() => {
     initFetch();
@@ -68,6 +69,11 @@ export const UsersList = () => {
                     id="topbar-search"
                     className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Search User by Email"
+                    onChange={(e) => {
+                      setTimeout(() => {
+                        setEmail(e.target.value);
+                      }, [2000]);
+                    }}
                   />
                 </div>
               </form>
