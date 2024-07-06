@@ -68,7 +68,9 @@ export const CheckOut = () => {
 
     setPayload(updatedPayload);
     console.log("payload", updatedPayload);
-    dispatch(createNewOrder(updatedPayload));
+    quantity != 0
+      ? dispatch(createNewOrder(updatedPayload))
+      : alert("add product to cart ");
     dispatch(removeAll());
 
     // dispatch(getSingleUse)
