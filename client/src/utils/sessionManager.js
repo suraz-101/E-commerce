@@ -17,3 +17,7 @@ export const currentUser = () => {
   const { data } = jwtDecode(token);
   return localStorage.setItem("currentUser", JSON.stringify(data));
 };
+
+export const getCurrentUser = () => {
+  return localStorage.getItem("currentUser");
+};

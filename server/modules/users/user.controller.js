@@ -77,6 +77,10 @@ const getAllUsers = async (page = 1, limit = 10, search) => {
   };
 };
 
+const getSingleUser = async (email) => {
+  return UserModel.findOne({ email });
+};
+
 const login = async (payload) => {
   const { email, password } = payload;
   if (!email || !password)
@@ -185,4 +189,5 @@ module.exports = {
   verifyOtpCode,
   changePassword,
   resetPassword,
+  getSingleUser,
 };

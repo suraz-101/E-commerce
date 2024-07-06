@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../contants";
@@ -6,10 +7,48 @@ import {
   increaseQuantity,
   removeCart,
 } from "../slice/cartSlice";
+import { createNewOrder } from "../slice/orderSlice";
+import { currentUser, getCurrentUser } from "../utils/sessionManager";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
   const { carts, quantity } = useSelector((state) => state.cart);
+
+  const [payload, setPayload] = useState({
+    customerId: null,
+    customerName: "",
+    customerEmail: "",
+    customerPhone: "",
+    shippingAddress: "",
+    paymentMethod: "",
+    paymentStatus: "pending",
+    items: [],
+    totalPrice: 0,
+  });
+
+  const placeOrder = () => {
+    const email = JSON.parse(getCurrentUser()).name;
+
+    console.log("users", email);
+    // dispatch(getSingleUse)
+    const updatedPayload = {
+      ...payload,
+      items: carts.map((cartItem) => ({
+        productId: cartItem._id,
+        productName: cartItem.name,
+        quantity: cartItem.quantity,
+        price: cartItem.price,
+        subtotal: cartItem.price * cartItem.quantity,
+      })),
+      totalPrice: calculateTotalPrice(),
+      orderDate: new Date(),
+      orderStatus: "pending",
+    };
+
+    setPayload(updatedPayload);
+    console.log("payload", updatedPayload);
+    // dispatch(createNewOrder(updatedPayload));
+  };
 
   const calculateTotalPrice = () => {
     return carts.reduce((total, product) => {
@@ -248,6 +287,14 @@ export const CheckOut = () => {
               )}
               <div className="border p-4 fw-bold text-center">
                 <h4>Total: $ {totalPrice}</h4>
+              </div>
+              <div className="border p-4 fw-bold text-center">
+                <button
+                  onClick={placeOrder}
+                  className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                >
+                  Place Order
+                </button>
               </div>
             </div>
           </div>

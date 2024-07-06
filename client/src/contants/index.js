@@ -10,4 +10,5 @@ export const URLS = {
   FORGET_PASSWORD: API_VERSION + "/users/generateOtp",
   VERIFY_OTP: API_VERSION + "/users/verifyOtp",
   CATEGORIES: API_VERSION + "/categories",
+  ORDERS: API_VERSION + "/orders",
 };

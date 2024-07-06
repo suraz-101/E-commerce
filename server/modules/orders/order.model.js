@@ -40,7 +40,6 @@ const orderSchema = new mongoose.Schema(
     totalPrice: { type: Number, required: true },
     currency: { type: String, default: "USD" },
 
-    notes: { type: String },
     trackingInfo: { type: String },
   },
   { timestamps: true }

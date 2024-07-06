@@ -33,9 +33,9 @@ const getAllUsers = async (limit, page) => {
   return await instance.get(URLS.GETALLUSERS + `?page=${page}&limit=${limit}`);
 };
 
-// const getById = async (id) => {
-//   return await instance.get(URLS.PRODUCTS + `/${id}`);
-// };
+const getById = async (email) => {
+  return await instance.get(URLS.GETALLUSERS + `/${email}`);
+};
 
 // const updateUserDetails = (payload) => {
 //   return instance.put(URLS.USERS + `/updateProfile`, payload, {
@@ -66,4 +66,4 @@ const getAllUsers = async (limit, page) => {
 //   });
 // };
 
-export { login, createUser, forgetPassword, verifyOtp, getAllUsers };
+export { login, getById, createUser, forgetPassword, verifyOtp, getAllUsers };

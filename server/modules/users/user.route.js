@@ -8,6 +8,7 @@ const {
   resetPassword,
   updateUsersDetails,
   deleteUser,
+  getSingleUser,
 } = require("./user.controller");
 const {
   userValidation,
@@ -37,6 +38,17 @@ userRouter.get("/", async (req, res, next) => {
     const { page, limit, email } = req.query;
     const search = { email };
     const result = await getAllUsers(page, limit, search);
+    res.status(200).json({ message: result });
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.get("/:email", async (req, res, next) => {
+  try {
+    const { email } = req.query;
+
+    const result = await getSingleUser(email);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);
