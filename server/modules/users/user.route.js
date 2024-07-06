@@ -46,8 +46,8 @@ userRouter.get("/", async (req, res, next) => {
 
 userRouter.get("/:email", async (req, res, next) => {
   try {
-    const { email } = req.query;
-
+    const { email } = req.params;
+    console.log("route", email);
     const result = await getSingleUser(email);
     res.status(200).json({ message: result });
   } catch (error) {

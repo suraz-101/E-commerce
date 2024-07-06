@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -8,28 +10,39 @@ import {
   removeCart,
 } from "../slice/cartSlice";
 import { createNewOrder } from "../slice/orderSlice";
+import { getSingleUser } from "../slice/userSlice";
 import { currentUser, getCurrentUser } from "../utils/sessionManager";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
   const { carts, quantity } = useSelector((state) => state.cart);
+  const { users, user } = useSelector((state) => state.users);
+
+  const initFetch = useCallback(
+    (email) => {
+      dispatch(getSingleUser(email));
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    const { email } = JSON.parse(getCurrentUser());
+    initFetch(email);
+  }, [initFetch]);
 
   const [payload, setPayload] = useState({
     customerId: null,
     customerName: "",
     customerEmail: "",
     customerPhone: "",
-    shippingAddress: "",
-    paymentMethod: "",
+    shippingAddress: "Pokhara",
+    paymentMethod: "stripe",
     paymentStatus: "pending",
     items: [],
     totalPrice: 0,
   });
 
   const placeOrder = () => {
-    const email = JSON.parse(getCurrentUser()).name;
-
-    console.log("users", email);
     // dispatch(getSingleUse)
     const updatedPayload = {
       ...payload,
@@ -41,13 +54,17 @@ export const CheckOut = () => {
         subtotal: cartItem.price * cartItem.quantity,
       })),
       totalPrice: calculateTotalPrice(),
-      orderDate: new Date(),
+      // orderDate: new Date(),
       orderStatus: "pending",
+      customerId: user?._id,
+      customerName: user?.name,
+      customerEmail: user?.email,
+      customerPhone: user?.phoneNumber,
     };
 
     setPayload(updatedPayload);
     console.log("payload", updatedPayload);
-    // dispatch(createNewOrder(updatedPayload));
+    dispatch(createNewOrder(updatedPayload));
   };
 
   const calculateTotalPrice = () => {
@@ -59,6 +76,7 @@ export const CheckOut = () => {
   const totalPrice = calculateTotalPrice();
 
   console.log("carts", carts);
+  // console.log("user", user);
   return (
     <div className="container mx-auto py-6">
       <h3 className="text-gray-700 text-2xl font-medium">Checkout</h3>
@@ -253,7 +271,9 @@ export const CheckOut = () => {
                           </div>
                         </div>
                       </div>
-                      <span className="text-gray-600 ">$ {product?.price}</span>
+                      <span className="text-gray-600 ">
+                        $ {product?.price * product?.quantity}
+                      </span>
                       <button
                         className="text-gray-500 focus:outline-none focus:text-gray-600 "
                         onClick={() => {

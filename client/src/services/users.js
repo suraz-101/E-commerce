@@ -34,6 +34,7 @@ const getAllUsers = async (limit, page) => {
 };
 
 const getById = async (email) => {
+  console.log(" userservices", email);
   return await instance.get(URLS.GETALLUSERS + `/${email}`);
 };
 
