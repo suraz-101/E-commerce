@@ -11,6 +11,14 @@ export const CheckOut = () => {
   const dispatch = useDispatch();
   const { carts, quantity } = useSelector((state) => state.cart);
 
+  const calculateTotalPrice = () => {
+    return carts.reduce((total, product) => {
+      return total + product.price * product.quantity;
+    }, 0);
+  };
+
+  const totalPrice = calculateTotalPrice();
+
   console.log("carts", carts);
   return (
     <div className="container mx-auto py-6">
@@ -206,9 +214,7 @@ export const CheckOut = () => {
                           </div>
                         </div>
                       </div>
-                      <span className="text-gray-600 ">
-                        Rs. {product?.price}
-                      </span>
+                      <span className="text-gray-600 ">$ {product?.price}</span>
                       <button
                         className="text-gray-500 focus:outline-none focus:text-gray-600 "
                         onClick={() => {
@@ -240,6 +246,9 @@ export const CheckOut = () => {
                   </Link>{" "}
                 </div>
               )}
+              <div className="border p-4 fw-bold text-center">
+                <h4>Total: $ {totalPrice}</h4>
+              </div>
             </div>
           </div>
         </div>
