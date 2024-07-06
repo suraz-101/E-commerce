@@ -14,11 +14,13 @@ import { createNewOrder } from "../slice/orderSlice";
 import { getSingleUser } from "../slice/userSlice";
 import { currentUser, getCurrentUser } from "../utils/sessionManager";
 import { isLoggedIn } from "../utils/login";
+import { Notify } from "../components/Notify";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
   const { carts, quantity } = useSelector((state) => state.cart);
   const { users, user } = useSelector((state) => state.users);
+  const { message, error } = useSelector((state) => state.orders);
 
   const initFetch = useCallback(
     (email) => {
@@ -27,10 +29,12 @@ export const CheckOut = () => {
     [dispatch]
   );
 
-  // useEffect(() => {
-  //   const { email } = JSON.parse(getCurrentUser());
-  //   initFetch(email);
-  // }, [initFetch]);
+  useEffect(() => {
+    if (isLoggedIn()) {
+      const { email } = JSON.parse(getCurrentUser());
+      initFetch(email);
+    }
+  }, [initFetch]);
 
   const [payload, setPayload] = useState({
     customerId: null,
@@ -44,36 +48,28 @@ export const CheckOut = () => {
     totalPrice: 0,
   });
 
-  const placeOrder = async () => {
-    if (isLoggedIn()) {
-      const { email } = await JSON.parse(getCurrentUser());
-      await initFetch(email);
-      await dispatch(getSingleUser(email));
-      const updatedPayload = await {
-        ...payload,
-        items: carts.map((cartItem) => ({
-          productId: cartItem._id,
-          productName: cartItem.name,
-          quantity: cartItem.quantity,
-          price: cartItem.price,
-          subtotal: cartItem.price * cartItem.quantity,
-        })),
-        totalPrice: calculateTotalPrice(),
-        // orderDate: new Date(),
-        orderStatus: "pending",
-        customerId: user?._id,
-        customerName: user?.name,
-        customerEmail: user?.email,
-        customerPhone: user?.phoneNumber,
-      };
+  const placeOrder = () => {
+    const updatedPayload = {
+      ...payload,
+      items: carts.map((cartItem) => ({
+        productId: cartItem._id,
+        productName: cartItem.name,
+        quantity: cartItem.quantity,
+        price: cartItem.price,
+        subtotal: cartItem.price * cartItem.quantity,
+      })),
+      totalPrice: calculateTotalPrice(),
+      orderStatus: "pending",
+      customerId: user?._id,
+      customerName: user?.name,
+      customerEmail: user?.email,
+      customerPhone: user?.phoneNumber,
+    };
 
-      await setPayload(updatedPayload);
-      console.log("payload", updatedPayload);
-      await dispatch(createNewOrder(updatedPayload));
-      await dispatch(removeAll());
-    } else {
-      alert("to place order please login");
-    }
+    setPayload(updatedPayload);
+    console.log("payload", updatedPayload);
+    dispatch(createNewOrder(updatedPayload));
+    dispatch(removeAll());
 
     // dispatch(getSingleUse)
   };
@@ -320,12 +316,25 @@ export const CheckOut = () => {
                 <h4>Total: $ {totalPrice}</h4>
               </div>
               <div className="border p-4 fw-bold text-center">
-                <button
-                  onClick={placeOrder}
-                  className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
-                >
-                  Place Order
-                </button>
+                {(error || message) && (
+                  <Notify
+                    variant={error ? "danger" : "success"}
+                    msg={error || message}
+                  />
+                )}
+              </div>
+
+              <div className="border p-4 fw-bold text-center">
+                {isLoggedIn() ? (
+                  <button
+                    onClick={placeOrder}
+                    className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                  >
+                    Place Order
+                  </button>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>

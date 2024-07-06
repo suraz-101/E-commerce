@@ -19,7 +19,7 @@ const initialState = {
 };
 
 export const createNewOrder = createAsyncThunk(
-  "products/createNewOrder",
+  "orders/createNewOrder",
   async (payload) => {
     try {
       console.log("order slice", payload);
@@ -65,4 +65,4 @@ const orderSlice = createSlice({
 });
 
 export const { setPage, setLimit } = orderSlice.actions;
-export const productReducer = orderSlice.reducer;
+export const orderReducer = orderSlice.reducer;

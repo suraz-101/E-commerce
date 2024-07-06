@@ -14,6 +14,7 @@ const userSchema = joi.object({
   profilePic: joi.string(),
   role: joi.array().items(joi.string().valid("user", "admin")),
   otp: joi.number(),
+  address: joi.string(),
 });
 
 const loginSchema = joi.object({

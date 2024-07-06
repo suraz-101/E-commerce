@@ -7,11 +7,15 @@ import { removeToken } from "../utils/sessionManager";
 import ReactSwitch from "react-switch";
 import { useContext } from "react";
 import { toggleContext } from "../context/ToggleContext";
+import { useDispatch } from "react-redux";
+import { removeAll } from "../slice/cartSlice";
 
 export const AppNavbar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(removeAll());
     removeToken("token");
     removeToken("currentUser");
     navigate("/");
