@@ -145,24 +145,34 @@ export const AppNavbar = () => {
               >
                 Shop
               </Link>
-              <a
+              <Link
                 className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 Categories
-              </a>
-              <a
+              </Link>
+              <Link
                 className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 Contact
-              </a>
-              <a
+              </Link>
+              <Link
                 className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >
                 About
-              </a>
+              </Link>
+              {isLoggedIn() ? (
+                <Link
+                  className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
+                  href="#"
+                >
+                  Order History
+                </Link>
+              ) : (
+                <></>
+              )}
             </div>
           </nav>
           <div className="relative mt-6 max-w-lg mx-auto">

@@ -8,19 +8,29 @@ import { Notify } from "../components/Notify";
 export const Registration = () => {
   const dispatch = useDispatch();
   const { error, message } = useSelector((state) => state.auth);
+  const [add, setAdd] = useState({
+    street: "",
+    houseNumber: "",
+    place: "",
+    ward: "",
+    city: "",
+  });
   const [payload, setPayload] = useState({
     name: "",
     email: "",
     password: "",
     phoneNumber: "",
-    address: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(userRegistration(payload));
-    console.log("registration", error);
+    const { street, houseNumber, place, ward, city } = add;
+    const address = `${street} street,${houseNumber} house no.,${place} ,${ward}-${city}`;
+    const updatedPayload = { ...payload, address };
+    dispatch(userRegistration(updatedPayload));
+    // console.log("registration", error);
   };
+
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -45,106 +55,229 @@ export const Registration = () => {
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                   <div className="relative">
                     <input
-                      autocomplete="off"
+                      autoComplete="off"
                       id="name"
                       name="name"
                       type="text"
-                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
-                      placeholder="Email address"
+                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
+                      placeholder="Name"
                       value={payload.name}
                       onChange={(e) => {
-                        setPayload((prev) => {
-                          return { ...prev, name: e.target.value };
-                        });
+                        setPayload((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
                       }}
                     />
-                    <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                    <label
+                      htmlFor="name"
+                      className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                    >
                       Name
                     </label>
                   </div>
                   <div className="relative">
                     <input
-                      autocomplete="off"
+                      autoComplete="off"
                       id="email"
                       name="email"
                       type="text"
-                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                       placeholder="Email address"
                       value={payload.email}
                       onChange={(e) => {
-                        setPayload((prev) => {
-                          return { ...prev, email: e.target.value };
-                        });
+                        setPayload((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }));
                       }}
                     />
-                    <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                    <label
+                      htmlFor="email"
+                      className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                    >
                       Email Address
                     </label>
                   </div>
                   <div className="relative">
                     <input
+                      autoComplete="off"
                       id="password"
                       name="password"
                       type="password"
-                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                       placeholder="Password"
                       value={payload.password}
                       onChange={(e) => {
-                        setPayload((prev) => {
-                          return { ...prev, password: e.target.value };
-                        });
+                        setPayload((prev) => ({
+                          ...prev,
+                          password: e.target.value,
+                        }));
                       }}
                     />
-                    <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                    <label
+                      htmlFor="password"
+                      className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                    >
                       Password
                     </label>
                   </div>
                   <div className="relative">
                     <input
+                      autoComplete="off"
                       id="phoneNumber"
                       name="phoneNumber"
-                      type="phoneNumber"
-                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                      type="tel"
+                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                       placeholder="Phone Number"
                       value={payload.phoneNumber}
                       onChange={(e) => {
-                        setPayload((prev) => {
-                          return { ...prev, phoneNumber: e.target.value };
-                        });
+                        setPayload((prev) => ({
+                          ...prev,
+                          phoneNumber: e.target.value,
+                        }));
                       }}
                     />
-                    <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                    <label
+                      htmlFor="phoneNumber"
+                      className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                    >
                       Phone Number
                     </label>
                   </div>
-                  <div className="relative">
-                    <input
-                      id="address"
-                      name="address"
-                      type="address"
-                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
-                      placeholder="Phone Number"
-                      value={payload.address}
-                      onChange={(e) => {
-                        setPayload((prev) => {
-                          return { ...prev, address: e.target.value };
-                        });
-                      }}
-                    />
-                    <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                      Address
-                    </label>
+                  <div className="grid grid-cols-2 gap-x-4 mt-4">
+                    <div className="relative">
+                      <input
+                        autoComplete="off"
+                        id="street"
+                        name="street"
+                        type="text"
+                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
+                        placeholder="Street"
+                        value={add.street}
+                        onChange={(e) => {
+                          setAdd((prev) => ({
+                            ...prev,
+                            street: e.target.value,
+                          }));
+                        }}
+                      />
+                      <label
+                        htmlFor="street"
+                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      >
+                        Street
+                      </label>
+                    </div>
+                    <div className="relative">
+                      <input
+                        autoComplete="off"
+                        id="houseNumber"
+                        name="houseNumber"
+                        type="text"
+                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
+                        placeholder="House Number"
+                        value={add.houseNumber}
+                        onChange={(e) => {
+                          setAdd((prev) => ({
+                            ...prev,
+                            houseNumber: e.target.value,
+                          }));
+                        }}
+                      />
+                      <label
+                        htmlFor="houseNumber"
+                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      >
+                        House Number
+                      </label>
+                    </div>
+                    <div className="relative">
+                      <input
+                        autoComplete="off"
+                        id="place"
+                        name="place"
+                        type="text"
+                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
+                        placeholder="Place"
+                        value={add.place}
+                        onChange={(e) => {
+                          setAdd((prev) => ({
+                            ...prev,
+                            place: e.target.value,
+                          }));
+                        }}
+                      />
+                      <label
+                        htmlFor="place"
+                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      >
+                        Place
+                      </label>
+                    </div>
+                    <div className="relative">
+                      <input
+                        autoComplete="off"
+                        id="ward"
+                        name="ward"
+                        type="text"
+                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
+                        placeholder="Ward"
+                        value={add.ward}
+                        onChange={(e) => {
+                          setAdd((prev) => ({
+                            ...prev,
+                            ward: e.target.value,
+                          }));
+                        }}
+                      />
+                      <label
+                        htmlFor="ward"
+                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer                   -placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      >
+                        Ward
+                      </label>
+                    </div>
+                    <div className="relative">
+                      <input
+                        autoComplete="off"
+                        id="city"
+                        name="city"
+                        type="text"
+                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
+                        placeholder="City"
+                        value={add.city}
+                        onChange={(e) => {
+                          setAdd((prev) => ({
+                            ...prev,
+                            city: e.target.value,
+                          }));
+                        }}
+                      />
+                      <label
+                        htmlFor="city"
+                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      >
+                        City
+                      </label>
+                    </div>
                   </div>
                   <div className="text-center">
                     {(error || message) && (
-                      <Notify
-                        variant={error ? "danger" : "success"}
-                        msg={error || message}
-                      />
+                      <div
+                        className={`${
+                          error ? "text-red-600" : "text-green-500"
+                        }`}
+                      >
+                        <Notify
+                          variant={error ? "danger" : "success"}
+                          msg={error || message}
+                        />
+                      </div>
                     )}
                   </div>
-                  <div className="relative">
-                    <button className="bg-cyan-500 text-white rounded-md px-2 py-1">
+                  <div className="relative mt-4">
+                    <button className="bg-cyan-500 text-white rounded-md px-4 py-2 hover:bg-cyan-600 transition-all">
                       Submit
                     </button>
                   </div>
@@ -153,8 +286,8 @@ export const Registration = () => {
             </form>
           </div>
 
-          <div className="w-full flex justify-center">
-            Already have an Account ?
+          <div className="w-full flex justify-center mt-4">
+            Already have an Account?{" "}
             <span className="text-blue-500 mx-2">
               <Link to="/login">Sign in</Link>
             </span>

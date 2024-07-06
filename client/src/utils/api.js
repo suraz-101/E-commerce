@@ -3,7 +3,7 @@ import { BASE_URL } from "../contants";
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
+  timeout: 10000,
   //   headers: { access_token: getToken("access_token") },
 });
 
