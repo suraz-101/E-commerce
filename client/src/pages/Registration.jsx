@@ -13,6 +13,7 @@ export const Registration = () => {
     email: "",
     password: "",
     phoneNumber: "",
+    address: "",
   });
 
   const handleSubmit = (e) => {
@@ -114,6 +115,24 @@ export const Registration = () => {
                     />
                     <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
                       Phone Number
+                    </label>
+                  </div>
+                  <div className="relative">
+                    <input
+                      id="address"
+                      name="address"
+                      type="address"
+                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                      placeholder="Phone Number"
+                      value={payload.address}
+                      onChange={(e) => {
+                        setPayload((prev) => {
+                          return { ...prev, address: e.target.value };
+                        });
+                      }}
+                    />
+                    <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+                      Address
                     </label>
                   </div>
                   <div className="text-center">

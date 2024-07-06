@@ -7,11 +7,13 @@ import { BASE_URL } from "../contants";
 import {
   decreaseQuantity,
   increaseQuantity,
+  removeAll,
   removeCart,
 } from "../slice/cartSlice";
 import { createNewOrder } from "../slice/orderSlice";
 import { getSingleUser } from "../slice/userSlice";
 import { currentUser, getCurrentUser } from "../utils/sessionManager";
+import { isLoggedIn } from "../utils/login";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
@@ -25,10 +27,10 @@ export const CheckOut = () => {
     [dispatch]
   );
 
-  useEffect(() => {
-    const { email } = JSON.parse(getCurrentUser());
-    initFetch(email);
-  }, [initFetch]);
+  // useEffect(() => {
+  //   const { email } = JSON.parse(getCurrentUser());
+  //   initFetch(email);
+  // }, [initFetch]);
 
   const [payload, setPayload] = useState({
     customerId: null,
@@ -42,29 +44,38 @@ export const CheckOut = () => {
     totalPrice: 0,
   });
 
-  const placeOrder = () => {
-    // dispatch(getSingleUse)
-    const updatedPayload = {
-      ...payload,
-      items: carts.map((cartItem) => ({
-        productId: cartItem._id,
-        productName: cartItem.name,
-        quantity: cartItem.quantity,
-        price: cartItem.price,
-        subtotal: cartItem.price * cartItem.quantity,
-      })),
-      totalPrice: calculateTotalPrice(),
-      // orderDate: new Date(),
-      orderStatus: "pending",
-      customerId: user?._id,
-      customerName: user?.name,
-      customerEmail: user?.email,
-      customerPhone: user?.phoneNumber,
-    };
+  const placeOrder = async () => {
+    if (isLoggedIn()) {
+      const { email } = await JSON.parse(getCurrentUser());
+      await initFetch(email);
+      await dispatch(getSingleUser(email));
+      const updatedPayload = await {
+        ...payload,
+        items: carts.map((cartItem) => ({
+          productId: cartItem._id,
+          productName: cartItem.name,
+          quantity: cartItem.quantity,
+          price: cartItem.price,
+          subtotal: cartItem.price * cartItem.quantity,
+        })),
+        totalPrice: calculateTotalPrice(),
+        // orderDate: new Date(),
+        orderStatus: "pending",
+        customerId: user?._id,
+        customerName: user?.name,
+        customerEmail: user?.email,
+        customerPhone: user?.phoneNumber,
+      };
 
-    setPayload(updatedPayload);
-    console.log("payload", updatedPayload);
-    dispatch(createNewOrder(updatedPayload));
+      await setPayload(updatedPayload);
+      console.log("payload", updatedPayload);
+      await dispatch(createNewOrder(updatedPayload));
+      await dispatch(removeAll());
+    } else {
+      alert("to place order please login");
+    }
+
+    // dispatch(getSingleUse)
   };
 
   const calculateTotalPrice = () => {
