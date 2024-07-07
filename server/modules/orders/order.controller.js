@@ -9,7 +9,11 @@ const createOrder = async (payload) => {
 };
 
 const getAllOrders = () => {
-  return "we are inside get method ";
+  return OrderModel.find();
 };
 
-module.exports = { createOrder, getAllOrders };
+const getAllOrdersByUser = (email) => {
+  return OrderModel.find({ customerEmail: email });
+};
+
+module.exports = { createOrder, getAllOrders, getAllOrdersByUser };

@@ -2,9 +2,14 @@ import { URLS } from "../contants";
 import instance from "../utils/api";
 
 const createOrder = async (payload) => {
-  console.log("services", payload);
   const data = await instance.post(URLS.ORDERS, payload);
   return data;
 };
 
-export { createOrder };
+const getOrdersOfUser = async (email) => {
+  console.log("services", email);
+  const data = await instance.get(URLS.ORDERS + `/usersOrder?email=${email}`);
+  return data;
+};
+
+export { createOrder, getOrdersOfUser };

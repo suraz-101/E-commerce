@@ -166,7 +166,7 @@ export const AppNavbar = () => {
               {isLoggedIn() ? (
                 <Link
                   className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
-                  href="#"
+                  to="orderHistory"
                 >
                   Order History
                 </Link>

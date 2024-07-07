@@ -105,22 +105,20 @@ export const ProductManagement = () => {
               <table className="min-w-full bg-white">
                 <thead className="bg-gray-800 text-white">
                   <tr>
-                    <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">
+                    <th className=" text-center py-3 px-4 uppercase font-semibold text-sm">
                       Product Image
                     </th>
-                    <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">
-                      Product Name
-                    </th>
-                    <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+
+                    <th className="text-center py-3 px-4 uppercase font-semibold text-sm">
                       Description
                     </th>
-                    <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+                    <th className="text-center py-3 px-4 uppercase font-semibold text-sm">
                       Price
                     </th>
-                    <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+                    <th className="text-center py-3 px-4 uppercase font-semibold text-sm">
                       Category
                     </th>
-                    <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+                    <th className="text-center py-3 px-4 uppercase font-semibold text-sm">
                       Action
                     </th>
                   </tr>
@@ -130,17 +128,16 @@ export const ProductManagement = () => {
                     products?.data?.map((product) => {
                       return (
                         <tr key={product?._id}>
-                          <td className="w-1/3 text-left py-3 px-4">
+                          <td className=" py-3 px-4 ">
                             <img
                               src={BASE_URL.concat(product?.image)}
                               alt=""
                               height="200px"
                               width="200px"
                             />
+                            <h1 className=" py-2"> {product?.name}</h1>
                           </td>
-                          <td className="w-1/3 text-left py-3 px-4">
-                            {product?.name}
-                          </td>
+
                           <td className="text-left py-3 px-4">
                             <a
                               className="hover:text-blue-500"

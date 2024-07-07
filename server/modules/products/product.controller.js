@@ -172,7 +172,8 @@ const updateProductDetails = async (_id, payload) => {
 };
 
 const updateProduct = async (_id, stockQuantity) => {
-  const update = await ProductModel.updateOne({ _id }, { stockQuantity });
+  await ProductModel.updateOne({ _id }, { stockQuantity });
+  return "Product Updated Successfully";
 };
 
 const deleteProduct = async (_id) => {

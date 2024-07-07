@@ -24,7 +24,6 @@ export const createNewProduct = createAsyncThunk(
   async (payload) => {
     try {
       const response = await createProduct(payload);
-
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -37,7 +36,6 @@ export const listProducts = createAsyncThunk(
   async ({ sort, limit, page }) => {
     try {
       const response = await getAllProducts(sort, limit, page);
-
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -51,7 +49,6 @@ export const newArrivals = createAsyncThunk(
     try {
       const response = await getAllProducts(sort, limit, page);
       console.log(response);
-
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -64,7 +61,6 @@ export const getSingleProduct = createAsyncThunk(
   async (slug) => {
     try {
       const response = await getById(slug);
-      // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -77,7 +73,6 @@ export const deleteSingleProduct = createAsyncThunk(
   async (id) => {
     try {
       const response = await removeProduct(id);
-      // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);

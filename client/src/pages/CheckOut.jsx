@@ -58,6 +58,8 @@ export const CheckOut = () => {
         quantity: cartItem.quantity,
         price: cartItem.price,
         subtotal: cartItem.price * cartItem.quantity,
+        image: cartItem.image[0],
+        description: cartItem.description,
       })),
       totalPrice: calculateTotalPrice(),
       orderStatus: "pending",

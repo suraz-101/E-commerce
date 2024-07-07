@@ -9,6 +9,16 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/usersOrder", async (req, res, next) => {
+  try {
+    const { email } = req.query;
+    const result = await orderController.getAllOrdersByUser(email);
+    res.status(200).json({ message: result });
+  } catch (error) {
+    next(error);
+  }
+});
 router.post("/", async (req, res, next) => {
   try {
     const result = await orderController.createOrder(req.body);

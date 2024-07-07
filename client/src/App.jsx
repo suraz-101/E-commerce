@@ -19,6 +19,7 @@ import { Profile } from "./pages/Profile";
 import { Registration } from "./pages/Registration";
 import { VerifyOtp } from "./pages/VerifyOtp";
 import { AddCategory } from "./pages/admin/AddCategory";
+import { UsersOrderHistory } from "./pages/UsersOrderHistory";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="products" element={<Products />} />
           <Route path="productsDetail/:id" element={<ProductDetail />} />
           <Route path="checkOut" element={<CheckOut />} />
+          <Route path="orderHistory" element={<UsersOrderHistory />} />
         </Route>
 
         {/* admin route */}
