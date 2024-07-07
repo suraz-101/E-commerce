@@ -91,7 +91,6 @@ export const updateProductQuantity = createAsyncThunk(
     try {
       console.log("we are inside update slices", payload);
       const response = await updateQuantity(payload);
-      // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
