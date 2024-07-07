@@ -20,6 +20,7 @@ import { Registration } from "./pages/Registration";
 import { VerifyOtp } from "./pages/VerifyOtp";
 import { AddCategory } from "./pages/admin/AddCategory";
 import { UsersOrderHistory } from "./pages/UsersOrderHistory";
+import { OrderManagement } from "./pages/admin/OrderManagement";
 
 function App() {
   return (
@@ -112,6 +113,14 @@ function App() {
             element={
               <PrivateRoute role="admin">
                 <CategoryUpdate />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="orders"
+            element={
+              <PrivateRoute role="admin">
+                <OrderManagement />
               </PrivateRoute>
             }
           />

@@ -46,6 +46,13 @@ export const AdminSidebar = () => {
             Category
           </Link>
 
+          <Link
+            to="/admin/orders"
+            className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
+          >
+            <i className="fa fa-align-left mr-3 text-sky-500"></i>
+            Orders
+          </Link>
           <a
             href="tabs.html"
             className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"

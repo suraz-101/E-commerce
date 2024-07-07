@@ -27,23 +27,30 @@ export const UsersOrderHistory = () => {
   return (
     <div className="bg-backgroundColor text-primaryColor">
       <div className="container mx-auto py-6">
-        <h1>You Order History</h1>
+        <h1 className="mb-6 font-bold text-3xl ">You Order History</h1>
         {usersOrder?.length > 0 ? (
           usersOrder?.map((order, index) => {
             return (
-              <div className="container border p-5" key={order?._id}>
-                <h1>Order : {index + 1}</h1>
+              <div className="container border p-5 mb-5" key={order?._id}>
+                <h1>
+                  {" "}
+                  <span className="font-bold ">Order Number : </span>
+                  {index + 1}
+                </h1>
                 {order?.items?.map((product, index) => {
                   return (
-                    <div className=" p-2 flex" key={product?.productId}>
-                      <div className="firstDiv p-4 border w-60">
+                    <div
+                      className=" p-2 flex border-b mt-2"
+                      key={product?.productId}
+                    >
+                      <div className="firstDiv p-4  w-60">
                         <img
                           src={BASE_URL.concat(product?.image)}
                           alt=""
                           className="h-40 w-40"
                         />
                       </div>
-                      <div className="secondaDiv px-10 py-4 border w-full">
+                      <div className="secondaDiv px-10 py-4  w-full">
                         <div className="flex justify-between">
                           <h2>{product?.productName}</h2>
                           <h2>${product?.price}</h2>

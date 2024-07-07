@@ -12,4 +12,9 @@ const getOrdersOfUser = async (email) => {
   return data;
 };
 
-export { createOrder, getOrdersOfUser };
+const getAll = async () => {
+  const data = await instance.get(URLS.ORDERS);
+  return data;
+};
+
+export { createOrder, getOrdersOfUser, getAll };
