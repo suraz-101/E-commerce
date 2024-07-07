@@ -81,9 +81,11 @@ Router.put("/:id", upload.single("image"), async (req, res, next) => {
   }
 });
 
-Router.patch("/:id", async (req, res, next) => {
+Router.patch("/updateQuantity", async (req, res, next) => {
   try {
-    res.status(200).json({ message: "you are inside patch method of product" });
+    const { id, stockQuantity } = req.body;
+    const result = await updateProduct(id, stockQuantity);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }

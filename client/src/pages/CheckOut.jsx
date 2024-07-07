@@ -15,6 +15,7 @@ import { getSingleUser } from "../slice/userSlice";
 import { currentUser, getCurrentUser } from "../utils/sessionManager";
 import { isLoggedIn } from "../utils/login";
 import { Notify } from "../components/Notify";
+import { updateProductQuantity } from "../slice/productSlice";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
@@ -72,6 +73,15 @@ export const CheckOut = () => {
     quantity != 0
       ? dispatch(createNewOrder(updatedPayload))
       : alert("add product to cart ");
+    carts.map((cartItem) => {
+      dispatch(
+        updateProductQuantity({
+          id: cartItem?._id,
+          stockQuantity: cartItem?.stockQuantity - cartItem?.quantity,
+        })
+      );
+    });
+
     setTimeout(() => {
       dispatch(removeAll());
     }, 2000);

@@ -4,6 +4,7 @@ import {
   getAllProducts,
   getById,
   removeProduct,
+  updateQuantity,
 } from "../services/products";
 
 const initialState = {
@@ -23,7 +24,6 @@ export const createNewProduct = createAsyncThunk(
   async (payload) => {
     try {
       const response = await createProduct(payload);
-      console.log(response);
 
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
@@ -37,7 +37,6 @@ export const listProducts = createAsyncThunk(
   async ({ sort, limit, page }) => {
     try {
       const response = await getAllProducts(sort, limit, page);
-      console.log("slice", response);
 
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
@@ -50,7 +49,6 @@ export const newArrivals = createAsyncThunk(
   "products/newArrivals",
   async ({ sort, limit, page }) => {
     try {
-      console.log("slice sort", sort);
       const response = await getAllProducts(sort, limit, page);
       console.log(response);
 
@@ -65,7 +63,6 @@ export const getSingleProduct = createAsyncThunk(
   "products/getSingleProduct",
   async (slug) => {
     try {
-      console.log("we are inside slices");
       const response = await getById(slug);
       // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
@@ -79,8 +76,21 @@ export const deleteSingleProduct = createAsyncThunk(
   "products/deleteSingleProduct",
   async (id) => {
     try {
-      console.log("we are inside delete slices", id);
       const response = await removeProduct(id);
+      // console.log("response slice", response?.data?.message?.data[0]);
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
+export const updateProductQuantity = createAsyncThunk(
+  "products/updateProductQuantity",
+  async (payload) => {
+    try {
+      console.log("we are inside update slices", payload);
+      const response = await updateQuantity(payload);
       // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
@@ -167,6 +177,19 @@ const productSlice = createSlice({
         state.message = "";
       })
       .addCase(deleteSingleProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateProductQuantity.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateProductQuantity.fulfilled, (state, action) => {
+        state.loading = false;
+        // state.total = action.payload.message.total;
+        state.error = "";
+        // state.message = action.payload.message;
+      })
+      .addCase(updateProductQuantity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
