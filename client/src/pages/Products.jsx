@@ -21,6 +21,7 @@ export const Products = () => {
   const { categories } = useSelector((state) => state.categories);
   const [sort] = useState(1);
   const [category, setCategory] = useState("All");
+  const [categoryName, setCategoryName] = useState("All");
 
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ export const Products = () => {
   return (
     <div className="bg-backgroundColor transition-all">
       <div className="container mx-auto px-6">
-        <div className="categoryList border p-4 flex justify-evenly">
+        <div className="categoryList border p-4 flex justify-evenly text-secondaryColor mb-4">
           <Link
             onClick={(e) => {
               setCategory("All");
@@ -66,6 +67,7 @@ export const Products = () => {
                   <Link
                     onClick={(e) => {
                       setCategory(category?._id);
+                      setCategoryName(category?.name);
                     }}
                     key={category?._id}
                   >
@@ -75,7 +77,9 @@ export const Products = () => {
               );
             })}
         </div>
-        <h3 className="text-primaryColor text-2xl font-medium">Fashion</h3>
+        <h3 className="text-primaryColor text-2xl font-medium">
+          {categoryName}
+        </h3>
         <span className="mt-3 text-sm text-secondaryColor">
           {products?.total - 1}+ Products
         </span>
