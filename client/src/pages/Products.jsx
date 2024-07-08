@@ -125,7 +125,7 @@ export const Products = () => {
               );
             })
           ) : (
-            <div className="border border-black">Product Not Found</div>
+            <div className="  w-full p-4 text-red-500">Product Not Found</div>
           )}
         </div>
         <div className="flex justify-center  py-5">
