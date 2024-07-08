@@ -33,9 +33,9 @@ export const createNewProduct = createAsyncThunk(
 
 export const listProducts = createAsyncThunk(
   "products/listProducts",
-  async ({ sort, limit, page }) => {
+  async ({ sort, limit, page, category }) => {
     try {
-      const response = await getAllProducts(sort, limit, page);
+      const response = await getAllProducts(sort, limit, page, category);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -45,9 +45,9 @@ export const listProducts = createAsyncThunk(
 
 export const newArrivals = createAsyncThunk(
   "products/newArrivals",
-  async ({ sort, limit, page }) => {
+  async ({ sort, limit, page, category }) => {
     try {
-      const response = await getAllProducts(sort, limit, page);
+      const response = await getAllProducts(sort, limit, page, category);
       console.log(response);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
@@ -133,6 +133,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+
       .addCase(newArrivals.pending, (state) => {
         state.loading = true;
       })

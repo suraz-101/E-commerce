@@ -11,9 +11,18 @@ const createProduct = async (payload) => {
   return data;
 };
 
-const getAllProducts = async (sort, limit, page) => {
+const getAllProducts = async (sort, limit, page, category) => {
   const data = await instance.get(
-    URLS.PRODUCTS + `?page=${page}&limit=${limit}&sort=${sort}`
+    URLS.PRODUCTS +
+      `?page=${page}&limit=${limit}&sort=${sort}&category=${category}`
+  );
+  return data;
+};
+
+const getProductByCategory = async (sort, limit, page, category) => {
+  const data = await instance.get(
+    URLS.PRODUCTS +
+      `?page=${page}&limit=${limit}&sort=${sort}&category=${category}`
   );
   return data;
 };
@@ -36,4 +45,5 @@ export {
   removeProduct,
   createProduct,
   updateQuantity,
+  getProductByCategory,
 };

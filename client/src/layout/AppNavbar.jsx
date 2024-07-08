@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { toggleContext } from "../context/ToggleContext";
 import { useDispatch } from "react-redux";
 import { removeAll } from "../slice/cartSlice";
+import { useLocation } from "react-router-dom";
 
 export const AppNavbar = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ export const AppNavbar = () => {
     removeToken("currentUser");
     navigate("/");
   };
+  const { pathname } = useLocation();
+  const path = pathname.split("/")[1];
 
   const { theme, setTheme } = useContext(toggleContext);
 
@@ -133,19 +136,24 @@ export const AppNavbar = () => {
             <div className="flex flex-col sm:flex-row">
               <Link
                 to="/"
-                className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
+                className={`mt-3  hover:underline sm:mx-3 sm:mt-0 ${
+                  path === "" ? "text-sky-500" : "text-secondaryColor"
+                }`}
                 href="#"
               >
                 Home
               </Link>
               <Link
                 to="products"
-                className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
+                className={`mt-3  hover:underline sm:mx-3 sm:mt-0 ${
+                  path === "products" ? "text-sky-500" : "text-secondaryColor"
+                }`}
                 href="#"
               >
                 Shop
               </Link>
               <Link
+                // to="categori"
                 className="mt-3 text-secondaryColor hover:underline sm:mx-3 sm:mt-0"
                 href="#"
               >

@@ -21,6 +21,16 @@ const getAllProducts = async (sort = 1, search, page = 1, limit = 10) => {
     });
   }
 
+  if (search?.category != "All") {
+    if (search?.category) {
+      query.push({
+        $match: {
+          category: new ObjectId(`${search?.category}`),
+        },
+      });
+    }
+  }
+
   if (sort) {
     query.push({
       $sort: {
@@ -82,6 +92,7 @@ const getAllProducts = async (sort = 1, search, page = 1, limit = 10) => {
   );
 
   const result = await ProductModel.aggregate(query);
+  // console.log(result);
   return {
     data: result[0].data,
     total: result[0].total,

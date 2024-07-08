@@ -14,9 +14,10 @@ export const HomePage = () => {
   const navigate = useNavigate();
   const { newArrival, page, limit } = useSelector((state) => state.products);
   const [sort] = useState(-1);
+  const [category, setCategory] = useState("All");
   const initFetch = useCallback(() => {
-    dispatch(newArrivals({ sort, page, limit }));
-  }, [dispatch, sort, limit, page]);
+    dispatch(newArrivals({ sort, page, limit, category }));
+  }, [dispatch, sort, limit, page, category]);
 
   useEffect(() => {
     initFetch();

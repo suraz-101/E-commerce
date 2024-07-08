@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Paginate } from "../components/Pagination";
 import { BASE_URL } from "../contants";
 import { addToCart } from "../slice/cartSlice";
+import { listCategories } from "../slice/categorySlice";
 import { listProducts, setLimit, setPage } from "../slice/productSlice";
 import { isLoggedIn } from "../utils/login";
 
@@ -16,13 +17,17 @@ export const Products = () => {
   const { products, page, limit, total, product } = useSelector(
     (state) => state.products
   );
+
+  const { categories } = useSelector((state) => state.categories);
   const [sort] = useState(1);
+  const [category, setCategory] = useState("All");
 
   const navigate = useNavigate();
 
   const initFetch = useCallback(() => {
-    dispatch(listProducts({ page, sort, limit }));
-  }, [dispatch, sort, limit, page]);
+    dispatch(listProducts({ page, sort, limit, category }));
+    dispatch(listCategories());
+  }, [dispatch, sort, limit, page, category]);
 
   useEffect(() => {
     initFetch();
@@ -45,6 +50,31 @@ export const Products = () => {
   return (
     <div className="bg-backgroundColor transition-all">
       <div className="container mx-auto px-6">
+        <div className="categoryList border p-4 flex justify-evenly">
+          <Link
+            onClick={(e) => {
+              setCategory("All");
+            }}
+          >
+            All
+          </Link>
+
+          {categories?.length > 0 &&
+            categories?.map((category) => {
+              return (
+                <div key={category?._id}>
+                  <Link
+                    onClick={(e) => {
+                      setCategory(category?._id);
+                    }}
+                    key={category?._id}
+                  >
+                    {category?.name}
+                  </Link>
+                </div>
+              );
+            })}
+        </div>
         <h3 className="text-primaryColor text-2xl font-medium">Fashion</h3>
         <span className="mt-3 text-sm text-secondaryColor">
           {products?.total - 1}+ Products

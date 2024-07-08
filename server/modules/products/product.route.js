@@ -27,8 +27,8 @@ const upload = multer({ storage: storage });
 Router.get("/", async (req, res, next) => {
   try {
     console.log(req.query);
-    const { sort, name, page, limit } = req.query;
-    const search = { name };
+    const { sort, name, page, limit, category } = req.query;
+    const search = { name, category };
     const result = await getAllProducts(sort, search, page, limit);
 
     res.status(200).json({ message: result });
