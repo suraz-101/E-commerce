@@ -174,6 +174,14 @@ const updateUsersDetails = async (id, payload) => {
   return "user updated successfully";
 };
 
+const updateUserAddress = async (_id, address) => {
+  console.log("id", _id);
+  console.log("address", address);
+  const user = await UserModel.updateOne({ _id }, { address });
+  if (!user) throw new Error("Cannot add new Address");
+  return "address added successfully";
+};
+
 const deleteUser = async (_id) => {
   const deleteUser = await UserModel.deleteOne({ _id });
   if (!deleteUser) throw new Error("Cannot delete the user");
@@ -190,4 +198,5 @@ module.exports = {
   changePassword,
   resetPassword,
   getSingleUser,
+  updateUserAddress,
 };

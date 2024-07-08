@@ -42,7 +42,7 @@ export const CheckOut = () => {
     customerName: "",
     customerEmail: "",
     customerPhone: "",
-    shippingAddress: "",
+    shippingAddress: null,
     paymentMethod: "stripe",
     paymentStatus: "pending",
     items: [],
@@ -67,7 +67,6 @@ export const CheckOut = () => {
       customerName: user?.name,
       customerEmail: user?.email,
       customerPhone: user?.phoneNumber,
-      shippingAddress: user?.address,
     };
 
     setPayload(updatedPayload);
@@ -356,12 +355,38 @@ export const CheckOut = () => {
 
                 <div className=" p-4 fw-bold text-center">
                   {isLoggedIn() ? (
-                    <button
-                      onClick={placeOrder}
-                      className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
-                    >
-                      Place Order
-                    </button>
+                    <>
+                      {" "}
+                      <div>
+                        <select
+                          name="shippingAddress"
+                          id="shippingAddress"
+                          value={user?.shippingAddress || ""}
+                          onChange={(e) => {
+                            setPayload((prev) => ({
+                              ...prev,
+                              shippingAddress: e.target.value,
+                            }));
+                            // getCategory(e.target.value);
+                          }}
+                        >
+                          <option value="">SELECT SHIPPING ADDRESS</option>
+                          {user?.address?.map((add, index) => {
+                            return (
+                              <option value={add} key={user?.add}>
+                                {add}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                      <button
+                        onClick={placeOrder}
+                        className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                      >
+                        Place Order
+                      </button>
+                    </>
                   ) : (
                     <></>
                   )}

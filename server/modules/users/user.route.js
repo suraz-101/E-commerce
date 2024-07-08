@@ -9,6 +9,7 @@ const {
   updateUsersDetails,
   deleteUser,
   getSingleUser,
+  updateUserAddress,
 } = require("./user.controller");
 const {
   userValidation,
@@ -118,11 +119,12 @@ userRouter.post("/resetPass", checkRole(["user"]), async (req, res, next) => {
   }
 });
 
-userRouter.patch("/:id", (req, res, next) => {
+userRouter.patch("/", async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id, address } = req.body;
+    const result = await updateUserAddress(id, address);
     res.status(200).json({
-      message: `You are inside pathc method of users applicaiton with id ${id}`,
+      message: result,
     });
   } catch (error) {
     next(error);

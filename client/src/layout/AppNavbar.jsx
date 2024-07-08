@@ -3,13 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { isLoggedIn } from "../utils/login";
-import { removeToken } from "../utils/sessionManager";
+import {
+  currentUser,
+  getCurrentUser,
+  removeToken,
+} from "../utils/sessionManager";
 import ReactSwitch from "react-switch";
 import { useContext } from "react";
 import { toggleContext } from "../context/ToggleContext";
 import { useDispatch } from "react-redux";
 import { removeAll } from "../slice/cartSlice";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import { BASE_URL } from "../contants";
 
 export const AppNavbar = () => {
   const dispatch = useDispatch();
@@ -31,6 +38,19 @@ export const AppNavbar = () => {
   };
 
   const { quantity } = useSelector((state) => state.cart);
+
+  const [userProfile, setUserProfile] = useState({
+    name: "",
+    email: "",
+  });
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      const { name, email } = JSON.parse(getCurrentUser());
+      setUserProfile({ name: name, email: email });
+    }
+  }, []);
+
   return (
     <>
       <header
@@ -74,16 +94,35 @@ export const AppNavbar = () => {
               />
               <span className="ml-2 text-secondaryColor">{theme}Mode </span>
             </div>
+
             <div className="flex items-center justify-end w-full">
               {isLoggedIn() ? (
-                <button
-                  className=" border  border-collapse rounded mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
-                  onClick={(e) => {
-                    handleSubmit(e);
-                  }}
-                >
-                  Logout
-                </button>
+                <>
+                  {" "}
+                  <div className="flex mx-5 ">
+                    <Link to="profile" className="flex mx-5 ">
+                      {" "}
+                      <img
+                        src={BASE_URL.concat()}
+                        // onError="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                        className="h-10 w-10 mx-2 border rounded-full"
+                        alt=""
+                      />
+                      <div className="flex flex-col text-secondaryColor">
+                        {/* <h1> {userProfile?.name}</h1>
+                        <h1> {userProfile?.email}</h1> */}
+                      </div>
+                    </Link>
+                  </div>
+                  <button
+                    className=" border  border-collapse rounded mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                    onClick={(e) => {
+                      handleSubmit(e);
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <Link to="/login">
                   <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white">

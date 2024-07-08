@@ -38,14 +38,9 @@ const getById = async (email) => {
   return await instance.get(URLS.GETALLUSERS + `/${email}`);
 };
 
-// const updateUserDetails = (payload) => {
-//   return instance.put(URLS.USERS + `/updateProfile`, payload, {
-//     headers: {
-//       access_token: localStorage.getItem("access_token"),
-//       "Content-Type": "multipart/form-data",
-//     },
-//   });
-// };
+const updateAddress = (payload) => {
+  return instance.patch(URLS.GETALLUSERS, payload);
+};
 
 // const getById = (email) => {
 //   return instance.get(URLS.USERS + `/get-user?email=${email}`, {
@@ -67,4 +62,12 @@ const getById = async (email) => {
 //   });
 // };
 
-export { login, getById, createUser, forgetPassword, verifyOtp, getAllUsers };
+export {
+  login,
+  getById,
+  createUser,
+  forgetPassword,
+  verifyOtp,
+  getAllUsers,
+  updateAddress,
+};

@@ -29,6 +29,8 @@ export const OrderManagement = () => {
                 <h1>Order : {index + 1}</h1>
                 <h1>Order By : {order?.customerName}</h1>
                 <h1>Customer Email : {order?.customerEmail}</h1>
+                <h1>Shipping Address : {order?.shippingAddress}</h1>
+
                 {order?.items?.map((product, index) => {
                   return (
                     <div className=" p-2 flex" key={product?.productId}>

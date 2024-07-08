@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { PrivateRoute } from "./components/Route";
 import { AdminLayout } from "./layout/AdminLayout";
 import { AppLayout } from "./layout/AppLayout";
@@ -21,7 +21,8 @@ import { VerifyOtp } from "./pages/VerifyOtp";
 import { AddCategory } from "./pages/admin/AddCategory";
 import { UsersOrderHistory } from "./pages/UsersOrderHistory";
 import { OrderManagement } from "./pages/admin/OrderManagement";
-
+import { MyProfile } from "./pages/MyProfile";
+import { AddressBook } from "./pages/AddressBook";
 function App() {
   return (
     <>
@@ -36,7 +37,12 @@ function App() {
         {/* users route */}
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />}>
+            <Route index element={<Profile />} />
+            <Route path="my" element={<MyProfile />} />
+            <Route path="address" element={<AddressBook />} />
+          </Route>
+
           <Route path="products" element={<Products />} />
           <Route path="productsDetail/:id" element={<ProductDetail />} />
           <Route path="checkOut" element={<CheckOut />} />

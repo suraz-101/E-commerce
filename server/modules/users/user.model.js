@@ -11,7 +11,7 @@ const schema = new mongoose.Schema(
     password: { type: String, required: [true, "password is mandatory"] },
     phoneNumber: { type: Number, required: [true, "phone Number is required"] },
     profilePic: { type: String },
-    address: { type: String },
+    address: { type: [String] },
     role: {
       type: [String],
       enum: ["admin", "user"],

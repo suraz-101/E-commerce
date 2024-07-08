@@ -18,7 +18,9 @@ import { useNavigate } from "react-router-dom";
 export const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { product, products } = useSelector((state) => state.products);
+  const { products, page, limit, total, product } = useSelector(
+    (state) => state.products
+  );
   const { pathname } = useLocation();
 
   const slug = pathname.split("/")[2];
