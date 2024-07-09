@@ -16,6 +16,7 @@ import { currentUser, getCurrentUser } from "../utils/sessionManager";
 import { isLoggedIn } from "../utils/login";
 import { Notify } from "../components/Notify";
 import { updateProductQuantity } from "../slice/productSlice";
+import { invoiceGenerator } from "../utils/services/invoiceGenerator";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export const CheckOut = () => {
 
   useEffect(() => {
     if (isLoggedIn()) {
-      const { email } = JSON.parse(getCurrentUser());
+      const { name, email } = JSON.parse(getCurrentUser());
       initFetch(email);
     }
   }, [initFetch]);
@@ -86,8 +87,13 @@ export const CheckOut = () => {
     setTimeout(() => {
       dispatch(removeAll());
     }, 2000);
-
     // dispatch(getSingleUse)
+    invoiceGenerator(
+      user?.name,
+      Date.now(),
+      updatedPayload?.items,
+      payload.shippingAddress
+    );
   };
 
   const calculateTotalPrice = () => {
@@ -370,7 +376,7 @@ export const CheckOut = () => {
                             // getCategory(e.target.value);
                           }}
                         >
-                          <option value="">SELECT SHIPPING ADDRESS</option>
+                          <option>SELECT SHIPPING ADDRESS</option>
                           {user?.address?.map((add, index) => {
                             return (
                               <option value={add} key={user?.add}>
