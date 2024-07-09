@@ -19,21 +19,23 @@ export const Profile = () => {
     }
   }, []);
   return (
-    <div className="flex container border mx-auto p-4 ">
-      <div className="sidebar  w-80 p-4">
-        <h1>Hello, {userProfile?.name}</h1>
-        <div>
-          <h1 className="text-xl mt-4 font-bold">Manage my Account</h1>
-          <div className="flex flex-col pl-4 py-4">
-            <Link to="my"> My Porfile</Link>
-            <Link to="address"> Address Book</Link>
-            <Link to=""> My Porfile</Link>
+    <div className="bg-backgroundColor transition-all">
+      <div className="flex container  mx-auto p-4 ">
+        <div className="sidebar  w-80 p-4 text-primaryColor">
+          <h1>Hello, {userProfile?.name}</h1>
+          <div>
+            <h1 className="text-xl mt-4 font-bold">Manage my Account</h1>
+            <div className="flex flex-col pl-4 py-4">
+              <Link to="my"> My Porfile</Link>
+              <Link to="address"> Address Book</Link>
+              <Link to=""> My Porfile</Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="main border w-full p-4">
-        <Outlet />
+        <div className="main border w-full p-4 text-secondaryColor ">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

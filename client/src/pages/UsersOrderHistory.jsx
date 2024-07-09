@@ -70,7 +70,7 @@ export const UsersOrderHistory = () => {
                   );
                 })}
                 <h1 className="py-4">
-                  Status :{" "}
+                  <span className="font-bold"> Status :</span>
                   <span
                     className={`${
                       order?.orderStatus === "pending"
@@ -80,6 +80,10 @@ export const UsersOrderHistory = () => {
                   >
                     {order?.orderStatus}
                   </span>
+                </h1>
+                <h1 className="py-4">
+                  <span className="font-bold"> Shipping Address :</span>{" "}
+                  <span>{order?.shippingAddress}</span>
                 </h1>
 
                 {order?.orderStatus === "Completed" && (

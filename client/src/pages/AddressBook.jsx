@@ -51,7 +51,7 @@ export const AddressBook = () => {
         <div className="p-4 ">
           {user?.address?.map((add, index) => {
             return (
-              <div className="border p-3 mb-2" key={index}>
+              <div className=" p-2 mb-2 " key={index}>
                 <h1>{add}</h1>
               </div>
             );
