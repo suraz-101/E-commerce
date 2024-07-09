@@ -14,7 +14,7 @@ import { isLoggedIn } from "../utils/login";
 
 export const Products = () => {
   const dispatch = useDispatch();
-  const { products, page, limit, total, product } = useSelector(
+  const { products, page, limit, total, product, loading } = useSelector(
     (state) => state.products
   );
 
@@ -84,6 +84,20 @@ export const Products = () => {
           {products?.total - 1}+ Products
         </span>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
+          {loading && (
+            <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto animate-pulse">
+              <div className="relative flex items-end justify-end h-56 w-full bg-slate-700 rounded-md">
+                <div className="absolute w-full h-full z-0 rounded-md"></div>
+                <div className="p-2 rounded-full bg-slate-700 text-white mx-5 -mb-4 z-10">
+                  <div className="h-5 w-5 bg-slate-700 rounded-full"></div>
+                </div>
+              </div>
+              <div className="px-5 py-3 bg-secondaryBacgroundColor animate-pulse">
+                <div className="h-2 bg-slate-700 rounded mb-2"></div>
+                <div className="h-2 bg-slate-700 rounded"></div>
+              </div>
+            </div>
+          )}
           {products?.data?.length > 0 ? (
             products?.data?.map((p) => {
               return (
