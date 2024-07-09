@@ -5,7 +5,8 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../contants";
-import { getAllOrders } from "../../slice/orderSlice";
+import { getAllOrders, updateStatus } from "../../slice/orderSlice";
+import { dateFormatter } from "../../utils/dateFormatter";
 
 export const OrderManagement = () => {
   const dispatch = useDispatch();
@@ -15,9 +16,16 @@ export const OrderManagement = () => {
     dispatch(getAllOrders());
   }, [dispatch]);
 
+  const handleChange = async (e, id, value) => {
+    e.preventDefault();
+
+    await dispatch(updateStatus({ id, value }));
+    await initFetch();
+  };
   useEffect(() => {
     initFetch();
   }, [initFetch]);
+
   return (
     <div className="bg-backgroundColor text-primaryColor transition-all">
       <div className="container mx-auto py-6 ">
@@ -63,7 +71,8 @@ export const OrderManagement = () => {
                   Status :{" "}
                   <span
                     className={`${
-                      order?.orderStatus === "pending"
+                      order?.orderStatus === "pending" ||
+                      order?.orderStatus === "canceled"
                         ? "text-red-600"
                         : "text-green-500"
                     }`}
@@ -71,18 +80,27 @@ export const OrderManagement = () => {
                     {order?.orderStatus}
                   </span>
                 </h1>
-                <label htmlFor="">Change Status : </label>
+
                 <select
                   name="status"
                   id="status"
                   className="border-2 border-gray-400 px-2 py-1 "
+                  onChange={(e) => {
+                    handleChange(e, order?._id, e.target.value);
+                  }}
                 >
-                  <option value="">pending</option>
-                  <option value="">processing</option>
-                  <option value="">Completed</option>
-                  <option value="">canceled</option>
+                  <option>Change Status</option>
+                  <option value="pending">pending</option>
+                  <option value="processing">processing</option>
+                  <option value="Completed">Completed</option>
+                  <option value="canceled">canceled</option>
                 </select>
 
+                {order?.orderStatus === "Completed" && (
+                  <h1>
+                    Delivered on : <span>{dateFormatter(order?.updateAt)}</span>
+                  </h1>
+                )}
                 <h1>
                   Payment Method :{" "}
                   <span

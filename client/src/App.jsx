@@ -23,6 +23,7 @@ import { UsersOrderHistory } from "./pages/UsersOrderHistory";
 import { OrderManagement } from "./pages/admin/OrderManagement";
 import { MyProfile } from "./pages/MyProfile";
 import { AddressBook } from "./pages/AddressBook";
+import { ProductEdit } from "./pages/admin/ProductEdit";
 function App() {
   return (
     <>
@@ -67,14 +68,6 @@ function App() {
             }
           />
           <Route
-            path="addProduct"
-            element={
-              <PrivateRoute role="admin">
-                <AddProduct />
-              </PrivateRoute>
-            }
-          />
-          <Route
             path="usersLists"
             element={
               <PrivateRoute role="admin">
@@ -83,10 +76,27 @@ function App() {
             }
           />
           <Route
+            path="addProduct"
+            element={
+              <PrivateRoute role="admin">
+                <AddProduct />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
             path="products"
             element={
               <PrivateRoute role="admin">
                 <ProductManagement />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="products/:id"
+            element={
+              <PrivateRoute role="admin">
+                <ProductEdit />
               </PrivateRoute>
             }
           />

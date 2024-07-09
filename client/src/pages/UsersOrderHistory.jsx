@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../contants";
 import { getUserOrder } from "../slice/orderSlice";
+import { dateFormatter } from "../utils/dateFormatter";
 import { getCurrentUser } from "../utils/sessionManager";
 
 export const UsersOrderHistory = () => {
@@ -80,6 +81,12 @@ export const UsersOrderHistory = () => {
                     {order?.orderStatus}
                   </span>
                 </h1>
+
+                {order?.orderStatus === "Completed" && (
+                  <h1>
+                    Delivered on : <span>{dateFormatter(order?.updateAt)}</span>
+                  </h1>
+                )}
               </div>
             );
           })

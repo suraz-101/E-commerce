@@ -20,10 +20,11 @@ export const ProductManagement = () => {
 
   const navigate = useNavigate();
   const [sort] = useState(-1);
+  const [category] = useState("All");
 
   const initFetch = useCallback(() => {
-    dispatch(listProducts({ page, sort, limit }));
-  }, [dispatch, sort, limit, page]);
+    dispatch(listProducts({ page, sort, limit, category }));
+  }, [dispatch, sort, limit, page, category]);
 
   const handleDelete = useCallback(
     (id) => {
@@ -163,7 +164,7 @@ export const ProductManagement = () => {
                             </a>
                           </td>
                           <td className="text-left py-3 px-4">
-                            <Link to={`/product/${product?._id}`}>
+                            <Link to={`${product?._id}`}>
                               <i className="fa fa-eye border p-2 bg-green-600 text-white rounded"></i>
                             </Link>
                             <button

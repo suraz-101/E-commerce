@@ -41,9 +41,11 @@ router.put("/:id", (req, res, next) => {
     next(error);
   }
 });
-router.patch("/:id", (req, res, next) => {
+router.patch("/", async (req, res, next) => {
   try {
-    res.status(200).json({ message: "you are inside patch method of order" });
+    const { id, value } = req.body;
+    const result = await orderController.updateOrderStatus(id, value);
+    res.status(200).json({ message: result });
   } catch (error) {
     next(error);
   }

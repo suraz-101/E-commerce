@@ -17,4 +17,10 @@ const getAll = async () => {
   return data;
 };
 
-export { createOrder, getOrdersOfUser, getAll };
+const statusUpdate = async (payload) => {
+  console.log("payload for status update", payload);
+  const data = await instance.patch(URLS.ORDERS, payload);
+  return data;
+};
+
+export { createOrder, getOrdersOfUser, getAll, statusUpdate };

@@ -11,6 +11,13 @@ import { getCurrentUser } from "../utils/sessionManager";
 export const AddressBook = () => {
   const dispatch = useDispatch();
   const { user, error, message } = useSelector((state) => state.users);
+  const [add, setAdd] = useState({
+    street: "",
+    houseNumber: "",
+    place: "",
+    ward: "",
+    city: "",
+  });
 
   const initFetch = useCallback(
     (email) => {
@@ -24,21 +31,11 @@ export const AddressBook = () => {
       const { email } = JSON.parse(getCurrentUser());
       initFetch(email);
     }
-  }, [initFetch]);
+  }, [initFetch, add]);
 
-  const [add, setAdd] = useState({
-    street: "",
-    houseNumber: "",
-    place: "",
-    ward: "",
-    city: "",
-  });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLoggedIn()) {
-      const { email } = JSON.parse(getCurrentUser());
-      initFetch(email);
-    }
+
     const { street, houseNumber, place, ward, city } = add;
     const newAddress = `${street} street, ${houseNumber} house no., ${place}, ${ward}-${city}`;
     const updatedAddresses = [...(user?.address || []), newAddress];

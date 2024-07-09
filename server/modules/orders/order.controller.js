@@ -16,4 +16,12 @@ const getAllOrdersByUser = (email) => {
   return OrderModel.find({ customerEmail: email });
 };
 
-module.exports = { createOrder, getAllOrders, getAllOrdersByUser };
+const updateOrderStatus = async (_id, orderStatus) => {
+  return OrderModel.updateOne({ _id }, { orderStatus });
+};
+module.exports = {
+  createOrder,
+  getAllOrders,
+  getAllOrdersByUser,
+  updateOrderStatus,
+};
