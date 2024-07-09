@@ -38,6 +38,7 @@ export const OrderManagement = () => {
                 <h1>Order By : {order?.customerName}</h1>
                 <h1>Customer Email : {order?.customerEmail}</h1>
                 <h1>Shipping Address : {order?.shippingAddress}</h1>
+                <h1>Phone Number : {order?.customerPhone}</h1>
 
                 {order?.items?.map((product, index) => {
                   return (
