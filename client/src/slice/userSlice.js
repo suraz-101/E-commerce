@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  changePass,
   getAllUsers,
   getById,
   updateAddress,
@@ -71,6 +72,20 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+
+export const changePassword = createAsyncThunk(
+  "users/changePassword",
+  async (payload) => {
+    try {
+      console.log("we are user slices update", payload);
+      const response = await changePass(payload);
+      // console.log("response slice", response?.data?.message?.data[0]);
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
 const userSlice = createSlice({
   name: "users",
   initialState,
@@ -134,6 +149,18 @@ const userSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(changePassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.message = action.payload.message;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

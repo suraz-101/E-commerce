@@ -1,4 +1,3 @@
-const { decrypt } = require("dotenv");
 const { mailer } = require("../../services/mailer");
 const { hashPassword, dcrypt } = require("../../utils/bcrypt");
 const {
@@ -89,7 +88,7 @@ const login = async (payload) => {
   const response = await UserModel.findOne({ email });
   if (!response) throw new Error("email is incorrect");
   const { password: hash } = response;
-  const isValid = await dcrypt(password, hash);
+  const isValid = await dcrypt(hash, password);
   if (!isValid) throw new Error("password is incorrect");
   const jwtPayload = {
     name: response.name,
@@ -132,15 +131,20 @@ const verifyOtpCode = async (payload) => {
 };
 
 const changePassword = async (payload) => {
+  console.log("change", payload);
   const { email, oldPassword, newPassword } = payload;
   if (!email || !oldPassword || !newPassword)
     throw new Error("something is missing!!");
   const user = await UserModel.findOne({ email });
+
   if (!user) throw new Error("email does not matched");
   const password = user.password;
-  const isValid = await decrypt(password, oldPassword);
+  console.log("hasehd", password);
+  const isValid = await dcrypt(password, oldPassword);
+  console.log(isValid);
   if (!isValid) throw new Error("old password does not matched!");
   const hashedPass = await hashPassword(newPassword);
+  console.log(hashedPass);
   const updatedUser = await UserModel.updateOne(
     { email },
     { password: hashedPass }

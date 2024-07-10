@@ -100,15 +100,10 @@ export const AppNavbar = () => {
                 <>
                   {" "}
                   <div className="flex mx-5 ">
-                    <Link to="profile" className="flex mx-5 ">
+                    <Link to="profile" className="flex mx-5  ">
                       {" "}
-                      <img
-                        src={BASE_URL.concat()}
-                        // onError="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                        className="h-10 w-10 mx-2 border rounded-full"
-                        alt=""
-                      />
-                      <div className="flex flex-col text-secondaryColor">
+                      <i className="fa fa-user text-secondaryColor    flex justify-center  flex-col mx-2"></i>
+                      <div className="flex flex-col text-secondaryColor ">
                         <h1> {userProfile?.name}</h1>
                         {/* <h1> {userProfile?.email}</h1> */}
                       </div>

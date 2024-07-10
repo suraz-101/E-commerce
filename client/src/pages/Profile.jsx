@@ -34,7 +34,7 @@ export const Profile = () => {
                 to="my"
                 className={`${
                   path === "my" ? "text-sky-500" : "text-secondaryColor"
-                }`}
+                } py-2`}
               >
                 <i
                   className={`fa fa-user text-secondaryColor mr-1 ${
@@ -47,7 +47,7 @@ export const Profile = () => {
                 to="address"
                 className={`${
                   path === "address" ? "text-sky-500" : "text-secondaryColor"
-                }`}
+                } py-2`}
               >
                 {" "}
                 <i
@@ -63,7 +63,7 @@ export const Profile = () => {
                   path === "changePassword"
                     ? "text-sky-500"
                     : "text-secondaryColor"
-                }`}
+                } py-2`}
               >
                 {" "}
                 <i
