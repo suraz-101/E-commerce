@@ -51,8 +51,12 @@ export const AddressBook = () => {
         <div className="p-4 ">
           {user?.address?.map((add, index) => {
             return (
-              <div className=" p-2 mb-2 " key={index}>
+              <div
+                className=" p-2 mb-2 flex justify-between align-middle border shadow-inner rounded"
+                key={index}
+              >
                 <h1>{add}</h1>
+                <i className="fa fa-trash text-red-600  flex justify-center flex-col"></i>
               </div>
             );
           })}
