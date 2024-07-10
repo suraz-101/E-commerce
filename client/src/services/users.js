@@ -42,6 +42,10 @@ const updateAddress = (payload) => {
   return instance.patch(URLS.GETALLUSERS, payload);
 };
 
+const updateUsersDetails = (payload) => {
+  return instance.put(URLS.GETALLUSERS + "/updateProfile", payload);
+};
+
 // const getById = (email) => {
 //   return instance.get(URLS.USERS + `/get-user?email=${email}`, {
 //     headers: { access_token: localStorage.getItem("access_token") },
@@ -70,4 +74,5 @@ export {
   verifyOtp,
   getAllUsers,
   updateAddress,
+  updateUsersDetails,
 };

@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllUsers, getById, updateAddress } from "../services/users";
+import {
+  getAllUsers,
+  getById,
+  updateAddress,
+  updateUsersDetails,
+} from "../services/users";
 
 const initialState = {
   users: [],
@@ -41,10 +46,24 @@ export const getSingleUser = createAsyncThunk(
 
 export const updateUserAdd = createAsyncThunk(
   "users/updateUserAdd",
-  async ( payload ) => {
+  async (payload) => {
     try {
       console.log("we are user slices update", payload);
       const response = await updateAddress(payload);
+      // console.log("response slice", response?.data?.message?.data[0]);
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async (payload) => {
+    try {
+      console.log("we are user slices update", payload);
+      const response = await updateUsersDetails(payload);
       // console.log("response slice", response?.data?.message?.data[0]);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
@@ -103,6 +122,18 @@ const userSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(updateUserAdd.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.message = action.payload.message;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

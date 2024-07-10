@@ -135,8 +135,8 @@ userRouter.put("/updateProfile", async (req, res, next) => {
     if (req.file) {
       req.body.profilePic = req.file.path.replace("public", "");
     }
-    const { _id, rest } = req.body;
-    const result = await updateUsersDetails(_id, rest);
+    const { email, ...rest } = req.body;
+    const result = await updateUsersDetails(email, rest);
     res.status(200).json({ message: result });
   } catch (error) {
     next(error);

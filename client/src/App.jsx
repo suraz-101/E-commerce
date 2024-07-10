@@ -24,6 +24,7 @@ import { OrderManagement } from "./pages/admin/OrderManagement";
 import { MyProfile } from "./pages/MyProfile";
 import { AddressBook } from "./pages/AddressBook";
 import { ProductEdit } from "./pages/admin/ProductEdit";
+import { ChangePassword } from "./pages/ChangePassword";
 function App() {
   return (
     <>
@@ -42,6 +43,7 @@ function App() {
             <Route index element={<Profile />} />
             <Route path="my" element={<MyProfile />} />
             <Route path="address" element={<AddressBook />} />
+            <Route path="changePassword" element={<ChangePassword />} />
           </Route>
 
           <Route path="products" element={<Products />} />
@@ -67,6 +69,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          changePassword
           <Route
             path="usersLists"
             element={
@@ -83,7 +86,6 @@ function App() {
               </PrivateRoute>
             }
           />
-
           <Route
             path="products"
             element={

@@ -109,8 +109,8 @@ export const AppNavbar = () => {
                         alt=""
                       />
                       <div className="flex flex-col text-secondaryColor">
-                        {/* <h1> {userProfile?.name}</h1>
-                        <h1> {userProfile?.email}</h1> */}
+                        <h1> {userProfile?.name}</h1>
+                        {/* <h1> {userProfile?.email}</h1> */}
                       </div>
                     </Link>
                   </div>

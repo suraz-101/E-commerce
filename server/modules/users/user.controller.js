@@ -95,6 +95,7 @@ const login = async (payload) => {
     name: response.name,
     email: response.email,
     role: response.role,
+    phone: response.phoneNumber,
   };
   const token = await generateJwtToken(jwtPayload);
   return token;
@@ -166,10 +167,10 @@ const resetPassword = async (_id) => {
   return "password has been reset successfully!!";
 };
 
-const updateUsersDetails = async (id, payload) => {
-  const user = await UserModel.findOne({ _id: id });
+const updateUsersDetails = async (email, payload) => {
+  const user = await UserModel.findOne({ email: email });
   if (!user) throw new Error("user not found");
-  const updated = await UserModel.updateOne({ _id: id }, payload);
+  const updated = await UserModel.updateOne({ email }, payload);
   if (!updated) throw new Error("cannot update user details");
   return "user updated successfully";
 };
