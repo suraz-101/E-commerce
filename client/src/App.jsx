@@ -40,7 +40,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/profile" element={<Profile />}>
-            <Route index />
+            <Route index element={<MyProfile />} />
             <Route path="my" element={<MyProfile />} />
             <Route path="address" element={<AddressBook />} />
             <Route path="changePassword" element={<ChangePassword />} />

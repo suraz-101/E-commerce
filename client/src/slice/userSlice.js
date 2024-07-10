@@ -162,6 +162,7 @@ const userSlice = createSlice({
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
+        state.message = "";
         state.error = action.error.message;
       });
   },
