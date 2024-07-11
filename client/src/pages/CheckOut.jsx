@@ -362,12 +362,11 @@ export const CheckOut = () => {
                 <div className=" p-4 fw-bold text-center">
                   {isLoggedIn() ? (
                     <>
-                      {" "}
                       <div>
                         <select
                           name="shippingAddress"
                           id="shippingAddress"
-                          value={user?.shippingAddress || ""}
+                          value={payload?.shippingAddress || ""}
                           onChange={(e) => {
                             setPayload((prev) => ({
                               ...prev,
@@ -376,10 +375,10 @@ export const CheckOut = () => {
                             // getCategory(e.target.value);
                           }}
                         >
-                          <option>SELECT SHIPPING ADDRESS</option>
+                          <option value="">SELECT SHIPPING ADDRESS</option>
                           {user?.address?.map((add, index) => {
                             return (
-                              <option value={add} key={user?.add}>
+                              <option value={add} key={index}>
                                 {add}
                               </option>
                             );
