@@ -10,6 +10,14 @@ const createProduct = async (payload) => {
   });
   return data;
 };
+const createCarosel = async (payload) => {
+  return await instance.post(URLS.PRODUCTS + `/carosel`, payload, {
+    headers: {
+      token: localStorage.getItem("token"),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 
 const getAllProducts = async (sort, limit, page, category) => {
   const data = await instance.get(
@@ -46,4 +54,5 @@ export {
   createProduct,
   updateQuantity,
   getProductByCategory,
+  createCarosel,
 };

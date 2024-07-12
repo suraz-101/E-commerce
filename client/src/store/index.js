@@ -19,6 +19,7 @@ import { authReducer } from "../slice/authSlice";
 import { userReducer } from "../slice/userSlice";
 import { categoryReducer } from "../slice/categorySlice";
 import { orderReducer } from "../slice/orderSlice";
+import { caroselReducer } from "../slice/caroselSlice";
 // import { userReducer } from "../slices/userSlice";
 
 const persistCartConfig = {
@@ -36,6 +37,7 @@ export const store = configureStore({
     users: userReducer,
     categories: categoryReducer,
     orders: orderReducer,
+    carosels: caroselReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({

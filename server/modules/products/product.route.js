@@ -9,6 +9,7 @@ const {
   updateProduct,
   updateProductDetails,
   deleteProduct,
+  createCaroselProduct,
 } = require("./product.controller");
 const { validation } = require("./product.validator");
 

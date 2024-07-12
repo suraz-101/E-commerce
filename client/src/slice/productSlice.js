@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  createCarosel,
   createProduct,
   getAllProducts,
   getById,
@@ -11,6 +12,7 @@ const initialState = {
   products: [],
   product: {},
   newArrival: [],
+  carosel: [],
   page: 1,
   total: 0,
   limit: 10,
@@ -24,6 +26,18 @@ export const createNewProduct = createAsyncThunk(
   async (payload) => {
     try {
       const response = await createProduct(payload);
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
+export const createCaroselProduct = createAsyncThunk(
+  "products/createCaroselProduct",
+  async (payload) => {
+    try {
+      const response = await createCarosel(payload);
       return response.data; // Assuming the response structure is { data: { total, data } }
     } catch (error) {
       throw Error(error.message);
@@ -116,6 +130,18 @@ const productSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(createNewProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(createCaroselProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createCaroselProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.message = action.payload.message;
+      })
+      .addCase(createCaroselProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

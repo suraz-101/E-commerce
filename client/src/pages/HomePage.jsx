@@ -127,7 +127,7 @@ export const HomePage = () => {
               newArrival?.data?.slice(0, 4).map((p) => {
                 return (
                   <div
-                    className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden border"
+                    className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden "
                     key={p?._id}
                   >
                     <div className=" relative flex items-end justify-end h-56 w-full  ">

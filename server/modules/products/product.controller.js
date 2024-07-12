@@ -193,6 +193,15 @@ const deleteProduct = async (_id) => {
   return "Product Deleted Successfully";
 };
 
+const createCaroselProduct = async (payload) => {
+  payload.slug = generateSlug(payload.name) + "-" + Date.now();
+  console.log("controller product", payload);
+  const product = await ProductModel.create(payload);
+  if (!product)
+    throw new Error("cannot create carosel product. Please try again!!");
+  return "product created successfully";
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -200,4 +209,5 @@ module.exports = {
   updateProductDetails,
   updateProduct,
   deleteProduct,
+  createCaroselProduct,
 };

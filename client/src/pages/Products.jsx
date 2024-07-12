@@ -51,7 +51,7 @@ export const Products = () => {
   return (
     <div className="bg-backgroundColor transition-all">
       <div className="container mx-auto px-6">
-        <div className="categoryList border p-4 flex justify-evenly text-secondaryColor mb-4">
+        <div className="categoryList bg-secondaryBacgroundColor rounded p-2 flex justify-evenly text-secondaryColor mb-4 shadow transition-all">
           <Link
             onClick={(e) => {
               setCategory("All");
@@ -102,7 +102,7 @@ export const Products = () => {
             products?.data?.map((p) => {
               return (
                 <div
-                  className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden border"
+                  className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden "
                   key={p?._id}
                 >
                   <div className=" relative flex items-end justify-end h-56 w-full  ">

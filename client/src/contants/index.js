@@ -11,4 +11,5 @@ export const URLS = {
   VERIFY_OTP: API_VERSION + "/users/verifyOtp",
   CATEGORIES: API_VERSION + "/categories",
   ORDERS: API_VERSION + "/orders",
+  CAROSEL: API_VERSION + "/carosel",
 };
