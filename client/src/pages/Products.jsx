@@ -43,7 +43,7 @@ export const Products = () => {
     dispatch(setLimit(newLimit));
     dispatch(listProducts({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
   };
-
+  console.log(loading);
   console.log("products list ", products);
 
   // console.log("product", product[0]);
@@ -84,7 +84,7 @@ export const Products = () => {
           {products?.total - 1}+ Products
         </span>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-          {loading && (
+          {/* {loading && (
             <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto animate-pulse">
               <div className="relative flex items-end justify-end h-56 w-full bg-slate-700 rounded-md">
                 <div className="absolute w-full h-full z-0 rounded-md"></div>
@@ -97,7 +97,7 @@ export const Products = () => {
                 <div className="h-2 bg-slate-700 rounded"></div>
               </div>
             </div>
-          )}
+          )} */}
           {products?.data?.length > 0 ? (
             products?.data?.map((p) => {
               return (

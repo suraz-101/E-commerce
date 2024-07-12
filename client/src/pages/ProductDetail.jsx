@@ -12,6 +12,7 @@ import { FaStar } from "react-icons/fa";
 import { addToCart } from "../slice/cartSlice";
 import { isLoggedIn } from "../utils/login";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 // var Rating = require("rating");
 // import { Rating } from "rating";
 
@@ -21,14 +22,16 @@ export const ProductDetail = () => {
   const { products, page, limit, total, product } = useSelector(
     (state) => state.products
   );
+  const [sort] = useState(1);
   const { pathname } = useLocation();
+  const [category, setCategory] = useState("All");
 
   const slug = pathname.split("/")[2];
 
   const initFetch = useCallback(() => {
     dispatch(getSingleProduct(slug));
-    dispatch(listProducts());
-  }, [dispatch, slug]);
+    dispatch(listProducts({ page, sort, limit, category }));
+  }, [dispatch, slug, page, sort, limit, category]);
 
   useEffect(() => {
     initFetch();
@@ -43,7 +46,7 @@ export const ProductDetail = () => {
     return _.sample(filterRelatedData, number);
   };
   const colors = ["red", "green", "yellow", "white", "blue"];
-  console.log("product is :", product[0]?.colors);
+  console.log("product is :", products);
   // console.log("products are :", products);
   return (
     <div className="bg-backgroundColor transition-all">
