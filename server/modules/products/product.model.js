@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema(
     price: { type: String, required: [true, "price is mandatory"] },
     slug: { type: String, required: true },
     colors: { type: [String] },
-    address: { type: String, required: [true, "address is required"] },
+    // address: { type: String, required: [true, "address is required"] },
     category: {
       type: ObjectId,
       ref: "cateogory",

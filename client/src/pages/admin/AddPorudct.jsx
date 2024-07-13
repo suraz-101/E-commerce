@@ -264,8 +264,8 @@ export const AddProduct = () => {
                         <option value="" disabled>
                           Select Category
                         </option>
-                        {categories?.map((cat, index) => (
-                          <option key={cat._id} value={index}>
+                        {categories?.map((cat) => (
+                          <option key={cat?._id} value={cat?._id}>
                             {cat.name}
                           </option>
                         ))}
