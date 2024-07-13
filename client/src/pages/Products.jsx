@@ -1,13 +1,8 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Paginate } from "../components/Pagination";
 import { ProductCard } from "../components/ProductCard";
-import { BASE_URL } from "../contants";
 import { addToCart } from "../slice/cartSlice";
 import { listCategories } from "../slice/categorySlice";
 import { listProducts, setLimit, setPage } from "../slice/productSlice";
@@ -37,13 +32,21 @@ export const Products = () => {
 
   const handleSetPage = (newPage) => {
     dispatch(setPage(newPage));
-    dispatch(listProducts({ page: newPage, limit }));
+    dispatch(listProducts({ page: newPage, limit, category }));
   };
 
   const handleSetLimit = (newLimit) => {
     dispatch(setLimit(newLimit));
-    dispatch(listProducts({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
+    dispatch(listProducts({ page: 1, limit: newLimit, category })); // reset to page 1 when limit changes
   };
+
+  const handleCategoryChange = (newCategory, newCategoryName) => {
+    setCategory(newCategory);
+    setCategoryName(newCategoryName);
+    dispatch(setPage(1)); // reset to page 1 when category changes
+    dispatch(listProducts({ page: 1, limit, category: newCategory }));
+  };
+
   console.log(loading);
   console.log("products list ", products);
 
@@ -55,7 +58,7 @@ export const Products = () => {
         <div className="categoryList bg-secondaryBacgroundColor rounded p-2 flex justify-evenly text-secondaryColor mb-4 shadow transition-all">
           <Link
             onClick={(e) => {
-              setCategory("All");
+              handleCategoryChange("All", "All");
             }}
           >
             All
@@ -67,8 +70,7 @@ export const Products = () => {
                 <div key={category?._id}>
                   <Link
                     onClick={(e) => {
-                      setCategory(category?._id);
-                      setCategoryName(category?.name);
+                      handleCategoryChange(category?._id, category?.name);
                     }}
                     key={category?._id}
                   >

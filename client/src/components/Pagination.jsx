@@ -5,6 +5,9 @@ export const Paginate = ({ setLimit, setPage, limit, page, total }) => {
   console.log("page,", page);
   console.log("total", total);
   let active = page;
+  // if (total === 1) {
+  //   setPage(0);
+  // }
   const totaNumberOfPages = Math.ceil(total / limit);
   let items = [];
 
@@ -36,6 +39,7 @@ export const Paginate = ({ setLimit, setPage, limit, page, total }) => {
   if (page === 0 || total === 0) {
     return null;
   }
+
   return (
     <>
       <>

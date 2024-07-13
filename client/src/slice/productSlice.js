@@ -15,7 +15,7 @@ const initialState = {
   carosel: [],
   page: 1,
   total: 0,
-  limit: 10,
+  limit: 4,
   loading: false,
   error: "",
   message: "",
