@@ -79,7 +79,7 @@ export const AppNavbar = () => {
                   fill="currentColor"
                 />
               </svg>
-              <span className="mx-1 text-sm text-secondaryColor">NY</span>
+              <span className="mx-1 text-sm text-secondaryColor">PKR</span>
             </div>
             <div className="w-full text-primaryColor md:text-center text-2xl font-semibold">
               Brand

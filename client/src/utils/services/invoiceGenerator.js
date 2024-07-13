@@ -27,7 +27,7 @@ export const invoiceGenerator = async (usersName, date, items, add) => {
       // Other settings...
     },
     sender: {
-      company: "NY SALES",
+      company: "PKR STORE",
       address: "steet 17, Lakeside-06",
       zip: "33700",
       city: "Pokhara",

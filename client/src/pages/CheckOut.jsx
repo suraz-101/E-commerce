@@ -88,12 +88,14 @@ export const CheckOut = () => {
       dispatch(removeAll());
     }, 2000);
     // dispatch(getSingleUse)
-    invoiceGenerator(
-      user?.name,
-      Date.now(),
-      updatedPayload?.items,
-      payload.shippingAddress
-    );
+    if (message) {
+      invoiceGenerator(
+        user?.name,
+        Date.now(),
+        updatedPayload?.items,
+        payload.shippingAddress
+      );
+    }
   };
 
   const calculateTotalPrice = () => {

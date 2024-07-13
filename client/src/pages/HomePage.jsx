@@ -8,6 +8,7 @@ import { BASE_URL } from "../contants";
 import { isLoggedIn } from "../utils/login";
 import { addToCart } from "../slice/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { ProductCard } from "../components/ProductCard";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -125,45 +126,7 @@ export const HomePage = () => {
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
             {newArrival?.data?.length > 0 &&
               newArrival?.data?.slice(0, 4).map((p) => {
-                return (
-                  <div
-                    className=" w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden "
-                    key={p?._id}
-                  >
-                    <div className=" relative flex items-end justify-end h-56 w-full  ">
-                      <img
-                        src={BASE_URL.concat(p?.image[0])}
-                        alt=""
-                        style={{ height: "100%", width: "100%" }}
-                        className="absolute w-full h-full z-0"
-                      />
-                      <button
-                        className="p-2 rounded-full bg-sky-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500 z-10 "
-                        onClick={() => {
-                          isLoggedIn()
-                            ? p?.stockQuantity > 0
-                              ? dispatch(addToCart(p))
-                              : alert("product is out of stock")
-                            : navigate("/login");
-                        }}
-                      >
-                        <svg className="h-5 w-5" fill="white">
-                          <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                      </button>
-                    </div>
-                    <Link to={`/productsDetail/${p?.slug}`} key={p?._id}>
-                      <div className="px-5 py-3 bg-secondaryBacgroundColor">
-                        <h3 className="text-primaryColor uppercase">
-                          {p?.name}
-                        </h3>
-                        <span className="text-secondaryColor mt-2">
-                          ${p?.price}
-                        </span>
-                      </div>
-                    </Link>
-                  </div>
-                );
+                return <ProductCard data={p} key={p?._id} />;
               })}
           </div>
         </div>

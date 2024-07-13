@@ -9,7 +9,7 @@ router.use("/users", userRouter);
 router.use("/categories", categoryRouter);
 router.use("/products", productRouter);
 router.use("/carosel", orderRouter);
-// router.use("/orders", orderRouter);
+router.use("/orders", orderRouter);
 // router.use("/users", )
 
 module.exports = router;
