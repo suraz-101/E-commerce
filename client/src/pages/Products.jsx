@@ -85,7 +85,12 @@ export const Products = () => {
         </h3>
 
         <span className="mt-3 text-sm text-secondaryColor">
-          {products?.total - 1}+ Products
+          {products?.total === 1 ? (
+            <>{products?.total} Product</>
+          ) : (
+            <>{products?.total - 1}+ Products</>
+          )}
+          {/* {products?.total - 1}+ Products */}
         </span>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
           {loading ? (

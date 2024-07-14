@@ -4,7 +4,13 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Paginate } from "../../components/Pagination";
-import { listUsers, setLimit, setPage } from "../../slice/userSlice";
+import {
+  listUsers,
+  setLimit,
+  setPage,
+  updateUser,
+} from "../../slice/userSlice";
+import { getCurrentUser } from "../../utils/sessionManager";
 
 export const UsersList = () => {
   const dispatch = useDispatch();
@@ -18,6 +24,9 @@ export const UsersList = () => {
   useEffect(() => {
     initFetch();
   }, [initFetch]);
+  const { name, email: currentUser } = JSON.parse(getCurrentUser());
+
+  console.log("current email", currentUser);
 
   const handleSetPage = (newPage) => {
     dispatch(setPage(newPage));
@@ -27,6 +36,10 @@ export const UsersList = () => {
   const handleSetLimit = (newLimit) => {
     dispatch(setLimit(newLimit));
     dispatch(listUsers({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
+  };
+
+  const changeRole = (e, email, role) => {
+    dispatch(updateUser({ email, role }));
   };
 
   console.log("users", limit);
@@ -122,12 +135,26 @@ export const UsersList = () => {
                             </a>
                           </td>
                           <td className="text-left py-3 px-4">
-                            <a
-                              className="hover:text-blue-500"
-                              href="mailto:jonsmith@mail.com"
+                            <select
+                              onChange={(e) => {
+                                changeRole(e, user?.email, e.target.value);
+                              }}
+                              disabled={user?.email === currentUser} // Disable if it's the logged-in user
                             >
-                              {user?.role}
-                            </a>
+                              {/* Display the current role as the first option */}
+                              <option value={user?.role}>{user?.role}</option>
+
+                              {/* Conditionally render the alternative role option */}
+                              <option
+                                value={
+                                  user?.role === "admin" ? "user" : "admin"
+                                }
+                              >
+                                {user?.role === "admin" ? "user" : "admin"}
+                              </option>
+                            </select>
+
+                            {/* {user?.role} */}
                           </td>
                         </tr>
                       );
