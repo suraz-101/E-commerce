@@ -1,4 +1,11 @@
+import { useEffect } from "react";
+import { useCallback } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { listCategories } from "../slice/categorySlice";
+import { listProducts } from "../slice/productSlice";
+import { listUsers } from "../slice/userSlice";
 import { removeToken } from "../utils/sessionManager";
 
 export const AdminNavbar = () => {
@@ -9,6 +16,23 @@ export const AdminNavbar = () => {
     removeToken("currentUser");
     navigate("/");
   };
+
+  const dispatch = useDispatch();
+  const { users, page, total, limit } = useSelector((state) => state.users);
+  const [email, setEmail] = useState();
+  const [sort] = useState(-1);
+  const [category, setCategory] = useState("All");
+
+  const initFetch = useCallback(() => {
+    dispatch(listUsers({ email, limit, page }));
+    dispatch(listProducts({ page, sort, limit, category }));
+    dispatch(listCategories());
+  }, [dispatch, email, limit, page, sort, category]);
+
+  useEffect(() => {
+    initFetch();
+  }, [initFetch]);
+
   return (
     <nav className=" z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">

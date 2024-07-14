@@ -83,6 +83,7 @@ export const Products = () => {
         <h3 className="text-primaryColor text-2xl font-medium">
           {categoryName}
         </h3>
+
         <span className="mt-3 text-sm text-secondaryColor">
           {products?.total - 1}+ Products
         </span>

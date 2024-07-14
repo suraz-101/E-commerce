@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
+
 export const Home = () => {
+  const { users, total } = useSelector((state) => state.users);
+
   return (
     <div>
       <div className="w-full overflow-x-hidden border  flex flex-col ">
@@ -8,13 +12,8 @@ export const Home = () => {
           <div className="flex flex-wrap mt-6">
             <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
               <p className="text-xl pb-3 flex items-center">
-                <i className="fas fa-plus mr-3 "></i> Monthly Reports
-              </p>
-              <div className="p-6 bg-white"></div>
-            </div>
-            <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
-              <p className="text-xl pb-3 flex items-center">
-                <i className="fas fa-check mr-3"></i> Resolved Reports
+                <i className="fa fa-users mr-3 text-3xl "></i>
+                {total - 1}+ USERS
               </p>
               <div className="p-6 bg-white"></div>
             </div>
