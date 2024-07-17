@@ -2,7 +2,12 @@ import { URLS } from "../contants";
 import instance from "../utils/api";
 
 const createOrder = async (payload) => {
-  const data = await instance.post(URLS.ORDERS, payload);
+  const data = await instance.post(URLS.ORDERS + "/initialize-esewa", payload);
+  return data;
+};
+
+const completepayment = async (payload) => {
+  const data = await instance.get(URLS.ORDERS + "/complete-payment", payload);
   return data;
 };
 
@@ -23,4 +28,4 @@ const statusUpdate = async (payload) => {
   return data;
 };
 
-export { createOrder, getOrdersOfUser, getAll, statusUpdate };
+export { createOrder, getOrdersOfUser, getAll, statusUpdate, completepayment };

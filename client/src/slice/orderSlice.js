@@ -4,6 +4,7 @@ import {
   getOrdersOfUser,
   getAll,
   statusUpdate,
+  completepayment,
 } from "../services/order";
 // import {
 //   createProduct,
@@ -15,6 +16,7 @@ import {
 const initialState = {
   orders: [],
   usersOrder: [],
+  result: "",
   order: {},
   page: 1,
   total: 0,
@@ -30,6 +32,21 @@ export const createNewOrder = createAsyncThunk(
     try {
       console.log("order slice", payload);
       const response = await createOrder(payload);
+      console.log(response);
+
+      return response.data; // Assuming the response structure is { data: { total, data } }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
+export const paymentComplete = createAsyncThunk(
+  "orders/paymentComplete",
+  async (payload) => {
+    try {
+      console.log("order slice", payload);
+      const response = await completepayment(payload);
       console.log(response);
 
       return response.data; // Assuming the response structure is { data: { total, data } }
@@ -102,9 +119,23 @@ const orderSlice = createSlice({
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.error = "";
-        state.message = action.payload.message;
+        state.message = action.payload.success;
+        state.result = action.payload;
       })
       .addCase(createNewOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(paymentComplete.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(paymentComplete.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        // state.message = action.payload;
+        state.result = action.payload;
+      })
+      .addCase(paymentComplete.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

@@ -17,12 +17,13 @@ import { isLoggedIn } from "../utils/login";
 import { Notify } from "../components/Notify";
 import { updateProductQuantity } from "../slice/productSlice";
 import { invoiceGenerator } from "../utils/services/invoiceGenerator";
+import { paymentComplete } from "../slice/orderSlice";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
   const { carts, quantity } = useSelector((state) => state.cart);
   const { users, user } = useSelector((state) => state.users);
-  const { message, error } = useSelector((state) => state.orders);
+  const { message, error, result } = useSelector((state) => state.orders);
 
   const initFetch = useCallback(
     (email) => {
@@ -44,13 +45,27 @@ export const CheckOut = () => {
     customerEmail: "",
     customerPhone: "",
     shippingAddress: null,
-    paymentMethod: "stripe",
+    paymentMethod: "esewa",
     paymentStatus: "pending",
     items: [],
     totalPrice: 0,
   });
 
-  const placeOrder = () => {
+  const [payment, setPayment] = useState({
+    amount: "",
+    failure_url: "https://google.com",
+    product_delivery_charge: "0",
+    product_service_charge: "0",
+    product_code: "EPAYTEST",
+    signature: "",
+    signed_field_names: "",
+    success_url: "https://esewa.com.np",
+    tax_amount: "10",
+    total_amount: "",
+    transaction_uuid: "",
+  });
+
+  const placeOrder = async () => {
     const updatedPayload = {
       ...payload,
       items: carts.map((cartItem) => ({
@@ -72,9 +87,14 @@ export const CheckOut = () => {
 
     setPayload(updatedPayload);
     console.log("payload", updatedPayload);
-    quantity != 0
-      ? dispatch(createNewOrder(updatedPayload))
-      : alert("add product to cart ");
+
+    if (quantity !== 0) {
+      dispatch(createNewOrder(updatedPayload));
+    } else {
+      alert("Add product to cart");
+      return;
+    }
+
     carts.map((cartItem) => {
       dispatch(
         updateProductQuantity({
@@ -84,17 +104,52 @@ export const CheckOut = () => {
       );
     });
 
+    // Wait for payload to be set before updating payment
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // const updatedPayment = {
+    //   ...payment,
+    //   amount: String(updatedPayload.totalPrice),
+    //   total_amount: String(updatedPayload.totalPrice),
+    //   transaction_uuid: result?.order?._id,
+    //   signature: result?.payment?.signature,
+    //   signed_field_names: result?.payment?.signed_field_names,
+    // };
+
+    // setPayment(updatedPayment);
+
+    // Wait for payment to be set before dispatching paymentComplete
+
     setTimeout(() => {
       dispatch(removeAll());
     }, 2000);
-    // dispatch(getSingleUse)
-    invoiceGenerator(
-      user?.name,
-      Date.now(),
-      updatedPayload?.items,
-      payload.shippingAddress
-    );
+
+    if (message) {
+      console.log("We are inside");
+      invoiceGenerator(
+        user?.name,
+        Date.now(),
+        updatedPayload?.items,
+        payload.shippingAddress
+      );
+    }
   };
+
+  // const proceedPayment = async () => {
+  //   const updatedPayment = {
+  //     ...payment,
+  //     amount: String(payload?.totalPrice),
+  //     total_amount: String(payload?.totalPrice),
+  //     transaction_uuid: result?.order?._id,
+  //     signature: result?.payment?.signature,
+  //     signed_field_names: result?.payment?.signed_field_names,
+  //   };
+
+  //   setPayment(updatedPayment);
+
+  //   await new Promise((resolve) => setTimeout(resolve, 2000));
+  //   dispatch(paymentComplete(updatedPayment));
+  // };
 
   const calculateTotalPrice = () => {
     return carts.reduce((total, product) => {
@@ -137,99 +192,184 @@ export const CheckOut = () => {
                 Payments
               </button>
             </div>
-            <form className="mt-8 lg:w-3/4">
-              <div>
-                <h4 className="text-sm text-primaryColor font-medium">
-                  Delivery method
-                </h4>
-                <div className="mt-6">
-                  <button className="flex items-center justify-between w-full bg-secondaryBacgroundColor rounded-md border-2 border-blue-500 p-4 focus:outline-none">
-                    <label className="flex items-center">
+            <b>eSewa ID:</b> 9806800001/2/3/4/5 <br />
+            <b>Password:</b> Nepal@123
+            <b>MPIN:</b> 1122 <b>Token:</b>123456
+            <form
+              action="https://rc-epay.esewa.com.np/api/epay/main/v2/form"
+              method="POST"
+              target="_blank"
+            >
+              <br />
+              <br />
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>Parameter </strong>
+                    </td>
+                    <td>
+                      <strong>Value</strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Amount:</td>
+                    <td>
                       <input
-                        type="radio"
-                        className="form-radio h-5 w-5 "
-                        checked
+                        type="text"
+                        id="amount"
+                        name="amount"
+                        value={payload?.totalPrice}
+                        className="form"
+                        required=""
                       />
-                      <span className="ml-2 text-sm text-secondaryColor">
-                        MS Delivery
-                      </span>
-                    </label>
-
-                    <span className="text-secondaryColor text-sm">$18</span>
-                  </button>
-                  <button className="mt-6 flex items-center justify-between w-full bg-secondaryBacgroundColor  rounded-md border p-4 focus:outline-none">
-                    <label className="flex items-center">
+                      <br />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Tax Amount:</td>
+                    <td>
                       <input
-                        type="radio"
-                        className="form-radio h-5 w-5 text-blue-600"
+                        type="text"
+                        id="tax_amount"
+                        name="tax_amount"
+                        value="0"
+                        className="form"
+                        required=""
                       />
-                      <span className="ml-2 text-sm text-secondaryColor">
-                        DC Delivery
-                      </span>
-                    </label>
-
-                    <span className="text-secondaryColor text-sm">$26</span>
-                  </button>
-                </div>
-              </div>
-              <div className="mt-8">
-                <h4 className="text-sm text-primaryColor font-medium">
-                  Delivery address
-                </h4>
-                <div className="mt-6 flex">
-                  <label className="block w-3/12">
-                    <select className="block w-full bg-secondaryBacgroundColor text-secondaryColor rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mt-1">
-                      <option>NY</option>
-                      <option>DC</option>
-                      <option>MH</option>
-                      <option>MD</option>
-                    </select>
-                  </label>
-                  <label className="block flex-1 ml-3">
-                    <input
-                      type="text"
-                      className="block w-full rounded-md bg-secondaryBacgroundColor text-secondaryColor border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mt-1"
-                      placeholder="Address"
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className="mt-8">
-                <h4 className="text-sm text-primaryColor font-medium">Date</h4>
-                <div className="mt-6 flex">
-                  <label className="block flex-1">
-                    <input
-                      type="date"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mt-1 bg-secondaryBacgroundColor text-secondaryColor "
-                      placeholder="Date"
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className="flex items-center justify-between mt-8">
-                <button className="flex items-center text-gray-700 text-sm font-medium rounded hover:underline focus:outline-none">
-                  <svg
-                    className="h-5 w-5 text-primaryColor"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
-                  </svg>
-                  <span className="mx-2 text-primaryColor">Back step</span>
-                </button>
-                <button className="flex items-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                  <span>Payment</span>
-                  <svg
-                    className="h-5 w-5 mx-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                  </svg>
-                </button>
-              </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Total Amount:</td>
+                    <td>
+                      <input
+                        type="text"
+                        id="total_amount"
+                        name="total_amount"
+                        value={payload?.totalPrice}
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="hidden"
+                        id="transaction_uuid"
+                        name="transaction_uuid"
+                        value={result?.order?._id}
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Product Code:</td>
+                    <td>
+                      <input
+                        type="text"
+                        id="product_code"
+                        name="product_code"
+                        value="EPAYTEST"
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Product Service Charge:</td>
+                    <td>
+                      <input
+                        type="text"
+                        id="product_service_charge"
+                        name="product_service_charge"
+                        value="0"
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Product Delivery Charge:</td>
+                    <td>
+                      <input
+                        type="text"
+                        id="product_delivery_charge"
+                        name="product_delivery_charge"
+                        value="0"
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="hidden"
+                        id="success_url"
+                        name="success_url"
+                        value="http://localhost:8000/api/v1/orders/complete-payment"
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="hidden"
+                        id="failure_url"
+                        name="failure_url"
+                        value="https://developer.esewa.com.np/failure"
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="hidden"
+                        id="signed_field_names"
+                        name="signed_field_names"
+                        value={result?.payment?.signed_field_names}
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="text"
+                        id="signature"
+                        name="signature"
+                        value={result?.payment?.signature}
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="hidden"
+                        id="secret"
+                        name="secret"
+                        value="8gBm/:&EnhH.1/q"
+                        className="form"
+                        required=""
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input
+                value=" Pay with eSewa "
+                type="submit"
+                className="button"
+              />
             </form>
           </div>
           <div className="w-full mb-8 flex-shrink-0 order-1 lg:w-1/2 lg:mb-0 lg:order-2 ">
@@ -387,14 +527,22 @@ export const CheckOut = () => {
                       </div>
                       <button
                         onClick={placeOrder}
-                        className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                        className=" border mx-4 my-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-green-400 to-green-500 text-white"
                       >
-                        Place Order
+                        Check Out and Pay ${totalPrice} via E-sewa
                       </button>
                     </>
                   ) : (
                     <></>
                   )}
+                </div>
+                <div>
+                  {/* <button
+                    onClick={proceedPayment}
+                    className=" border mx-4 my-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-green-400 to-green-500 text-white"
+                  >
+                    procedd
+                  </button> */}
                 </div>
               </div>
             </div>

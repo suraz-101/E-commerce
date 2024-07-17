@@ -3,7 +3,6 @@ import easyinvoice from "easyinvoice";
 import { dateFormatter } from "../dateFormatter";
 
 export const invoiceGenerator = async (usersName, date, items, add) => {
-  console.log(date, items, add);
   const invoiceDate = dateFormatter(date);
   // Transform items array to match easyinvoice's expected format
   const products = items.map((item) => ({
