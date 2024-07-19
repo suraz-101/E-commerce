@@ -69,7 +69,7 @@ export const UsersOrderHistory = () => {
                     </div>
                   );
                 })}
-                <h1 className="py-4">
+                <h1 className="py-2">
                   <span className="font-bold"> Status :</span>
                   <span
                     className={`${
@@ -81,7 +81,24 @@ export const UsersOrderHistory = () => {
                     {order?.orderStatus}
                   </span>
                 </h1>
-                <h1 className="py-4">
+                <h1 className="py-2">
+                  <span className="font-bold"> Payment Status :</span>
+                  <span
+                    className={`${
+                      order?.paymentStatus === "pending"
+                        ? "text-red-600"
+                        : "text-green-500"
+                    }`}
+                  >
+                    {order?.paymentStatus}
+                  </span>
+                </h1>
+                {/* <h1 className="py-2">
+                  <span className="font-bold"> Payment Method :</span>{" "}
+                  <span>{order?.paymentMethod}</span>
+                </h1> */}
+
+                <h1 className="py-2">
                   <span className="font-bold"> Shipping Address :</span>{" "}
                   <span>{order?.shippingAddress}</span>
                 </h1>

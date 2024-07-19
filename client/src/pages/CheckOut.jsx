@@ -18,6 +18,7 @@ import { Notify } from "../components/Notify";
 import { updateProductQuantity } from "../slice/productSlice";
 import { invoiceGenerator } from "../utils/services/invoiceGenerator";
 import { paymentComplete } from "../slice/orderSlice";
+import esewa from "../assets/esewaLogo.png";
 
 export const CheckOut = () => {
   const dispatch = useDispatch();
@@ -120,9 +121,9 @@ export const CheckOut = () => {
 
     // Wait for payment to be set before dispatching paymentComplete
 
-    setTimeout(() => {
-      dispatch(removeAll());
-    }, 2000);
+    // setTimeout(() => {
+    //   dispatch(removeAll());
+    // }, 2000);
 
     if (message) {
       console.log("We are inside");
@@ -162,39 +163,24 @@ export const CheckOut = () => {
   console.log("carts", carts);
   // console.log("user", user);
   return (
-    <div className="bg-backgroundColor ">
+    <div className="bg-backgroundColor text-primaryColor transition-all">
       <div className="container mx-auto py-6">
         <h3 className="text-gray-700 text-2xl font-medium text-primaryColor">
           Checkout
         </h3>
         <div className="flex flex-col lg:flex-row mt-8">
           <div className="w-full lg:w-1/2 order-2">
-            <div className="flex items-center">
-              <button className="flex text-sm text-blue-500 focus:outline-none">
-                <span className="flex items-center justify-center text-secondaryColor bg-blue-500 rounded-full h-5 w-5 mr-2">
-                  1
-                </span>{" "}
-                Contacts
-              </button>
-              <button className="flex text-sm text-secondaryColor ml-8 focus:outline-none">
-                <span className="flex items-center justify-center border-2 border-secondaryColor rounded-full h-5 w-5 mr-2">
-                  2
-                </span>{" "}
-                Shipping
-              </button>
-              <button
-                className="flex text-sm text-secondaryColor ml-8 focus:outline-none"
-                disabled
-              >
-                <span className="flex items-center justify-center  border-2 border-gray-500 rounded-full h-5 w-5 mr-2">
-                  3
-                </span>{" "}
-                Payments
-              </button>
+            <div className="flex items-center"></div>
+            <div className="">
+              <h3 className="font-bold text-lg py-2">
+                For test use following details
+              </h3>
+              <b>eSewa ID:</b> 9806800001/2/3/4/5 <br />
+              <b>Password:</b> Nepal@123
+              <br />
+              <b>MPIN:</b> 1122 <br />
+              <b>Token:</b>123456
             </div>
-            <b>eSewa ID:</b> 9806800001/2/3/4/5 <br />
-            <b>Password:</b> Nepal@123
-            <b>MPIN:</b> 1122 <b>Token:</b>123456
             <form
               action="https://rc-epay.esewa.com.np/api/epay/main/v2/form"
               method="POST"
@@ -205,14 +191,6 @@ export const CheckOut = () => {
               <table>
                 <tbody>
                   <tr>
-                    <td>
-                      <strong>Parameter </strong>
-                    </td>
-                    <td>
-                      <strong>Value</strong>
-                    </td>
-                  </tr>
-                  <tr>
                     <td>Amount:</td>
                     <td>
                       <input
@@ -220,7 +198,7 @@ export const CheckOut = () => {
                         id="amount"
                         name="amount"
                         value={payload?.totalPrice}
-                        className="form"
+                        className="form border"
                         required=""
                       />
                       <br />
@@ -265,10 +243,9 @@ export const CheckOut = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Product Code:</td>
                     <td>
                       <input
-                        type="text"
+                        type="hidden"
                         id="product_code"
                         name="product_code"
                         value="EPAYTEST"
@@ -342,7 +319,7 @@ export const CheckOut = () => {
                   <tr>
                     <td>
                       <input
-                        type="text"
+                        type="hidden"
                         id="signature"
                         name="signature"
                         value={result?.payment?.signature}
@@ -365,11 +342,18 @@ export const CheckOut = () => {
                   </tr>
                 </tbody>
               </table>
-              <input
-                value=" Pay with eSewa "
-                type="submit"
-                className="button"
-              />
+              <div className="flex ">
+                <input
+                  value=" Pay with eSewa  "
+                  type="submit"
+                  className="button bg-green-600 text-white rounded px-2 shadow-inner font-bold "
+                />
+                <img
+                  src={esewa}
+                  alt=""
+                  style={{ height: "50px", width: "50px" }}
+                />
+              </div>
             </form>
           </div>
           <div className="w-full mb-8 flex-shrink-0 order-1 lg:w-1/2 lg:mb-0 lg:order-2 ">
@@ -529,7 +513,7 @@ export const CheckOut = () => {
                         onClick={placeOrder}
                         className=" border mx-4 my-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-green-400 to-green-500 text-white"
                       >
-                        Check Out and Pay ${totalPrice} via E-sewa
+                        Check Out
                       </button>
                     </>
                   ) : (

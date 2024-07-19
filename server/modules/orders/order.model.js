@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema(
     customerPhone: { type: String },
     shippingAddress: { type: String },
 
-    paymentMethod: { type: String },
+    paymentMethod: { type: String, enum: ["esewa", "khalti"], required: true },
     paymentStatus: {
       type: String,
       enum: ["pending", "paid"],
@@ -47,6 +47,8 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const OrderModel = new mongoose.model("order", orderSchema);
+const OrderModel = new mongoose.model("orders", orderSchema);
+
 
 module.exports = OrderModel;
+

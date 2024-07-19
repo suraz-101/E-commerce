@@ -114,6 +114,18 @@ export const OrderManagement = () => {
                     {order?.paymentMethod}
                   </span>
                 </h1>
+                <h1>
+                  Payment Status :{" "}
+                  <span
+                    className={`${
+                      order?.paymentStatus === "pending"
+                        ? "text-red-600"
+                        : "text-green-500"
+                    }`}
+                  >
+                    {order?.paymentStatus}
+                  </span>
+                </h1>
               </div>
             );
           })

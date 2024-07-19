@@ -1,5 +1,11 @@
 const router = require("express").Router();
+const {
+  getEsewaPaymentHash,
+  verifyEsewaPayment,
+} = require("../../services/esewa");
 const orderController = require("../orders/order.controller");
+const OrderModel = require("./order.model");
+const PaymentModel = require("./payment.model");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -19,14 +25,44 @@ router.get("/usersOrder", async (req, res, next) => {
     next(error);
   }
 });
-router.post("/", async (req, res, next) => {
+
+router.post("/initialize-esewa", async (req, res, next) => {
   try {
     const result = await orderController.createOrder(req.body);
-    res.status(200).json({ message: result });
+
+    // Respond with payment details
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
 });
+
+router.get("/complete-payment", async (req, res) => {
+  // Data received from eSewa's redirect
+
+  try {
+    const { data } = req.query;
+    // Verify payment with eSewa
+    const result = await orderController.completePayment(data);
+    // Respond with success message
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "An error occurred during payment verification",
+      error: error.message,
+    });
+  }
+});
+
+// router.post("/", async (req, res, next) => {
+//   try {
+//     const result = await orderController.createOrder(req.body);
+//     res.status(200).json({ message: result });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 router.delete("/:id", (req, res, next) => {
   try {
     res.status(200).json({ message: "you are inside delete method of order" });
