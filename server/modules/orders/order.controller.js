@@ -1,7 +1,12 @@
 // const orderModel = require("./order.model");
 
-const { getEsewaPaymentHash } = require("../../services/esewa");
+const {
+  getEsewaPaymentHash,
+  verifyEsewaPayment,
+} = require("../../services/esewa");
 const OrderModel = require("./order.model");
+const PaymentModel = require("./payment.model");
+const { v4: uuidv4 } = require("uuid");
 
 const createOrder = async (payload) => {
   const { totalPrice } = payload;
@@ -27,6 +32,7 @@ const createOrder = async (payload) => {
 
 const completePayment = async (data) => {
   const paymentInfo = await verifyEsewaPayment(data);
+  console.log(paymentInfo.decodedData.transaction_code);
 
   // Find the purchased item using the transaction UUID
   const purchasedItemData = await OrderModel.findById(
@@ -41,14 +47,19 @@ const completePayment = async (data) => {
     });
   }
 
-  // Create a new payment record in the database
+  // let transactionId = await paymentInfo.decodedData.transaction_code;
+  // transactionId = await (transactionId
+  //   ? `${transactionId}-${uuidv4()}`
+  //   : `fallback-${uuidv4()}`);
+
+  // Create a new payment record in the databas'e'
   // await PaymentModel.create({
   //   // pidx: paymentInfo.decodedData.transaction_code,
-  //   transactionId: paymentInfo.decodedData.transaction_code,
-  //   orderId: paymentInfo.response.transaction_uuid,
-  //   amount: purchasedItemData.totalPrice,
+  //   transactionId: transactionId,
+  //   orderId: paymentInfo?.response?.transaction_uuid,
+  //   amount: purchasedItemData?.totalPrice,
   //   dataFromVerificationReq: paymentInfo,
-  //   apiQueryFromUser: req.query,
+  //   apiQueryFromUser: data,
   //   paymentGateway: "esewa",
   //   status: "success",
   // });
