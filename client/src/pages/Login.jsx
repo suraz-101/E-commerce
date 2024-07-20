@@ -25,7 +25,8 @@ export const Login = () => {
     try {
       // const { token } = useSelector((state) => state.auth);
       e.preventDefault();
-      const response = await instance.post(URLS.LOGIN, payload); // sends reques to http://localhost:8000/api/v1/users/login and store the response in response variable
+      const response = await instance.post(URLS.LOGIN, payload);
+      // sends reques to http://localhost:8000/api/v1/users/login and store the response in response variable
       setToken(response?.data.message);
       currentUser(); // This line of code will call the setToken function of utils/session.js file and helps to setItem into the localStorage
       navigate("/admin");
@@ -96,7 +97,21 @@ export const Login = () => {
                       Password
                     </label>
                   </div>
-                  <div>{error && <Notify variant="danger" msg={error} />}</div>
+                  <div>
+                    {error && (
+                      <div
+                        className={`${
+                          error ? "text-red-600" : "text-green-500"
+                        }`}
+                      >
+                        {" "}
+                        <Notify
+                          variant={error ? "danger" : "success"}
+                          msg={error}
+                        />
+                      </div>
+                    )}
+                  </div>
                   <div className="relative">
                     <button className="bg-cyan-500 text-white rounded-md px-2 py-1">
                       Submit

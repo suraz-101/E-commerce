@@ -10,6 +10,7 @@ import {
   listProducts,
   setPage,
   setLimit,
+  updateProductQuantity,
 } from "../../slice/productSlice";
 
 export const ProductManagement = () => {
@@ -21,6 +22,7 @@ export const ProductManagement = () => {
   const navigate = useNavigate();
   const [sort] = useState(-1);
   const [category] = useState("All");
+  const [disable, setDisable] = useState(true);
 
   const initFetch = useCallback(() => {
     dispatch(listProducts({ page, sort, limit, category }));
@@ -35,10 +37,6 @@ export const ProductManagement = () => {
     [dispatch, initFetch]
   );
 
-  useEffect(() => {
-    initFetch();
-  }, [initFetch]);
-
   const handleSetPage = (newPage) => {
     dispatch(setPage(newPage));
     dispatch(listProducts({ page: newPage, limit }));
@@ -48,6 +46,34 @@ export const ProductManagement = () => {
     dispatch(setLimit(newLimit));
     dispatch(listProducts({ page: 1, limit: newLimit })); // reset to page 1 when limit changes
   };
+
+  const increaseStockQuantity = (e, product) => {
+    dispatch(
+      updateProductQuantity({
+        id: product._id,
+        stockQuantity: Number(product.stockQuantity) + 1,
+      })
+    ).then(() => {
+      initFetch();
+    });
+  };
+
+  const handleStockChange = (e, product) => {
+    const newQuantity = Number(e.target.value);
+    if (!isNaN(newQuantity) && newQuantity >= 0) {
+      dispatch(
+        updateProductQuantity({
+          id: product._id,
+          stockQuantity: newQuantity,
+        })
+      ).then(() => {
+        initFetch();
+      });
+    }
+  };
+  useEffect(() => {
+    initFetch();
+  }, [initFetch]);
 
   console.log("products", products);
 
@@ -117,6 +143,9 @@ export const ProductManagement = () => {
                       Price
                     </th>
                     <th className="text-center py-3 px-4 uppercase font-semibold text-sm">
+                      Stock Quantity
+                    </th>
+                    <th className="text-center py-3 px-4 uppercase font-semibold text-sm">
                       Category
                     </th>
                     <th className="text-center py-3 px-4 uppercase font-semibold text-sm">
@@ -139,31 +168,44 @@ export const ProductManagement = () => {
                             <h1 className=" py-2"> {product?.name}</h1>
                           </td>
 
-                          <td className="text-left py-3 px-4">
-                            <a
-                              className="hover:text-blue-500"
-                              href="tel:622322662"
-                            >
+                          <td className="text-center py-3 px-4">
+                            <a className="hover:text-blue-500">
                               {product?.description.slice(0, 20).concat("...")}
                             </a>
                           </td>
-                          <td className="text-left py-3 px-4">
-                            <a
-                              className="hover:text-blue-500"
-                              href="mailto:jonsmith@mail.com"
-                            >
+                          <td className="text-center py-3 px-4">
+                            <a className="hover:text-blue-500">
                               {product?.price}
                             </a>
                           </td>
-                          <td className="text-left py-3 px-4">
-                            <a
-                              className="hover:text-blue-500"
-                              href="mailto:jonsmith@mail.com"
+                          <td className="text-center py-3 px-4 flex justify-center align-middle">
+                            <input
+                              id="price"
+                              name="price"
+                              type="number"
+                              value={product?.stockQuantity}
+                              onChange={(e) => {
+                                handleStockChange(e, product);
+                              }}
+                              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 text-center focus:outline-none focus:borer-rose-600"
+                              placeholder="Price"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                increaseStockQuantity(e, product);
+                              }}
+                              className="bg-gray-200 text-gray-700 rounded-r px-2 py-1"
                             >
+                              +
+                            </button>
+                          </td>
+                          <td className="text-center py-3 px-4">
+                            <a className="hover:text-blue-500">
                               {product?.categoryName}
                             </a>
                           </td>
-                          <td className="text-left py-3 px-4">
+                          <td className="text-center py-3 px-4">
                             <Link to={`${product?._id}`}>
                               <i className="fa fa-eye border p-2 bg-green-600 text-white rounded"></i>
                             </Link>

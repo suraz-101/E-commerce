@@ -25,6 +25,7 @@ export const CheckOut = () => {
   const { carts, quantity } = useSelector((state) => state.cart);
   const { users, user } = useSelector((state) => state.users);
   const { message, error, result } = useSelector((state) => state.orders);
+  const [disable, setDisable] = useState(false);
 
   const initFetch = useCallback(
     (email) => {
@@ -347,6 +348,9 @@ export const CheckOut = () => {
                   value=" Pay with eSewa  "
                   type="submit"
                   className="button bg-green-600 text-white rounded px-2 shadow-inner font-bold "
+                  onClick={(e) => {
+                    dispatch(removeAll());
+                  }}
                 />
                 <img
                   src={esewa}
@@ -498,6 +502,7 @@ export const CheckOut = () => {
                             }));
                             // getCategory(e.target.value);
                           }}
+                          required
                         >
                           <option value="">SELECT SHIPPING ADDRESS</option>
                           {user?.address?.map((add, index) => {

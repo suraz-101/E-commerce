@@ -32,7 +32,7 @@ const createOrder = async (payload) => {
 
 const completePayment = async (data) => {
   const paymentInfo = await verifyEsewaPayment(data);
-  console.log(paymentInfo.decodedData.transaction_code);
+  console.log("paymentInfo");
 
   // Find the purchased item using the transaction UUID
   const purchasedItemData = await OrderModel.findById(

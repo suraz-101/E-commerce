@@ -27,10 +27,16 @@ async function verifyEsewaPayment(encodedData) {
     // console.log("encoded", encodedData);
     // decoding base64 code revieved from esewa
     let decodedData = atob(encodedData);
-    console.log({ "decoded data": decodedData });
-    decodedData = await JSON.parse(decodedData);
 
-    // console.log({ data: decodedData?.signature });
+    decodedData = await JSON.parse(decodedData);
+    console.log(decodedData);
+
+    decodedData = {
+      ...decodedData,
+      total_amount: decodedData.total_amount.replace(/,/g, ""),
+    };
+
+    console.log({ data: decodedData });
 
     let headersList = {
       Accept: "application/json",
@@ -45,8 +51,6 @@ async function verifyEsewaPayment(encodedData) {
       .update(data)
       .digest("base64");
 
-    console.log({ hash: hash });
-    console.log(decodedData.signature);
     // if (hash !== decodedData.signature) {
     //   throw { message: "Invalid Info", decodedData };
     // }
@@ -55,6 +59,8 @@ async function verifyEsewaPayment(encodedData) {
       method: "GET",
       headers: headersList,
     };
+    console.log("response", reqOptions);
+
     let response = await axios.request(reqOptions);
     if (
       response.data.status !== "COMPLETE" ||
@@ -66,6 +72,7 @@ async function verifyEsewaPayment(encodedData) {
     return { response: response.data, decodedData };
   } catch (error) {
     throw error;
+    console.log(error);
   }
 }
 
