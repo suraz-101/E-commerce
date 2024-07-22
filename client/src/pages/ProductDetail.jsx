@@ -93,11 +93,12 @@ export const ProductDetail = () => {
                   {product[0]?.colors?.length > 0 &&
                     product[0]?.colors.map((color, index) => {
                       return (
-                        <div
+                        <button
                           style={{ backgroundColor: color }}
                           className={` h-5 w-5 mx-2 rounded-full border `}
+                          value={color}
                           key={index}
-                        ></div>
+                        />
                       );
                     })}
                 </div>

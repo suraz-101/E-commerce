@@ -53,21 +53,22 @@ export const CheckOut = () => {
     totalPrice: 0,
   });
 
-  const [payment, setPayment] = useState({
-    amount: "",
-    failure_url: "https://google.com",
-    product_delivery_charge: "0",
-    product_service_charge: "0",
-    product_code: "EPAYTEST",
-    signature: "",
-    signed_field_names: "",
-    success_url: "https://esewa.com.np",
-    tax_amount: "10",
-    total_amount: "",
-    transaction_uuid: "",
-  });
+  // const [payment, setPayment] = useState({
+  //   amount: "",
+  //   failure_url: "https://google.com",
+  //   product_delivery_charge: "0",
+  //   product_service_charge: "0",
+  //   product_code: "EPAYTEST",
+  //   signature: "",
+  //   signed_field_names: "",
+  //   success_url: "https://esewa.com.np",
+  //   tax_amount: "10",
+  //   total_amount: "",
+  //   transaction_uuid: "",
+  // });
 
-  const placeOrder = async () => {
+  const placeOrder = async (e) => {
+    e.preventDefault();
     const updatedPayload = {
       ...payload,
       items: carts.map((cartItem) => ({
@@ -106,26 +107,6 @@ export const CheckOut = () => {
       );
     });
 
-    // Wait for payload to be set before updating payment
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    // const updatedPayment = {
-    //   ...payment,
-    //   amount: String(updatedPayload.totalPrice),
-    //   total_amount: String(updatedPayload.totalPrice),
-    //   transaction_uuid: result?.order?._id,
-    //   signature: result?.payment?.signature,
-    //   signed_field_names: result?.payment?.signed_field_names,
-    // };
-
-    // setPayment(updatedPayment);
-
-    // Wait for payment to be set before dispatching paymentComplete
-
-    // setTimeout(() => {
-    //   dispatch(removeAll());
-    // }, 2000);
-
     if (message) {
       console.log("We are inside");
       invoiceGenerator(
@@ -137,22 +118,6 @@ export const CheckOut = () => {
     }
   };
 
-  // const proceedPayment = async () => {
-  //   const updatedPayment = {
-  //     ...payment,
-  //     amount: String(payload?.totalPrice),
-  //     total_amount: String(payload?.totalPrice),
-  //     transaction_uuid: result?.order?._id,
-  //     signature: result?.payment?.signature,
-  //     signed_field_names: result?.payment?.signed_field_names,
-  //   };
-
-  //   setPayment(updatedPayment);
-
-  //   await new Promise((resolve) => setTimeout(resolve, 2000));
-  //   dispatch(paymentComplete(updatedPayment));
-  // };
-
   const calculateTotalPrice = () => {
     return carts.reduce((total, product) => {
       return total + product.price * product.quantity;
@@ -162,7 +127,6 @@ export const CheckOut = () => {
   const totalPrice = calculateTotalPrice();
 
   console.log("carts", carts);
-  // console.log("user", user);
   return (
     <div className="bg-backgroundColor text-primaryColor transition-all">
       <div className="container mx-auto py-6">
@@ -491,35 +455,40 @@ export const CheckOut = () => {
                   {isLoggedIn() ? (
                     <>
                       <div>
-                        <select
-                          name="shippingAddress"
-                          id="shippingAddress"
-                          value={payload?.shippingAddress || ""}
-                          onChange={(e) => {
-                            setPayload((prev) => ({
-                              ...prev,
-                              shippingAddress: e.target.value,
-                            }));
-                            // getCategory(e.target.value);
-                          }}
-                          required
-                        >
-                          <option value="">SELECT SHIPPING ADDRESS</option>
-                          {user?.address?.map((add, index) => {
-                            return (
-                              <option value={add} key={index}>
-                                {add}
-                              </option>
-                            );
-                          })}
-                        </select>
+                        <form>
+                          <select
+                            name="shippingAddress"
+                            id="shippingAddress"
+                            className="border w-full"
+                            value={payload?.shippingAddress || ""}
+                            onChange={(e) => {
+                              setPayload((prev) => ({
+                                ...prev,
+                                shippingAddress: e.target.value,
+                              }));
+                              // getCategory(e.target.value);
+                            }}
+                            required
+                          >
+                            <option value="">select address</option>
+                            {user?.address?.map((add, index) => {
+                              return (
+                                <option value={add} key={index}>
+                                  {add}
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <button
+                            onClick={(e) => {
+                              placeOrder(e);
+                            }}
+                            className=" border mx-4 my-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-green-400 to-green-500 text-white"
+                          >
+                            Check Out
+                          </button>
+                        </form>
                       </div>
-                      <button
-                        onClick={placeOrder}
-                        className=" border mx-4 my-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-green-400 to-green-500 text-white"
-                      >
-                        Check Out
-                      </button>
                     </>
                   ) : (
                     <></>

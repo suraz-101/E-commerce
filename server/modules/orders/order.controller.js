@@ -4,9 +4,10 @@ const {
   getEsewaPaymentHash,
   verifyEsewaPayment,
 } = require("../../services/esewa");
+
+const { v4: uuidv4 } = require("uuid");
 const OrderModel = require("./order.model");
 const PaymentModel = require("./payment.model");
-const { v4: uuidv4 } = require("uuid");
 
 const createOrder = async (payload) => {
   const { totalPrice } = payload;
@@ -15,7 +16,7 @@ const createOrder = async (payload) => {
   // Initiate payment with eSewa
   const paymentInitiate = await getEsewaPaymentHash({
     amount: totalPrice,
-    transaction_uuid: order._id,
+    transaction_uuid: order?._id,
   });
 
   return {

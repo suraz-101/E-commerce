@@ -44,7 +44,6 @@ router.get("/complete-payment", async (req, res) => {
     const { data } = req.query;
 
     // {...data, transaction}
-    console.log("we are inside complete payment route", data);
     // Verify payment with eSewa
     const result = await orderController.completePayment(data);
     console.log("result", result);
