@@ -27,7 +27,7 @@ export const OrderManagement = () => {
   }, [initFetch]);
 
   return (
-    <div className="bg-backgroundColor text-primaryColor transition-all">
+    <div>
       <div className="container mx-auto py-6 ">
         <h1 className="px-4 text-2xl font-bold"> Order History</h1>
         {orders?.length > 0 ? (

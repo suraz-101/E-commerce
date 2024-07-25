@@ -105,7 +105,8 @@ export const UsersOrderHistory = () => {
 
                 {order?.orderStatus === "Completed" && (
                   <h1>
-                    Delivered on : <span>{dateFormatter(order?.updateAt)}</span>
+                    Delivered on :{" "}
+                    <span>{dateFormatter(order?.updatedAt)}</span>
                   </h1>
                 )}
               </div>

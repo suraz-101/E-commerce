@@ -141,10 +141,12 @@ export const ProductDetail = () => {
           </div>
           {/* <!-- Additional Information --> */}
           <div className="mt-6">
-            <h2 className="text-2xl font-semibold text-gray-800">
+            <h2 className="text-2xl font-semibold text-primaryColor">
               Product Details
             </h2>
-            <p className="mt-2 text-gray-600">{product[0]?.description}</p>
+            <p className="mt-2 text-secondaryColor">
+              {product[0]?.description}
+            </p>
           </div>
         </div>
 
