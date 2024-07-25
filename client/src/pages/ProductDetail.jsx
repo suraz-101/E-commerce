@@ -45,108 +45,109 @@ export const ProductDetail = () => {
     );
     return _.sample(filterRelatedData, number);
   };
-  const colors = ["red", "green", "yellow", "white", "blue"];
+  // const colors = ["red", "green", "yellow", "white", "blue"];
   console.log("product is :", products);
   // console.log("products are :", products);
   return (
     <div className="bg-backgroundColor transition-all">
       <div className="container mx-auto py-6 ">
-        <main className="dark:bg-gray-800 bg-white relative overflow-hidden ">
-          <div className="bg-white dark:bg-gray-800 flex relative z-20 items-center overflow-hidden">
-            <div className="container mx-auto px-6 flex relative py-16">
-              <div className="sm:w-2/3 lg:w-2/5 flex flex-col relative z-20">
-                {/* <span className="w-20 h-2 bg-gray-800 dark:bg-white mb-12"></span> */}
-                <h1 className="font-bebas-neue uppercase text-6xl sm:text-8xl font-black flex flex-col leading-none dark:text-white text-gray-800">
-                  {product[0]?.name}
-                  <span className="text-2xl sm:text-4xl text-red-700 mt-4">
-                    $ {product[0]?.price}
-                  </span>
-                </h1>
-                <div className="flex  ">
-                  {/* Stock : {product[0]?.stockQuantity} */}
-
-                  <div>
-                    {product[0]?.stockQuantity > 0 ? (
-                      <h1 className="text-green-500 mt-10 fw-bolder text-3xl">
-                        In Stock
-                      </h1>
-                    ) : (
-                      <h1 className="text-red-500 mt-10 text-3xl">
-                        Out of Stock
-                      </h1>
-                    )}
-                  </div>
-                </div>
-                <div className="flex mt-10">
-                  {[...Array(5)].map((star, index) => {
-                    return (
-                      <FaStar
-                        className="text-orange-600"
-                        size={50}
-                        key={index}
-                      />
-                    );
-                  })}
-                </div>
-                <div className="flex mt-10 text-secondaryColor">
-                  Available Colors:{" "}
+        <div className="container mx-auto p-6">
+          <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
+            {/* <!-- Product Image --> */}
+            <div className="md:w-1/2">
+              <img
+                src={BASE_URL.concat(product[0]?.image)}
+                alt="Product Image"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* <!-- Product Details --> */}
+            <div className="p-6 md:w-1/2">
+              <h1 className="text-3xl font-semibold text-gray-800">
+                {product[0]?.name}
+              </h1>
+              <p className="mt-4 text-gray-600">
+                {product[0]?.description.slice(0, 100).concat("...")}
+              </p>
+              <div className="flex items-center mt-4">
+                <span className="text-2xl font-bold text-gray-900">
+                  ${product[0]?.price}
+                </span>
+              </div>
+              <div className="mt-4">
+                {product[0]?.stockQuantity > 0 ? (
+                  <h1 className="text-green-500  fw-bolder text-3xl">
+                    In Stock
+                  </h1>
+                ) : (
+                  <h1 className="text-red-500  text-3xl">Out of Stock</h1>
+                )}
+              </div>
+              <div className="mt-4">
+                {/* <!-- Available Colors --> */}
+                <h2 className="text-lg font-semibold text-gray-800">
+                  Available Colors
+                </h2>
+                <div className="flex space-x-2 mt-2">
                   {product[0]?.colors?.length > 0 &&
                     product[0]?.colors.map((color, index) => {
                       return (
                         <button
                           style={{ backgroundColor: color }}
-                          className={` h-5 w-5 mx-2 rounded-full border `}
+                          className={` block w-6 h-6 rounded-full border`}
                           value={color}
                           key={index}
                         />
                       );
                     })}
                 </div>
-
-                {/* <p className="text-sm sm:text-base text-gray-700 dark:text-white">
-                  {product[0]?.description.slice(0, 100).concat("...")}
-                </p> */}
-                <div className=" mt-8">
-                  <button
-                    className="p-2 bg-sky-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500 z-10 flex"
-                    onClick={() => {
-                      isLoggedIn()
-                        ? product[0]?.stockQuantity > 0
-                          ? dispatch(addToCart(product[0]))
-                          : alert("Product is out of stock")
-                        : navigate("/login");
-                    }}
-                  >
-                    <svg className="h-5 w-5 mr-2" fill="white">
-                      <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>{" "}
-                    Add To Cart
-                  </button>
-
-                  {/* <a
-                    onClick={() => {}}
-                    className="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-sky-500 text-pink-500 dark:text-white hover:bg-gradient-to-r from-cyan-400 to-sky-500  hover:text-white text-md"
-                  >
-                    Read more
-                  </a> */}
+              </div>
+              <div className="mt-4">
+                {/* <!-- Available Sizes --> */}
+                <h2 className="text-lg font-semibold text-gray-800">
+                  Available Sizes
+                </h2>
+                <div className="flex space-x-2 mt-2">
+                  <span className="px-3 py-1 border rounded-lg text-gray-700">
+                    S
+                  </span>
+                  <span className="px-3 py-1 border rounded-lg text-gray-700">
+                    M
+                  </span>
+                  <span className="px-3 py-1 border rounded-lg text-gray-700">
+                    L
+                  </span>
+                  <span className="px-3 py-1 border rounded-lg text-gray-700">
+                    XL
+                  </span>
+                  {/* <!-- Add more sizes as needed --> */}
                 </div>
               </div>
-              <div className="hidden sm:block sm:w-1/3 lg:w-3/5 relative">
-                <img
-                  src={BASE_URL.concat(product[0]?.image)}
-                  className="max-w-xs h-full md:max-w-sm m-auto"
-                  height="400px"
-                  width="400px"
-                />
+              <div className="mt-6">
+                <button
+                  className="px-4 py-2 bg-blue-600 text-white text-lg font-semibold rounded hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+                  onClick={() => {
+                    isLoggedIn()
+                      ? product[0]?.stockQuantity > 0
+                        ? dispatch(addToCart(product[0]))
+                        : alert("Product is out of stock")
+                      : navigate("/login");
+                  }}
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           </div>
-          <div className="p-16">
-            <p className="text-sm sm:text-base text-gray-700 dark:text-white">
-              {product[0]?.description}
-            </p>
+          {/* <!-- Additional Information --> */}
+          <div className="mt-6">
+            <h2 className="text-2xl font-semibold text-gray-800">
+              Product Details
+            </h2>
+            <p className="mt-2 text-gray-600">{product[0]?.description}</p>
           </div>
-        </main>
+        </div>
+
         <div className=" continer border mt-4 p-6 ">
           <Comment
             url={window.location.href}
