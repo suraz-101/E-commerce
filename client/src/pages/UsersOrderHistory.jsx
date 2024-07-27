@@ -70,7 +70,7 @@ export const UsersOrderHistory = () => {
                   );
                 })}
                 <h1 className="py-2">
-                  <span className="font-bold"> Status :</span>
+                  <span className="font-bold"> Delivery Status :</span>
                   <span
                     className={`${
                       order?.orderStatus === "pending"

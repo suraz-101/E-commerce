@@ -110,7 +110,7 @@ export const AppNavbar = () => {
                     </Link>
                   </div>
                   <button
-                    className=" border  border-collapse rounded mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white"
+                    className="  mx-4 sm:mx-2  px-4 py-1  text-secondaryColor hover:bg-slate-200 rounded hover:text-black flex justify-center align-middle"
                     onClick={(e) => {
                       handleSubmit(e);
                     }}
@@ -119,11 +119,19 @@ export const AppNavbar = () => {
                   </button>
                 </>
               ) : (
-                <Link to="/login">
-                  <button className=" border mx-4 sm:mx-2 py-1 px-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-white">
-                    Login
-                  </button>
-                </Link>
+                <>
+                  <Link to="/login">
+                    <button className="  mx-4 sm:mx-2  px-4 py-1  text-secondaryColor hover:bg-slate-200 rounded hover:text-black">
+                      <i className="fa fa-user mx-2"></i> Login
+                    </button>
+                  </Link>
+                  <div className="border h-4 border-secondaryColor"></div>
+                  <Link to="/register">
+                    <button className="mx-4 sm:mx-2  px-4 py-1 text-secondaryColor hover:bg-slate-200 rounded hover:text-black">
+                      Sign up
+                    </button>
+                  </Link>
+                </>
               )}
               <Link to="/checkOut">
                 <button className="text-secondaryColor focus:outline-none mx-4 sm:mx-0 ">
@@ -217,7 +225,7 @@ export const AppNavbar = () => {
               )}
             </div>
           </nav>
-          <div className="relative mt-6 max-w-lg mx-auto">
+          <div className="relative mt-6 max-w-lg mx-auto flex justify-evenly">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center  ">
               <svg
                 className="h-5 w-5 text-secondaryColor  "
