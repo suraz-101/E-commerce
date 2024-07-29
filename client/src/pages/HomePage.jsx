@@ -9,20 +9,30 @@ import { isLoggedIn } from "../utils/login";
 import { addToCart } from "../slice/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductCard } from "../components/ProductCard";
+import { listCategories } from "../slice/categorySlice";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { newArrival, page, limit } = useSelector((state) => state.products);
+  const { categories } = useSelector((state) => state.categories);
   const [sort] = useState(-1);
   const [category, setCategory] = useState("All");
   const initFetch = useCallback(() => {
     dispatch(newArrivals({ sort, page, limit, category }));
+    dispatch(listCategories());
   }, [dispatch, sort, limit, page, category]);
 
   useEffect(() => {
     initFetch();
   }, [initFetch]);
+
+  const filterData = (number = 6) => {
+    // const filterRelatedData = products?.data?.filter(
+    //   (data) => data._id !== currentData?._id
+    // );
+    return _.sample(categories, number);
+  };
 
   // const newArvl = () => {
   //   return newArrivals?.data?.slice(0, 2);
@@ -117,6 +127,37 @@ export const HomePage = () => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="mt-16">
+          <h3 className=" text-secondaryColor text-2xl font-medium">
+            Shop Our Top Categories
+          </h3>
+          <div
+            className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 mt-6 
+          "
+          >
+            {filterData()?.length > 0 &&
+              filterData()?.map((category) => {
+                return (
+                  <div
+                    className="  w-full max-w-sm bg-white border rounded-lg shadow  relative h-44"
+                    key={category?._id}
+                  >
+                    <a href="#">
+                      <img
+                        className="rounded w-full h-full"
+                        src={BASE_URL.concat(category?.image)}
+                        alt="category image"
+                      />
+                    </a>
+
+                    <span className="text-3xl font-bold text-gray-900 dark:text-white absolute bottom-2 left-3 ">
+                      {category?.name}
+                    </span>
+                  </div>
+                );
+              })}
           </div>
         </div>
         <div className="mt-16">

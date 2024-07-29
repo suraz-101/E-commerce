@@ -8,6 +8,7 @@ const categorySchema = new mongoose.Schema(
       unique: [true, "name already exists"],
     },
     description: { type: String, required: true },
+    image: { type: String, required: true },
   },
   {
     timestamps: true,
