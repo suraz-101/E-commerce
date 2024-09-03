@@ -40,7 +40,7 @@ export const AdminNavbar = () => {
           <div className="flex items-center justify-start">
             <a className="flex ml-2 md:mr-24">
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-sky-500">
-                Flowbite
+                BRAND
               </span>
             </a>
             <form action="#" method="GET" className="hidden lg:block lg:pl-3.5">
